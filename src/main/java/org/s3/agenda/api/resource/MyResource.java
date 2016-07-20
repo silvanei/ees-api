@@ -1,4 +1,4 @@
-package org.s3.agenda.api;
+package org.s3.agenda.api.resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
