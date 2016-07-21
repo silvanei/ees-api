@@ -3,10 +3,19 @@ package org.ees.api.agenda.entity;
 public class Salao {
 
 	private String nome;
-	private String email;
-	private boolean visivelNoApp;
 	private String telefone;
+	private boolean visivelNoApp;
 	private Endereco endereco;
+	
+	public Salao() {
+		super();
+	}
+	
+	public Salao(String nome, String telefone) {
+		super();
+		this.nome = nome;
+		this.telefone = telefone;
+	}
 
 	public String getNome() {
 		return nome;
@@ -14,14 +23,6 @@ public class Salao {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public boolean isVisivelNoApp() {

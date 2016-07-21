@@ -5,6 +5,21 @@ public class Acesso {
 	private Integer perfil;
 	private String email;
 	private String senha;
+	
+	
+
+	public Acesso() {
+		super();
+	}
+	
+	public Acesso(Integer perfil, String email, String senha) {
+		super();
+		this.perfil = perfil;
+		this.email = email;
+		this.senha = senha;
+	}
+
+
 
 	public Integer getPerfil() {
 		return perfil;

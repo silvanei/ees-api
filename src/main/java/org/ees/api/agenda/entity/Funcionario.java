@@ -8,6 +8,16 @@ public class Funcionario {
 	private Cargo cargo;
 	private Acesso acesso;
 
+	public Funcionario() {
+		super();
+	}
+
+	public Funcionario(String nome, Acesso acesso) {
+		super();
+		this.nome = nome;
+		this.acesso = acesso;
+	}
+
 	public String getNome() {
 		return nome;
 	}
