@@ -1,4 +1,4 @@
-package org.s3.agenda.api.model.entity;
+package org.ees.api.agenda.entity;
 
 import java.util.Date;
 

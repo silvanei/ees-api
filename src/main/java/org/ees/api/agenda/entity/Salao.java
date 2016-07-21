@@ -1,13 +1,12 @@
-package org.s3.agenda.api.model.entity;
+package org.ees.api.agenda.entity;
 
-import java.util.Date;
-
-abstract public class Cliente {
+public class Salao {
 
 	private String nome;
 	private String email;
-	private Date nascimento;
+	private boolean visivelNoApp;
 	private String telefone;
+	private Endereco endereco;
 
 	public String getNome() {
 		return nome;
@@ -25,12 +24,12 @@ abstract public class Cliente {
 		this.email = email;
 	}
 
-	public Date getNascimento() {
-		return nascimento;
+	public boolean isVisivelNoApp() {
+		return visivelNoApp;
 	}
 
-	public void setNascimento(Date nascimento) {
-		this.nascimento = nascimento;
+	public void setVisivelNoApp(boolean visivelNoApp) {
+		this.visivelNoApp = visivelNoApp;
 	}
 
 	public String getTelefone() {
@@ -39,6 +38,14 @@ abstract public class Cliente {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 }

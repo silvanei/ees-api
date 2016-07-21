@@ -1,4 +1,4 @@
-package org.s3.agenda.api.infrastructure;
+package org.ees.api.agenda.infra;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
