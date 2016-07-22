@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Conexao {
 	
@@ -36,7 +37,7 @@ public class Conexao {
         }
         try {
             // retorna um objeto java.sql.PreparedStatement
-            return con.prepareStatement(sql);
+            return con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         } catch (SQLException e){
             System.out.println("Erro de sql: "+ e.getMessage());
         }

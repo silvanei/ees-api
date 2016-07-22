@@ -2,16 +2,16 @@ package org.ees.api.agenda.entity;
 
 public class Acesso {
 
+	private Integer id;
+	private Funcionario funcionario;
 	private Integer perfil;
 	private String email;
 	private String senha;
-	
-	
 
 	public Acesso() {
 		super();
 	}
-	
+
 	public Acesso(Integer perfil, String email, String senha) {
 		super();
 		this.perfil = perfil;
@@ -19,7 +19,21 @@ public class Acesso {
 		this.senha = senha;
 	}
 
+	public Integer getId() {
+		return id;
+	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
 
 	public Integer getPerfil() {
 		return perfil;

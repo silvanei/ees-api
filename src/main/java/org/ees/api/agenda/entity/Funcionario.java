@@ -2,6 +2,7 @@ package org.ees.api.agenda.entity;
 
 public class Funcionario {
 
+	private Integer id;
 	private String nome;
 	private String apelido;
 	private String telefone;
@@ -16,6 +17,14 @@ public class Funcionario {
 		super();
 		this.nome = nome;
 		this.acesso = acesso;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getNome() {
