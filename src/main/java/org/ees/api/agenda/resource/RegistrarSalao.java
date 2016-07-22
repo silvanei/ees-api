@@ -9,9 +9,9 @@ import javax.ws.rs.core.MediaType;
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.Salao;
-import org.ees.api.agenda.infra.service.SalaoServiceImpl;
+import org.ees.api.agenda.infra.service.RegistrarSalaoServiceImpl;
 import org.ees.api.agenda.resource.bean.RegistrarSalaoBean;
-import org.ees.api.agenda.service.SalaoService;
+import org.ees.api.agenda.service.RegistrarSalaoService;
 import org.jose4j.lang.JoseException;
 
 @Path("/registrar-salao")
@@ -19,7 +19,7 @@ import org.jose4j.lang.JoseException;
 @Produces(MediaType.APPLICATION_JSON)
 public class RegistrarSalao {
 
-	private SalaoService salaoService = new SalaoServiceImpl();
+	private RegistrarSalaoService salaoService = new RegistrarSalaoServiceImpl();
 
 	@POST
 	public Salao addSalao(RegistrarSalaoBean registrarSalao) throws JoseException {

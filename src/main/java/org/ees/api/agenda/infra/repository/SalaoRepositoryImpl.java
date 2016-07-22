@@ -7,7 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ees.api.agenda.entity.Salao;
-import org.ees.api.agenda.infra.db.Conexao;
+import org.ees.api.agenda.infra.db.DB;
+import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.SalaoRepository;
 
 public class SalaoRepositoryImpl implements SalaoRepository {
@@ -16,7 +17,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 	public Salao insert(Salao salao) {
 		
 		String sql = "INSERT INTO salao (nome, visivel_no_app, telefone) VALUES (?, ?, ?)";
-        PreparedStatement stmt = Conexao.preparedStatement(sql);
+        PreparedStatement stmt = DB.preparedStatement(sql);
         try{
         	stmt.setString(1, salao.getNome());
         	stmt.setBoolean(2, salao.isVisivelNoApp());
@@ -29,13 +30,13 @@ public class SalaoRepositoryImpl implements SalaoRepository {
             	}
                 return salao;
             }
-        
+            
+            return null;
+            
         }catch (SQLException ex){
             Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            throw new AcessoADadosException("Error ao inserir um Salão");
         }
-        
-		return null;
 	}
 
 }

@@ -7,7 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ees.api.agenda.entity.Acesso;
-import org.ees.api.agenda.infra.db.Conexao;
+import org.ees.api.agenda.infra.db.DB;
+import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.AcessoRepository;
 
 public class AcessoRepositoryImpl implements AcessoRepository{
@@ -16,7 +17,7 @@ public class AcessoRepositoryImpl implements AcessoRepository{
 	public Acesso insert(Acesso acesso, Integer idFuncionario) {
 
 		String sql = "INSERT INTO acesso (funcionario_id, email, senha) VALUES (?, ?, ?)";
-        PreparedStatement stmt = Conexao.preparedStatement(sql);
+        PreparedStatement stmt = DB.preparedStatement(sql);
         try{
         	stmt.setInt(1, idFuncionario);
         	stmt.setString(2, acesso.getEmail());
@@ -29,13 +30,13 @@ public class AcessoRepositoryImpl implements AcessoRepository{
             	}
                 return acesso;
             }
+            
+            return null;
         
         }catch (SQLException ex){
             Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new RuntimeException();
+            throw new AcessoADadosException("Error ao inserir um Acersso");
         }
-        
-		return null;
 	}
 
 }
