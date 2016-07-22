@@ -5,6 +5,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Funcionario;
@@ -22,7 +24,7 @@ public class RegistrarSalao {
 	private RegistrarSalaoService salaoService = new RegistrarSalaoServiceImpl();
 
 	@POST
-	public Salao addSalao(RegistrarSalaoBean registrarSalao) throws JoseException {
+	public Response addSalao(RegistrarSalaoBean registrarSalao) throws JoseException {
 
 		Salao salao = new Salao(registrarSalao.getNomeSalao(), registrarSalao.getTelefoneSalao());
 
@@ -31,6 +33,13 @@ public class RegistrarSalao {
 
 		Funcionario administrador = new Funcionario(registrarSalao.getNomeAdministradorSalao(), acesso);
 
-		return salaoService.registrarSalao(salao, administrador);
+		Salao newSalao = salaoService.registrarSalao(salao, administrador);
+		
+		return Response
+				.status(Status.CREATED)
+				.entity(newSalao)
+				.build();
+		
+		
 	}
 }

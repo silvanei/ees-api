@@ -1,8 +1,5 @@
 package org.ees.api.agenda.infra.service;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.Salao;
@@ -40,11 +37,9 @@ public class RegistrarSalaoServiceImpl implements RegistrarSalaoService {
 			return salao;
 			
 		} catch (AcessoADadosException e) {
-			Logger.getLogger(RegistrarSalaoServiceImpl.class.getName()).log(Level.SEVERE, null, e);
 			DB.rollback();
+			throw e;
 		}
-		
-		return null;
 	}
 
 }

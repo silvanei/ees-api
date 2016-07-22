@@ -35,7 +35,7 @@ public class AcessoRepositoryImpl implements AcessoRepository{
         
         }catch (SQLException ex){
             Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new AcessoADadosException("Error ao inserir um Acersso");
+            throw new AcessoADadosException("Error ao inserir um Acesso");
         }
 	}
 
