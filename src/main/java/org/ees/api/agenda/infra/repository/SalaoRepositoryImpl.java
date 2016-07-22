@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ees.api.agenda.entity.Salao;
-import org.ees.api.agenda.infra.Conexao;
+import org.ees.api.agenda.infra.db.Conexao;
 import org.ees.api.agenda.repository.SalaoRepository;
 
 public class SalaoRepositoryImpl implements SalaoRepository {
@@ -16,7 +16,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 	public Salao insert(Salao salao) {
 		
 		String sql = "INSERT INTO salao (nome, visivel_no_app, telefone) VALUES (?, ?, ?)";
-        PreparedStatement stmt = Conexao.getPreparedStatement(sql);
+        PreparedStatement stmt = Conexao.preparedStatement(sql);
         try{
         	stmt.setString(1, salao.getNome());
         	stmt.setBoolean(2, salao.isVisivelNoApp());

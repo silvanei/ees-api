@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ees.api.agenda.entity.Acesso;
-import org.ees.api.agenda.infra.Conexao;
+import org.ees.api.agenda.infra.db.Conexao;
 import org.ees.api.agenda.repository.AcessoRepository;
 
 public class AcessoRepositoryImpl implements AcessoRepository{
@@ -16,7 +16,7 @@ public class AcessoRepositoryImpl implements AcessoRepository{
 	public Acesso insert(Acesso acesso, Integer idFuncionario) {
 
 		String sql = "INSERT INTO acesso (funcionario_id, email, senha) VALUES (?, ?, ?)";
-        PreparedStatement stmt = Conexao.getPreparedStatement(sql);
+        PreparedStatement stmt = Conexao.preparedStatement(sql);
         try{
         	stmt.setInt(1, idFuncionario);
         	stmt.setString(2, acesso.getEmail());
