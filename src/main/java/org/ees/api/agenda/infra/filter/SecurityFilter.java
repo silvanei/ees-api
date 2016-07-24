@@ -6,9 +6,7 @@ import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.infra.auth.AuthUtils;
 import org.ees.api.agenda.infra.service.AcessoServiceImpl;
-import org.ees.api.agenda.infra.service.PerfilServiceImpl;
 import org.ees.api.agenda.service.AcessoService;
-import org.ees.api.agenda.service.PerfilService;
 import org.joda.time.DateTime;
 
 import javax.annotation.Priority;
@@ -23,8 +21,6 @@ import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by silvanei on 24/07/16.
@@ -40,7 +36,6 @@ public class SecurityFilter implements ContainerRequestFilter, ContainerResponse
 
 
     private AcessoService acessoService = new AcessoServiceImpl();
-    private PerfilService perfilService = new PerfilServiceImpl();
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {

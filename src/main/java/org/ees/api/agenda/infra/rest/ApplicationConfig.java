@@ -13,7 +13,7 @@ import javax.ws.rs.ApplicationPath;
 public class ApplicationConfig extends ResourceConfig{
 
     public ApplicationConfig() {
-        //packages("org.ees.api.agenda.resource;org.ees.api.agenda.infra.auth");
+        packages("org.ees.api.agenda.resource;org.ees.api.agenda.infra.auth");
         register(RolesAllowedDynamicFeature.class);
     }
 }

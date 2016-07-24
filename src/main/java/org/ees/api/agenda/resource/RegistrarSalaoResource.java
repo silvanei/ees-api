@@ -10,6 +10,7 @@ import org.ees.api.agenda.resource.bean.RegistrarSalaoBean;
 import org.ees.api.agenda.service.PerfilService;
 import org.ees.api.agenda.service.RegistrarSalaoService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

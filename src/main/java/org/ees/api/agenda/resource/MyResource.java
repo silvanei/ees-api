@@ -3,6 +3,7 @@ package org.ees.api.agenda.resource;
 import com.nimbusds.jose.JOSEException;
 
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -14,6 +15,8 @@ import javax.ws.rs.core.SecurityContext;
  * Root resource (exposed at "myresource" path)
  */
 @Path("myresource")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class MyResource {
 
     @Context
@@ -26,11 +29,10 @@ public class MyResource {
      * @return String that will be returned as a text/plain response.
      */
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
     @RolesAllowed("SALAO_ADMIN")
     public String getIt() throws JOSEException {
 
         //System.out.println(securityContext.isUserInRole("USER"));
-        return "Got it!";
+        return "{id: 'Got it!'";
     }
 }
