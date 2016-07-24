@@ -14,6 +14,8 @@ import java.util.Arrays;
 
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.infra.service.PerfilServiceImpl;
+import org.ees.api.agenda.service.PerfilService;
 import org.joda.time.DateTime;
 
 /**
@@ -38,14 +40,15 @@ public final class AuthUtils {
         }
     }
 
-    public static Token createToken(String host, Acesso acesso) throws JOSEException {
+    public static Token createToken(Acesso acesso) throws JOSEException {
         JWTClaimsSet claim = new JWTClaimsSet();
         claim.setSubject(Integer.toString(acesso.getId()));
-        claim.setIssuer(host);
         claim.setIssueTime(DateTime.now().toDate());
         claim.setExpirationTime(DateTime.now().plusDays(1).toDate());
-        claim.setCustomClaim("user", "Teste");
-        //claim.setCustomClaim("roles", Arrays.toString(user.getRolesList().toArray()));
+        claim.setCustomClaim("user", acesso.getEmail());
+
+        PerfilService perfilService = new PerfilServiceImpl();
+        claim.setCustomClaim("roles", Arrays.toString(perfilService.findAll().toArray()));
 
         JWSSigner signer = new MACSigner(TOKEN_SECRET);
         SignedJWT jwt = new SignedJWT(JWT_HEADER, claim);

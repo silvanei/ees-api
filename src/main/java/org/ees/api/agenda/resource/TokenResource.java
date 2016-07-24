@@ -38,7 +38,7 @@ public class TokenResource {
         if (foundAcesso == null) {
             throw new DataNotFoundException("Usuário não existe na dase de dados");
         } else if (user.getPassword().equals(foundAcesso.getSenha())) {
-            Token token = AuthUtils.createToken("localhost", foundAcesso);
+            Token token = AuthUtils.createToken(foundAcesso);
 
             return Response
                     .status(Response.Status.CREATED)

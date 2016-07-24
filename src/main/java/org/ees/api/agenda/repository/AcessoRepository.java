@@ -6,5 +6,7 @@ public interface AcessoRepository {
 
 	public Integer insert(Acesso acesso);
 
+	public Acesso findById(Integer id);
+
 	public Acesso findByEmail(String email);
 }
