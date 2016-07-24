@@ -20,22 +20,22 @@ public class RegistrarSalaoServiceImpl implements RegistrarSalaoService {
 
 	@Override
 	// TODO Adicionar camada de serviço e não acessar diretamente o repositorio
-	public Salao registrarSalao(Salao salao, Funcionario administrador) {
+	public Salao registrarSalao(Salao salao, Funcionario administrador, Acesso acesso) {
 
 		try {
 			DB.beginTransaction();
 			
-			Salao newSalao = salaoRepository.insert(salao);
-			Funcionario newFuncionario = funcionarioRepository.insert(administrador, newSalao.getId());
-			Acesso newAcesso = acessoRepository.insert(administrador.getAcesso(), newFuncionario.getId());
+			Integer idSalao = salaoRepository.insert(salao);
+			Integer idAcesso = acessoRepository.insert(acesso);
+			Integer idFuncionario = funcionarioRepository.insert(administrador, idSalao, idAcesso);
 
-			newFuncionario.setAcesso(newAcesso);
-			newSalao.getFuncionarios().add(newFuncionario);
+			Salao newSalao = salaoRepository.findById(idSalao);
+			newSalao.getFuncionarios().add(funcionarioRepository.findById(idFuncionario));
 
 			DB.commit();
 
-			return salao;
-			
+			return newSalao;
+
 		} catch (AcessoADadosException e) {
 			DB.rollback();
 			throw e;

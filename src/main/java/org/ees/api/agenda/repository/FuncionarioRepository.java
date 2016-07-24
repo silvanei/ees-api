@@ -4,6 +4,8 @@ import org.ees.api.agenda.entity.Funcionario;
 
 public interface FuncionarioRepository {
 
-	public Funcionario insert(Funcionario funcionario, Integer idSalao);
+	public Integer insert(Funcionario funcionario, Integer idSalao, Integer idAcesso);
+
+	public Funcionario findById(Integer idFuncionario);
 	
 }

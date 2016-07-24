@@ -4,6 +4,7 @@ import org.ees.api.agenda.entity.Acesso;
 
 public interface AcessoRepository {
 
-	public Acesso insert(Acesso acesso, Integer idFuncionario);
+	public Integer insert(Acesso acesso);
 
+	public Acesso findByEmail(String email);
 }

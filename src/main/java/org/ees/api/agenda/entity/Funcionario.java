@@ -8,9 +8,15 @@ public class Funcionario {
 	private String telefone;
 	private Cargo cargo;
 	private Acesso acesso;
+	private Salao salao;
 
 	public Funcionario() {
 		super();
+	}
+
+	public Funcionario(String nome) {
+		super();
+		this.nome = nome;
 	}
 
 	public Funcionario(String nome, Acesso acesso) {
@@ -67,4 +73,11 @@ public class Funcionario {
 		this.acesso = acesso;
 	}
 
+	public Salao getSalao() {
+		return salao;
+	}
+
+	public void setSalao(Salao salao) {
+		this.salao = salao;
+	}
 }

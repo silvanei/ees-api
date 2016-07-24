@@ -14,21 +14,21 @@ import org.ees.api.agenda.repository.AcessoRepository;
 public class AcessoRepositoryImpl implements AcessoRepository{
 
 	@Override
-	public Acesso insert(Acesso acesso, Integer idFuncionario) {
+	public Integer insert(Acesso acesso) {
 
-		String sql = "INSERT INTO acesso (funcionario_id, email, senha) VALUES (?, ?, ?)";
-        PreparedStatement stmt = DB.preparedStatement(sql);
+		String sql = "INSERT INTO acesso (email, senha, perfil) VALUES (?, ?, ?)";
+
         try{
-        	stmt.setInt(1, idFuncionario);
-        	stmt.setString(2, acesso.getEmail());
-        	stmt.setString(3, acesso.getSenha());
-            
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setString(1, acesso.getEmail());
+        	stmt.setString(2, acesso.getSenha());
+        	stmt.setInt(3, acesso.getPerfil());
+
             if(stmt.executeUpdate()>0){
             	ResultSet rs = stmt.getGeneratedKeys();
             	if (rs.next()){
-            		acesso.setId(rs.getInt(1));
+					return rs.getInt(1);
             	}
-                return acesso;
             }
             
             return null;
@@ -37,6 +37,34 @@ public class AcessoRepositoryImpl implements AcessoRepository{
             Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new AcessoADadosException("Error ao inserir um Acesso");
         }
+	}
+
+	@Override
+	public Acesso findByEmail(String email) {
+
+		String sql = "SELECT id, email, senha, perfil FROM acesso WHERE email = ?";
+
+		try{
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setString(1, email);
+			ResultSet resultSet = stmt.executeQuery();
+
+			if(resultSet.next()){
+				Acesso acesso = new Acesso();
+				acesso.setId(resultSet.getInt("id"));
+				acesso.setEmail(resultSet.getString("email"));
+				acesso.setSenha(resultSet.getString("senha"));
+				acesso.setPerfil(resultSet.getInt("perfil"));
+
+				return acesso;
+			}
+
+			return null;
+
+		}catch (SQLException ex){
+			Logger.getLogger(AcessoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Erro ao buscar um acesso");
+		}
 	}
 
 }
