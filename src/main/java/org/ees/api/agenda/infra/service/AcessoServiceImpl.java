@@ -13,6 +13,11 @@ public class AcessoServiceImpl implements AcessoService {
     private AcessoRepository acessoRepository = new AcessoRepositoryImpl();
 
     @Override
+    public Acesso findById(Integer id) {
+        return acessoRepository.findById(id);
+    }
+
+    @Override
     public Acesso findByEmail(String email) {
 
         return acessoRepository.findByEmail(email);

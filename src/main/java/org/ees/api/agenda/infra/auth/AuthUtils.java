@@ -1,4 +1,4 @@
-package org.ees.api.agenda.infra.Auth;
+package org.ees.api.agenda.infra.auth;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -13,7 +13,6 @@ import java.text.ParseException;
 import java.util.Arrays;
 
 import org.ees.api.agenda.entity.Acesso;
-import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.infra.service.PerfilServiceImpl;
 import org.ees.api.agenda.service.PerfilService;
 import org.joda.time.DateTime;

@@ -7,6 +7,8 @@ import org.ees.api.agenda.entity.Acesso;
  */
 public interface AcessoService {
 
+    public Acesso findById(Integer id);
+
     public Acesso findByEmail(String email);
 
 }

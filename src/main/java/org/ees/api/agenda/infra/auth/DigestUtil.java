@@ -1,4 +1,4 @@
-package org.ees.api.agenda.infra.Auth;
+package org.ees.api.agenda.infra.auth;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

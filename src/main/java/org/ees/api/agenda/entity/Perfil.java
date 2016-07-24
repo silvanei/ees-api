@@ -8,6 +8,13 @@ public class Perfil {
     private Integer id;
     private String descricao;
 
+    public Perfil() {
+    }
+
+    public Perfil(String descricao) {
+        this.descricao = descricao;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -38,7 +45,7 @@ public class Perfil {
             return false;
         }
         Perfil other = (Perfil) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.descricao == null && other.descricao != null) || (this.descricao != null && !this.descricao.equals(other.descricao))) {
             return false;
         }
         return true;

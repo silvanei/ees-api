@@ -2,8 +2,8 @@ package org.ees.api.agenda.resource;
 
 import com.nimbusds.jose.JOSEException;
 import org.ees.api.agenda.entity.Acesso;
-import org.ees.api.agenda.infra.Auth.AuthUtils;
-import org.ees.api.agenda.infra.Auth.Token;
+import org.ees.api.agenda.infra.auth.AuthUtils;
+import org.ees.api.agenda.infra.auth.Token;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 
 import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
@@ -15,7 +15,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 

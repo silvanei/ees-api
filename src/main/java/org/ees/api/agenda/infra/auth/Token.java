@@ -1,4 +1,4 @@
-package org.ees.api.agenda.infra.Auth;
+package org.ees.api.agenda.infra.auth;
 
 /**
  * Created by silvanei on 24/07/16.
