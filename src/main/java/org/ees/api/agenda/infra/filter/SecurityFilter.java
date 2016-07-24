@@ -67,7 +67,7 @@ public class SecurityFilter implements ContainerRequestFilter, ContainerResponse
             } else {
                 Acesso acesso = acessoService.findById(Integer.parseInt(claimSet.getSubject()));
                 Authorizer authorizer = new Authorizer(acesso.getPerfil(), acesso.getEmail(),
-                        true);
+                        originalContext.isSecure());
                 requestContext.setSecurityContext(authorizer);
             }
         }
