@@ -27,10 +27,10 @@ public class MyResource {
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    @RolesAllowed("user")
+    @RolesAllowed("SALAO_ADMIN")
     public String getIt() throws JOSEException {
 
-        //System.out.println(securityContext.isUserInRole("SALAO_ADMIN"));
+        //System.out.println(securityContext.isUserInRole("USER"));
         return "Got it!";
     }
 }

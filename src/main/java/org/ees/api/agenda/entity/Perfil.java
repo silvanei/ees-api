@@ -40,12 +40,8 @@ public class Perfil {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Perfil)) {
-            return false;
-        }
-        Perfil other = (Perfil) object;
-        if ((this.descricao == null && other.descricao != null) || (this.descricao != null && !this.descricao.equals(other.descricao))) {
+
+        if ((this.descricao == null && object != null) || (this.descricao != null && !this.descricao.equals(object))) {
             return false;
         }
         return true;
