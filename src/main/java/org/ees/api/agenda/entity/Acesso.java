@@ -3,8 +3,7 @@ package org.ees.api.agenda.entity;
 public class Acesso {
 
 	private Integer id;
-	private Funcionario funcionario;
-	private Integer perfil;
+	private Perfil perfil;
 	private String email;
 	private String senha;
 
@@ -12,7 +11,7 @@ public class Acesso {
 		super();
 	}
 
-	public Acesso(Integer perfil, String email, String senha) {
+	public Acesso(Perfil perfil, String email, String senha) {
 		super();
 		this.perfil = perfil;
 		this.email = email;
@@ -27,19 +26,11 @@ public class Acesso {
 		this.id = id;
 	}
 
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
-
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
-	}
-
-	public Integer getPerfil() {
+	public Perfil getPerfil() {
 		return perfil;
 	}
 
-	public void setPerfil(Integer perfil) {
+	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
 

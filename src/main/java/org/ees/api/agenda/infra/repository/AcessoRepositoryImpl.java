@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ees.api.agenda.entity.Acesso;
+import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.AcessoRepository;
@@ -16,13 +17,13 @@ public class AcessoRepositoryImpl implements AcessoRepository{
 	@Override
 	public Integer insert(Acesso acesso) {
 
-		String sql = "INSERT INTO acesso (email, senha, perfil) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO acesso (email, senha, perfil_id) VALUES (?, ?, ?)";
 
         try{
 			PreparedStatement stmt = DB.preparedStatement(sql);
 			stmt.setString(1, acesso.getEmail());
         	stmt.setString(2, acesso.getSenha());
-        	stmt.setInt(3, acesso.getPerfil());
+        	stmt.setInt(3, acesso.getPerfil().getId());
 
             if(stmt.executeUpdate()>0){
             	ResultSet rs = stmt.getGeneratedKeys();
@@ -42,7 +43,10 @@ public class AcessoRepositoryImpl implements AcessoRepository{
 	@Override
 	public Acesso findByEmail(String email) {
 
-		String sql = "SELECT id, email, senha, perfil FROM acesso WHERE email = ?";
+		String sql = "SELECT a.id, a.email, a.senha, p.id as perfil_id, p.descricao " +
+				"FROM acesso a " +
+				"INNER JOIN perfil p ON (p.id = a.perfil_id)" +
+				"WHERE a.email = ?";
 
 		try{
 			PreparedStatement stmt = DB.preparedStatement(sql);
@@ -54,7 +58,11 @@ public class AcessoRepositoryImpl implements AcessoRepository{
 				acesso.setId(resultSet.getInt("id"));
 				acesso.setEmail(resultSet.getString("email"));
 				acesso.setSenha(resultSet.getString("senha"));
-				acesso.setPerfil(resultSet.getInt("perfil"));
+
+				Perfil perfil = new Perfil();
+				perfil.setId(resultSet.getInt("perfil_id"));
+				perfil.setDescricao(resultSet.getString("descricao"));
+				acesso.setPerfil(perfil);
 
 				return acesso;
 			}
