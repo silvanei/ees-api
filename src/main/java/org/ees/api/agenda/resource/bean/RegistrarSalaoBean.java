@@ -1,5 +1,12 @@
 package org.ees.api.agenda.resource.bean;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.ees.api.agenda.infra.auth.DigestUtil;
+
 public class RegistrarSalaoBean {
 
 	private String nomeSalao;
@@ -46,7 +53,12 @@ public class RegistrarSalaoBean {
 	}
 
 	public void setSenhaAdministradorSalao(String senhaAdministradorSalao) {
-		this.senhaAdministradorSalao = senhaAdministradorSalao;
+		try {
+			this.senhaAdministradorSalao = DigestUtil.generateDigest(senhaAdministradorSalao);
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+			Logger.getLogger(RegistrarSalaoBean.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
 	}
 
 }
