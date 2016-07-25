@@ -10,12 +10,10 @@ import javax.ws.rs.core.Response.Status;
 
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Funcionario;
-import org.ees.api.agenda.entity.Perfil;
+import org.ees.api.agenda.entity.PerfilEnum;
 import org.ees.api.agenda.entity.Salao;
-import org.ees.api.agenda.infra.service.PerfilServiceImpl;
 import org.ees.api.agenda.infra.service.RegistrarSalaoServiceImpl;
 import org.ees.api.agenda.resource.bean.RegistrarSalaoBean;
-import org.ees.api.agenda.service.PerfilService;
 import org.ees.api.agenda.service.RegistrarSalaoService;
 
 @Path("/registrar-salao")
@@ -24,27 +22,20 @@ import org.ees.api.agenda.service.RegistrarSalaoService;
 public class RegistrarSalaoResource {
 
 	private RegistrarSalaoService salaoService = new RegistrarSalaoServiceImpl();
-	private PerfilService perfilService = new PerfilServiceImpl();
 
 	@POST
 	public Response addSalao(RegistrarSalaoBean registrarSalao) {
 
-
 		Salao salao = new Salao(registrarSalao.getNomeSalao(), registrarSalao.getTelefoneSalao());
 
-		Perfil perfil = perfilService.findById(1);
-
-		Acesso acesso = new Acesso(perfil, registrarSalao.getEmailAdministradorSalao(),
+		Acesso acesso = new Acesso(PerfilEnum.SALAO_ADMIN.name(), registrarSalao.getEmailAdministradorSalao(),
 				registrarSalao.getSenhaAdministradorSalao());
 
 		Funcionario administrador = new Funcionario(registrarSalao.getNomeAdministradorSalao());
 
 		Salao newSalao = salaoService.registrarSalao(salao, administrador, acesso);
 
-		return Response
-				.status(Status.CREATED)
-				.entity(newSalao)
-				.build();
-		
+		return Response.status(Status.CREATED).entity(newSalao).build();
+
 	}
 }

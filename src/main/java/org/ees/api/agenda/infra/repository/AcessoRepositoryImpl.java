@@ -7,106 +7,91 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ees.api.agenda.entity.Acesso;
-import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.AcessoRepository;
 
-public class AcessoRepositoryImpl implements AcessoRepository{
+public class AcessoRepositoryImpl implements AcessoRepository {
 
 	@Override
 	public Integer insert(Acesso acesso) {
 
-		String sql = "INSERT INTO acesso (email, senha, perfil_id) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO acesso (email, senha, perfil) VALUES (?, ?, ?)";
 
-        try{
+		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);
 			stmt.setString(1, acesso.getEmail());
-        	stmt.setString(2, acesso.getSenha());
-        	stmt.setInt(3, acesso.getPerfil().getId());
+			stmt.setString(2, acesso.getSenha());
+			stmt.setString(3, acesso.getPerfil());
 
-            if(stmt.executeUpdate()>0){
-            	ResultSet rs = stmt.getGeneratedKeys();
-            	if (rs.next()){
+			if (stmt.executeUpdate() > 0) {
+				ResultSet rs = stmt.getGeneratedKeys();
+				if (rs.next()) {
 					return rs.getInt(1);
-            	}
-            }
-            
-            return null;
-        
-        }catch (SQLException ex){
-            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new AcessoADadosException("Error ao inserir um Acesso");
-        }
+				}
+			}
+
+			return null;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Error ao inserir um Acesso");
+		}
 	}
 
 	@Override
 	public Acesso findById(Integer id) {
 
-		String sql = "SELECT a.id, a.email, a.senha, p.id as perfil_id, p.descricao " +
-				"FROM acesso a " +
-				"INNER JOIN perfil p ON (p.id = a.perfil_id)" +
-				"WHERE a.id = ?";
+		String sql = "SELECT id, email, senha, perfil FROM acesso a WHERE id = ?";
 
-		try{
+		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);
 			stmt.setInt(1, id);
 			ResultSet resultSet = stmt.executeQuery();
 
-			if(resultSet.next()){
+			if (resultSet.next()) {
 				Acesso acesso = new Acesso();
 				acesso.setId(resultSet.getInt("id"));
 				acesso.setEmail(resultSet.getString("email"));
 				acesso.setSenha(resultSet.getString("senha"));
-
-				Perfil perfil = new Perfil();
-				perfil.setId(resultSet.getInt("perfil_id"));
-				perfil.setDescricao(resultSet.getString("descricao"));
-				acesso.setPerfil(perfil);
+				acesso.setPerfil(resultSet.getString("perfil"));
 
 				return acesso;
 			}
 
 			return null;
 
-		}catch (SQLException ex){
+		} catch (SQLException ex) {
 			Logger.getLogger(AcessoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-			throw new AcessoADadosException("Erro ao buscar um acesso");
+			throw new AcessoADadosException("Erro ao buscar um acesso pelo id");
 		}
 	}
 
 	@Override
 	public Acesso findByEmail(String email) {
 
-		String sql = "SELECT a.id, a.email, a.senha, p.id as perfil_id, p.descricao " +
-				"FROM acesso a " +
-				"INNER JOIN perfil p ON (p.id = a.perfil_id)" +
-				"WHERE a.email = ?";
+		String sql = "SELECT id, email, senha, perfil FROM acesso a WHERE email = ?";
 
-		try{
+		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);
 			stmt.setString(1, email);
 			ResultSet resultSet = stmt.executeQuery();
 
-			if(resultSet.next()){
+			if (resultSet.next()) {
 				Acesso acesso = new Acesso();
 				acesso.setId(resultSet.getInt("id"));
 				acesso.setEmail(resultSet.getString("email"));
 				acesso.setSenha(resultSet.getString("senha"));
-
-				Perfil perfil = new Perfil();
-				perfil.setId(resultSet.getInt("perfil_id"));
-				perfil.setDescricao(resultSet.getString("descricao"));
-				acesso.setPerfil(perfil);
+				acesso.setPerfil(resultSet.getString("perfil"));
 
 				return acesso;
 			}
 
 			return null;
 
-		}catch (SQLException ex){
+		} catch (SQLException ex) {
 			Logger.getLogger(AcessoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-			throw new AcessoADadosException("Erro ao buscar um acesso");
+			throw new AcessoADadosException("Erro ao buscar um acesso pelo e-mail");
 		}
 	}
 
