@@ -1,5 +1,10 @@
 package org.ees.api.agenda.infra.auth;
 
+import java.text.ParseException;
+
+import org.ees.api.agenda.entity.Acesso;
+import org.joda.time.DateTime;
+
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -9,13 +14,6 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import java.text.ParseException;
-import java.util.Arrays;
-
-import org.ees.api.agenda.entity.Acesso;
-import org.ees.api.agenda.infra.service.PerfilServiceImpl;
-import org.ees.api.agenda.service.PerfilService;
-import org.joda.time.DateTime;
 
 /**
  * Created by silvanei on 24/07/16.
@@ -44,10 +42,6 @@ public final class AuthUtils {
         claim.setSubject(Integer.toString(acesso.getId()));
         claim.setIssueTime(DateTime.now().toDate());
         claim.setExpirationTime(DateTime.now().plusDays(1).toDate());
-        claim.setCustomClaim("user", acesso.getEmail());
-
-        PerfilService perfilService = new PerfilServiceImpl();
-        claim.setCustomClaim("roles", Arrays.toString(perfilService.findAll().toArray()));
 
         JWSSigner signer = new MACSigner(TOKEN_SECRET);
         SignedJWT jwt = new SignedJWT(JWT_HEADER, claim);

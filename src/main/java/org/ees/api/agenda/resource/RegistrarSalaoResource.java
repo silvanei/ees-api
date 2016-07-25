@@ -1,5 +1,13 @@
 package org.ees.api.agenda.resource;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.Perfil;
@@ -9,15 +17,6 @@ import org.ees.api.agenda.infra.service.RegistrarSalaoServiceImpl;
 import org.ees.api.agenda.resource.bean.RegistrarSalaoBean;
 import org.ees.api.agenda.service.PerfilService;
 import org.ees.api.agenda.service.RegistrarSalaoService;
-
-import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 @Path("/registrar-salao")
 @Consumes(MediaType.APPLICATION_JSON)
