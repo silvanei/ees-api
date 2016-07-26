@@ -13,6 +13,6 @@ import java.io.IOException;
 public class PoweredByResponseFilter implements ContainerResponseFilter{
     @Override
     public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) throws IOException {
-        containerResponseContext.getHeaders().add("X-Powered-By", "Silvanei Soares Santos");
+        containerResponseContext.getHeaders().add("X-Powered-By", "Silvanei Soares Santos <ads.silvanei@gmail.com>");
     }
 }
