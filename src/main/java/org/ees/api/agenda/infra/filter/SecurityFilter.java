@@ -16,6 +16,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.infra.auth.AuthUtils;
+import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
 import org.ees.api.agenda.infra.service.AcessoServiceImpl;
 import org.ees.api.agenda.service.AcessoService;
 import org.joda.time.DateTime;
@@ -50,14 +51,14 @@ public class SecurityFilter implements ContainerRequestFilter, ContainerResponse
 			try {
 				claimSet = (JWTClaimsSet) AuthUtils.decodeToken(authHeader);
 			} catch (ParseException e) {
-				throw new IOException(JWT_ERROR_MSG);
+				throw new UnAuthorizedException(JWT_ERROR_MSG);
 			} catch (JOSEException e) {
-				throw new IOException(JWT_INVALID_MSG);
+				throw new UnAuthorizedException(JWT_INVALID_MSG);
 			}
 
 			// ensure that the token is not expired
 			if (new DateTime(claimSet.getExpirationTime()).isBefore(DateTime.now())) {
-				throw new IOException(EXPIRE_ERROR_MSG);
+				throw new UnAuthorizedException(EXPIRE_ERROR_MSG);
 			} else {
 				Acesso acesso = acessoService.findById(Integer.parseInt(claimSet.getSubject()));
 				Authorizer authorizer = new Authorizer(acesso.getPerfil(), acesso.getEmail(),
