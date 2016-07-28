@@ -1,5 +1,8 @@
 package org.ees.api.agenda.entity;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Funcionario {
 
 	private Integer id;

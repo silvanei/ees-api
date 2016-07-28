@@ -1,5 +1,10 @@
 package org.ees.api.agenda.entity;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.eclipse.persistence.oxm.annotations.XmlReadOnly;
+
+@XmlRootElement
 public class Acesso {
 
 	private Integer id;
@@ -41,7 +46,8 @@ public class Acesso {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	
+	@XmlReadOnly
 	public String getSenha() {
 		return senha;
 	}
