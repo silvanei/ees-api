@@ -19,7 +19,12 @@ public class Salao {
 	public Salao() {
 		super();
 	}
-
+	
+	public Salao(Integer idSalao) {
+		super();
+		this.id = idSalao;
+	}
+	
 	public Salao(String nome, String telefone) {
 		super();
 		this.nome = nome;

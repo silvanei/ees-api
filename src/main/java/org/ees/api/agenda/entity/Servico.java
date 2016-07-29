@@ -1,18 +1,27 @@
 package org.ees.api.agenda.entity;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 
 public class Servico {
-
+	
+	private Integer id;
+	
 	private String descricao;
-	/**
-	 * Duração em minutos
-	 */
-	private Integer duracao;
+	
+	private Time duracao;
 
 	private BigDecimal valorMinimo;
 
 	private BigDecimal valorMaximo;
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getDescricao() {
 		return descricao;
@@ -22,11 +31,12 @@ public class Servico {
 		this.descricao = descricao;
 	}
 
-	public Integer getDuracao() {
+	
+	public Time getDuracao() {
 		return duracao;
 	}
 
-	public void setDuracao(Integer duracao) {
+	public void setDuracao(Time duracao) {
 		this.duracao = duracao;
 	}
 
