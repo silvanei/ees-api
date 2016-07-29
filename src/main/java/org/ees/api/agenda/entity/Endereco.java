@@ -2,11 +2,21 @@ package org.ees.api.agenda.entity;
 
 public class Endereco {
 
+	private Integer id;
 	private String rua;
 	private Integer numero;
 	private Integer estado;
 	private Integer cidade;
+	private Integer bairro;
 	private String cep;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getRua() {
 		return rua;
@@ -46,5 +56,13 @@ public class Endereco {
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+
+	public Integer getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(Integer bairro) {
+		this.bairro = bairro;
 	}
 }

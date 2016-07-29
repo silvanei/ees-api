@@ -8,10 +8,13 @@ public class Salao {
 	private Integer id;
 	private String nome;
 	private String telefone;
+	private String celular;
 	private boolean visivelNoApp;
 	private Endereco endereco;
-	
+	private HorarioDeFuncionamento horarioDeFuncionamento;
 	private List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+	private List<Servico> servicos = new ArrayList<Servico>();
+	private List<Cliente> clientes = new ArrayList<Cliente>();
 
 	public Salao() {
 		super();
@@ -39,20 +42,20 @@ public class Salao {
 		this.nome = nome;
 	}
 
-	public boolean isVisivelNoApp() {
-		return visivelNoApp;
-	}
-
-	public void setVisivelNoApp(boolean visivelNoApp) {
-		this.visivelNoApp = visivelNoApp;
-	}
-
 	public String getTelefone() {
 		return telefone;
 	}
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public boolean isVisivelNoApp() {
+		return visivelNoApp;
+	}
+
+	public void setVisivelNoApp(boolean visivelNoApp) {
+		this.visivelNoApp = visivelNoApp;
 	}
 
 	public Endereco getEndereco() {
@@ -63,6 +66,14 @@ public class Salao {
 		this.endereco = endereco;
 	}
 
+	public HorarioDeFuncionamento getHorarioDeFuncionamento() {
+		return horarioDeFuncionamento;
+	}
+
+	public void setHorarioDeFuncionamento(HorarioDeFuncionamento horarioDeFuncionamento) {
+		this.horarioDeFuncionamento = horarioDeFuncionamento;
+	}
+
 	public List<Funcionario> getFuncionarios() {
 		return funcionarios;
 	}
@@ -70,7 +81,28 @@ public class Salao {
 	public void setFuncionarios(List<Funcionario> funcionarios) {
 		this.funcionarios = funcionarios;
 	}
-	
-	
 
+	public List<Servico> getServicos() {
+		return servicos;
+	}
+
+	public void setServicos(List<Servico> servicos) {
+		this.servicos = servicos;
+	}
+
+	public List<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
 }

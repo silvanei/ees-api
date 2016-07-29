@@ -40,6 +40,31 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 	}
 
 	@Override
+	public Integer update(Salao salao) {
+		String sql = "UPDATE salao SET nome = ?, visivel_no_app = ?, telefone = ?, celular = ?, endereco_id = ? WHERE id = ?";
+
+		try{
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setString(1, salao.getNome());
+			stmt.setBoolean(2, salao.isVisivelNoApp());
+			stmt.setString(3, salao.getTelefone());
+			stmt.setString(4, salao.getCelular());
+			stmt.setInt(5, salao.getEndereco().getId());
+			stmt.setInt(6, salao.getId());
+
+			if(stmt.executeUpdate()>0){
+				return salao.getId();
+			}
+
+			return null;
+
+		}catch (SQLException ex){
+			Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Error ao atualizar um Salão");
+		}
+	}
+
+	@Override
 	public Salao findById(Integer idSalao) {
 		String sql = "SELECT id, nome, visivel_no_app, telefone FROM salao WHERE id = ?";
 
