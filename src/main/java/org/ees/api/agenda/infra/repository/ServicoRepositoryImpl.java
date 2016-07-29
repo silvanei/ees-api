@@ -83,7 +83,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 
 	@Override
 	public List<Servico> findByIdSalao(Integer idSalao) {
-		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo FROM servico WHERE salao_id = ?";
+		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo FROM servico WHERE salao_id = ? ORDER BY id";
 
 		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);

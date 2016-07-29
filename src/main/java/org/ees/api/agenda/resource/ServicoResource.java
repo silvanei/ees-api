@@ -19,11 +19,10 @@ public class ServicoResource {
 
 	@GET
 	@RolesAllowed("SALAO_ADMIN")
-	public Response listAllServicos(@PathParam("salaoId") Integer idSalao) {
+	public List<Servico> listAllServicos(@PathParam("salaoId") Integer idSalao) {
 
 		List<Servico> servicos = servicoService.findByIdSalao(idSalao);
-
-		return Response.status(Status.OK).entity(servicos).build();
+		return servicos;
 	}
 
 	@POST
