@@ -16,4 +16,16 @@ public class EnderecoServiceImpl implements EnderecoService{
     public Integer inserirEndereco(Endereco endereco) {
         return enderecoRepository.inserirEndereco(endereco);
     }
+
+	@Override
+	public Endereco byIdSalao(Integer idSalao) {
+		return enderecoRepository.byIdSalao(idSalao);
+	}
+
+	@Override
+	public Integer atualizarEndereco(Endereco endereco) {
+		return enderecoRepository.atualizarEndereco(endereco);
+	}
+    
+    
 }

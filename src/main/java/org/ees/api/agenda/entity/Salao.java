@@ -12,9 +12,9 @@ public class Salao {
 	private boolean visivelNoApp;
 	private Endereco endereco;
 	private HorarioDeFuncionamento horarioDeFuncionamento;
-	private List<Funcionario> funcionarios = new ArrayList<Funcionario>();
-	private List<Servico> servicos = new ArrayList<Servico>();
-	private List<Cliente> clientes = new ArrayList<Cliente>();
+	private List<Funcionario> funcionarios;
+	private List<Servico> servicos;
+	private List<Cliente> clientes;
 
 	public Salao() {
 		super();
@@ -80,6 +80,13 @@ public class Salao {
 
 	public void setFuncionarios(List<Funcionario> funcionarios) {
 		this.funcionarios = funcionarios;
+	}
+	
+	public void addFuncionarios(Funcionario funcionarios) {
+		if(null == this.funcionarios) {
+			this.funcionarios = new ArrayList<Funcionario>();
+		}
+		this.funcionarios.add(funcionarios);
 	}
 
 	public List<Servico> getServicos() {

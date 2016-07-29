@@ -41,7 +41,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 
 	@Override
 	public Integer update(Salao salao) {
-		String sql = "UPDATE salao SET nome = ?, visivel_no_app = ?, telefone = ?, celular = ?, endereco_id = ? WHERE id = ?";
+		String sql = "UPDATE salao SET nome = ?, visivel_no_app = ?, telefone = ?, celular = ?, endereco_id = ?, horario_funcionamento_id = ? WHERE id = ?";
 
 		try{
 			PreparedStatement stmt = DB.preparedStatement(sql);
@@ -50,7 +50,8 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 			stmt.setString(3, salao.getTelefone());
 			stmt.setString(4, salao.getCelular());
 			stmt.setInt(5, salao.getEndereco().getId());
-			stmt.setInt(6, salao.getId());
+			stmt.setInt(6, salao.getHorarioDeFuncionamento().getId());
+			stmt.setInt(7, salao.getId());
 
 			if(stmt.executeUpdate()>0){
 				return salao.getId();

@@ -24,7 +24,7 @@ public class RegistrarSalaoServiceImpl implements RegistrarSalaoService {
 
 		try {
 			DB.beginTransaction();
-			
+
 			Integer idSalao = salaoRepository.insert(salao);
 			Integer idAcesso = acessoRepository.insert(acesso);
 			Integer idFuncionario = funcionarioRepository.insert(administrador, idSalao, idAcesso);
@@ -33,7 +33,7 @@ public class RegistrarSalaoServiceImpl implements RegistrarSalaoService {
 			Funcionario newFuncionario = funcionarioRepository.findById(idFuncionario);
 			Acesso newAcesso = acessoRepository.findById(idAcesso);
 			newFuncionario.setAcesso(newAcesso);
-			newSalao.getFuncionarios().add(newFuncionario);
+			newSalao.addFuncionarios(newFuncionario);
 
 			DB.commit();
 

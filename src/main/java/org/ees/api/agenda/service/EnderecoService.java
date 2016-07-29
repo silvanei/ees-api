@@ -8,4 +8,8 @@ import org.ees.api.agenda.entity.Endereco;
 public interface EnderecoService {
 
     public Integer inserirEndereco(Endereco endereco);
+    
+    public Endereco byIdSalao(Integer idSalao);
+
+	public Integer atualizarEndereco(Endereco endereco);
 }
