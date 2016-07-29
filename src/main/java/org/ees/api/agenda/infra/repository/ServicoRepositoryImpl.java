@@ -3,6 +3,8 @@ package org.ees.api.agenda.infra.repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -79,4 +81,35 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 		}
 	}
 
+	@Override
+	public List<Servico> findByIdSalao(Integer idSalao) {
+		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo FROM servico WHERE salao_id = ?";
+
+		try {
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setInt(1, idSalao);
+			ResultSet rs = stmt.executeQuery();
+			
+			List<Servico> servicos = new ArrayList<Servico>();
+			
+			while (rs.next()) {
+				Servico servico = new Servico();
+				servico.setId(rs.getInt("id"));
+				servico.setDescricao(rs.getString("descricao"));
+				servico.setDuracao(rs.getTime("duracao"));
+				servico.setValorMinimo(rs.getBigDecimal("valor_minimo"));
+				servico.setValorMaximo(rs.getBigDecimal("valor_maximo"));
+				servicos.add(servico);
+			}
+
+			return servicos;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(ServicoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Error ao buscar um servico pelo idSalao");
+		}
+	}
+	
+	
+	
 }

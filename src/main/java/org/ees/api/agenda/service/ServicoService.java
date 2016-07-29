@@ -1,5 +1,7 @@
 package org.ees.api.agenda.service;
 
+import java.util.List;
+
 import org.ees.api.agenda.entity.Servico;
 
 public interface ServicoService {
@@ -12,6 +14,6 @@ public interface ServicoService {
 
 	public Servico findById(Integer idServico);
 	
-	public Servico findByIdSalao(Integer idSalao);
+	public List<Servico> findByIdSalao(Integer idSalao);
 
 }

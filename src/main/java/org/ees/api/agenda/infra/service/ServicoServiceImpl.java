@@ -1,5 +1,7 @@
 package org.ees.api.agenda.infra.service;
 
+import java.util.List;
+
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.repository.ServicoRepositoryImpl;
 import org.ees.api.agenda.repository.ServicoRepository;
@@ -36,9 +38,8 @@ public class ServicoServiceImpl implements ServicoService {
 	}
 
 	@Override
-	public Servico findByIdSalao(Integer idSalao) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Servico> findByIdSalao(Integer idSalao) {
+		return servicoRepository.findByIdSalao(idSalao);
 	}
 
 }
