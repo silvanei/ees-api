@@ -14,5 +14,5 @@ public interface ServicoRepository {
 
 	public Servico findById(Integer idServico);
 	
-	public List<Servico> findByIdSalao(Integer idSalao);
+	public List<Servico> findByIdSalao(Integer idSalao, int limit, int offset);
 }

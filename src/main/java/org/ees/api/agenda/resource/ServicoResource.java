@@ -1,17 +1,18 @@
 package org.ees.api.agenda.resource;
 
-import java.util.List;
+import org.ees.api.agenda.entity.Servico;
+import org.ees.api.agenda.infra.rest.CollectionResponse;
+import org.ees.api.agenda.infra.rest.ResultSet;
+import org.ees.api.agenda.infra.service.ServicoServiceImpl;
+import org.ees.api.agenda.resource.bean.ServicoFilterBean;
+import org.ees.api.agenda.service.ServicoService;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.ees.api.agenda.entity.Servico;
-import org.ees.api.agenda.infra.service.ServicoServiceImpl;
-import org.ees.api.agenda.service.ServicoService;
+import java.util.List;
 
 public class ServicoResource {
 
@@ -19,10 +20,19 @@ public class ServicoResource {
 
 	@GET
 	@RolesAllowed("SALAO_ADMIN")
-	public List<Servico> listAllServicos(@PathParam("salaoId") Integer idSalao) {
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response listAllServicos(
+			@BeanParam ServicoFilterBean filterBean
+	) {
 
-		List<Servico> servicos = servicoService.findByIdSalao(idSalao);
-		return servicos;
+		List<Servico> servicos = servicoService.findByIdSalao(filterBean.getIdSalao(), filterBean.getLimit(), filterBean.getOffset());
+
+		CollectionResponse collection = new CollectionResponse();
+		collection.setResult(servicos);
+		collection.setMetadata(new ResultSet(100, filterBean.getOffset(), filterBean.getLimit()));
+
+		return Response.ok(collection).build();
+
 	}
 
 	@POST

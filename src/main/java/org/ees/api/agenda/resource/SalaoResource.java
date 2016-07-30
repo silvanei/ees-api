@@ -12,13 +12,13 @@ public class SalaoResource {
 
 
 	@Path("/{salaoId}/dados")
-	public DadosResource atualizaSalao() {
+	public DadosResource dadosSalao() {
 		return new DadosResource();
 	}
 
 
 	@Path("/{salaoId}/servico")
-	public ServicoResource addSalao() {
+	public ServicoResource servicoSalao() {
 		return new ServicoResource();
 	}
 }

@@ -1,8 +1,10 @@
 package org.ees.api.agenda.entity;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.sql.Time;
 
+@XmlRootElement
 public class Servico {
 	
 	private Integer id;
@@ -14,7 +16,10 @@ public class Servico {
 	private BigDecimal valorMinimo;
 
 	private BigDecimal valorMaximo;
-	
+
+	public Servico() {
+	}
+
 	public Integer getId() {
 		return id;
 	}

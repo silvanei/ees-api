@@ -82,12 +82,17 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 	}
 
 	@Override
-	public List<Servico> findByIdSalao(Integer idSalao) {
-		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo FROM servico WHERE salao_id = ? ORDER BY id";
+	public List<Servico> findByIdSalao(Integer idSalao, int limit, int offset) {
+		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo " +
+				"FROM servico WHERE salao_id = ? " +
+				"ORDER BY id " +
+				"LIMIT ? OFFSET ?";
 
 		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);
 			stmt.setInt(1, idSalao);
+			stmt.setInt(2, limit);
+			stmt.setInt(3, offset);
 			ResultSet rs = stmt.executeQuery();
 			
 			List<Servico> servicos = new ArrayList<Servico>();

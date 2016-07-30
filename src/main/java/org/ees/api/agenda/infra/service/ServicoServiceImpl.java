@@ -38,8 +38,8 @@ public class ServicoServiceImpl implements ServicoService {
 	}
 
 	@Override
-	public List<Servico> findByIdSalao(Integer idSalao) {
-		return servicoRepository.findByIdSalao(idSalao);
+	public List<Servico> findByIdSalao(Integer idSalao, int limit, int offset) {
+		return servicoRepository.findByIdSalao(idSalao, limit, offset);
 	}
 
 }
