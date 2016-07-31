@@ -24,14 +24,16 @@ public class UserBean {
 	}
 
 	public String getPassword() {
-		return password;
+		try {
+			return DigestUtil.generateDigest(this.password);
+
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+			Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return null;
 	}
 
 	public void setPassword(String password) {
-		try {
-			this.password = DigestUtil.generateDigest(password);
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-			Logger.getLogger(RegistrarSalaoBean.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		this.password = password;
 	}
 }

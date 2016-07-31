@@ -2,7 +2,6 @@ package org.ees.api.agenda.infra.rest;
 
 import org.ees.api.agenda.entity.Servico;
 
-import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
@@ -11,11 +10,11 @@ import java.util.List;
  */
 
 @XmlRootElement
-public class CollectionResponse {
+public class CollectionResponse<T> {
 
     private ResultSet metadata;
 
-    private List<Servico> result;
+    private List<T> result;
 
     public ResultSet getMetadata() {
         return metadata;
@@ -25,11 +24,11 @@ public class CollectionResponse {
         this.metadata = metadata;
     }
 
-    public List<Servico> getResult() {
+    public List<T> getResult() {
         return result;
     }
 
-    public void setResult(List<Servico> result) {
+    public void setResult(List<T> result) {
         this.result = result;
     }
 }

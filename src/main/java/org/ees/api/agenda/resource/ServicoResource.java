@@ -27,12 +27,11 @@ public class ServicoResource {
 
 		List<Servico> servicos = servicoService.findByIdSalao(filterBean.getIdSalao(), filterBean.getLimit(), filterBean.getOffset());
 
-		CollectionResponse collection = new CollectionResponse();
+		CollectionResponse<Servico> collection = new CollectionResponse<Servico>();
 		collection.setResult(servicos);
 		collection.setMetadata(new ResultSet(100, filterBean.getOffset(), filterBean.getLimit()));
 
 		return Response.ok(collection).build();
-
 	}
 
 	@POST
