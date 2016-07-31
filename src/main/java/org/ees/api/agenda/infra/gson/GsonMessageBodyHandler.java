@@ -1,19 +1,12 @@
-package org.ees.api.agenda.infra.provider;
+package org.ees.api.agenda.infra.gson;
 
 /**
  * Created by silvanei on 30/07/16.
  */
 
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-import java.sql.Time;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -23,10 +16,10 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.io.*;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.sql.Time;
 
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
@@ -42,7 +35,7 @@ public class GsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
             final GsonBuilder gsonBuilder = new GsonBuilder();
             gson = gsonBuilder.disableHtmlEscaping()
                     //.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                    .registerTypeAdapter(Time.class, new MyTimeJsonDeserializer())
+                    .registerTypeAdapter(Time.class, new TimeJsonDeserializer())
                     .setPrettyPrinting()
                     .serializeNulls()
                     .create();
