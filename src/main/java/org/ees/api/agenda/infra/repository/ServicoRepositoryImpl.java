@@ -9,7 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ees.api.agenda.entity.Servico;
+import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.db.DB;
+import org.ees.api.agenda.infra.db.Metadata;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.ServicoRepository;
 
@@ -82,9 +84,10 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 	}
 
 	@Override
-	public List<Servico> findByIdSalao(Integer idSalao, int limit, int offset) {
+	public CollectionPaginated<Servico> findByIdSalao(Integer idSalao, int limit, int offset) {
 		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo " +
-				"FROM servico WHERE salao_id = ? " +
+				"FROM servico " +
+				"WHERE salao_id = ? " +
 				"ORDER BY id " +
 				"LIMIT ? OFFSET ?";
 
@@ -107,7 +110,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 				servicos.add(servico);
 			}
 
-			return servicos;
+			return new CollectionPaginated<Servico>(new Metadata(100, offset, limit), servicos);
 
 		} catch (SQLException ex) {
 			Logger.getLogger(ServicoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);

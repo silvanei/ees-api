@@ -3,6 +3,7 @@ package org.ees.api.agenda.infra.service;
 import java.util.List;
 
 import org.ees.api.agenda.entity.Servico;
+import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.repository.ServicoRepositoryImpl;
 import org.ees.api.agenda.repository.ServicoRepository;
 import org.ees.api.agenda.service.ServicoService;
@@ -38,7 +39,7 @@ public class ServicoServiceImpl implements ServicoService {
 	}
 
 	@Override
-	public List<Servico> findByIdSalao(Integer idSalao, int limit, int offset) {
+	public CollectionPaginated<Servico> findByIdSalao(Integer idSalao, int limit, int offset) {
 		return servicoRepository.findByIdSalao(idSalao, limit, offset);
 	}
 

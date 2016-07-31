@@ -1,8 +1,8 @@
 package org.ees.api.agenda.resource;
 
 import org.ees.api.agenda.entity.Servico;
-import org.ees.api.agenda.infra.rest.CollectionResponse;
-import org.ees.api.agenda.infra.rest.ResultSet;
+import org.ees.api.agenda.infra.db.CollectionPaginated;
+import org.ees.api.agenda.infra.db.Metadata;
 import org.ees.api.agenda.infra.service.ServicoServiceImpl;
 import org.ees.api.agenda.resource.bean.ServicoFilterBean;
 import org.ees.api.agenda.service.ServicoService;
@@ -25,13 +25,9 @@ public class ServicoResource {
 			@BeanParam ServicoFilterBean filterBean
 	) {
 
-		List<Servico> servicos = servicoService.findByIdSalao(filterBean.getIdSalao(), filterBean.getLimit(), filterBean.getOffset());
+		CollectionPaginated<Servico> servicos = servicoService.findByIdSalao(filterBean.getIdSalao(), filterBean.getLimit(), filterBean.getOffset());
 
-		CollectionResponse<Servico> collection = new CollectionResponse<Servico>();
-		collection.setResult(servicos);
-		collection.setMetadata(new ResultSet(100, filterBean.getOffset(), filterBean.getLimit()));
-
-		return Response.ok(collection).build();
+		return Response.ok(servicos).build();
 	}
 
 	@POST
