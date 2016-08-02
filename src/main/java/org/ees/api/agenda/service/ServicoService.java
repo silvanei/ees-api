@@ -1,7 +1,5 @@
 package org.ees.api.agenda.service;
 
-import java.util.List;
-
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 

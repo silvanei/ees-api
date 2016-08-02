@@ -21,7 +21,7 @@ public class PaginatedFilterBean {
     public int getLimit() {
 
         if(limit == 0) {
-            limit = 5;
+            limit = 100;
         }
 
         return limit;

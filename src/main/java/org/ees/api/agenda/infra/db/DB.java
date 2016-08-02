@@ -3,6 +3,7 @@ package org.ees.api.agenda.infra.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -84,6 +85,22 @@ public class DB {
 			System.out.println("Rollback Transaction");
 		} catch (SQLException e) {
 			throw new AcessoADadosException("Erro ao Desfazer uma transação: " + e.getMessage());
+		}
+	}
+	
+	public static int foundRows() {
+		PreparedStatement stmt = DB.preparedStatement("select found_rows() as total");
+		ResultSet rs;
+		try {
+			rs = stmt.executeQuery();
+			Integer total = 0;
+	        if(rs.next()) {
+	        	total = rs.getInt("total");
+	        }
+	        
+	        return total;
+		} catch (SQLException e) {
+			throw new AcessoADadosException("Erro ao select found_rows(): " + e.getMessage());
 		}
 	}
 

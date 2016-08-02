@@ -85,7 +85,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 
 	@Override
 	public CollectionPaginated<Servico> findByIdSalao(Integer idSalao, int limit, int offset) {
-		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo " +
+		String sql = "SELECT SQL_CALC_FOUND_ROWS id, descricao, duracao, valor_minimo, valor_maximo " +
 				"FROM servico " +
 				"WHERE salao_id = ? " +
 				"ORDER BY id " +
@@ -109,8 +109,8 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 				servico.setValorMaximo(rs.getBigDecimal("valor_maximo"));
 				servicos.add(servico);
 			}
-
-			return new CollectionPaginated<Servico>(new Metadata(100, offset, limit), servicos);
+            
+			return new CollectionPaginated<Servico>(new Metadata(DB.foundRows(), offset, limit), servicos);
 
 		} catch (SQLException ex) {
 			Logger.getLogger(ServicoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
