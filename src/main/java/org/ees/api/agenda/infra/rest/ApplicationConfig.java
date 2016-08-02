@@ -1,9 +1,9 @@
 package org.ees.api.agenda.infra.rest;
 
+import javax.ws.rs.ApplicationPath;
+
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
-
-import javax.ws.rs.ApplicationPath;
 
 /**
  * Created by silvanei on 23/07/16.
@@ -13,7 +13,8 @@ import javax.ws.rs.ApplicationPath;
 public class ApplicationConfig extends ResourceConfig{
 
     public ApplicationConfig() {
-        packages("org.ees.api.agenda.resource;org.ees.api.agenda.infra.auth");
+    	register(new ApplicationBinder());
+        packages("org.ees.api.agenda");
         register(RolesAllowedDynamicFeature.class);
     }
 }

@@ -2,7 +2,9 @@ package org.ees.api.agenda.service;
 
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
+import org.jvnet.hk2.annotations.Contract;
 
+@Contract
 public interface ServicoService {
 	
 	public Servico insert(Integer idSalao, Servico servico);

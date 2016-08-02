@@ -1,5 +1,7 @@
 package org.ees.api.agenda.infra.service;
 
+import javax.annotation.Resource;
+
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.Salao;
@@ -12,6 +14,7 @@ import org.ees.api.agenda.repository.FuncionarioRepository;
 import org.ees.api.agenda.repository.SalaoRepository;
 import org.ees.api.agenda.service.RegistrarSalaoService;
 
+@Resource
 public class RegistrarSalaoServiceImpl implements RegistrarSalaoService {
 
 	private SalaoRepository salaoRepository = new SalaoRepositoryImpl();

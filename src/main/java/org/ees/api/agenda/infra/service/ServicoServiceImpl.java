@@ -5,7 +5,9 @@ import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.repository.ServicoRepositoryImpl;
 import org.ees.api.agenda.repository.ServicoRepository;
 import org.ees.api.agenda.service.ServicoService;
+import org.jvnet.hk2.annotations.Service;
 
+@Service
 public class ServicoServiceImpl implements ServicoService {
 	
 	private ServicoRepository servicoRepository = new ServicoRepositoryImpl();
