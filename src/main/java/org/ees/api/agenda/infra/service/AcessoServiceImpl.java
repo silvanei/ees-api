@@ -5,12 +5,19 @@ import org.ees.api.agenda.infra.repository.AcessoRepositoryImpl;
 import org.ees.api.agenda.repository.AcessoRepository;
 import org.ees.api.agenda.service.AcessoService;
 
+import javax.inject.Inject;
+
 /**
  * Created by silvanei on 24/07/16.
  */
 public class AcessoServiceImpl implements AcessoService {
 
-    private AcessoRepository acessoRepository = new AcessoRepositoryImpl();
+    private AcessoRepository acessoRepository;
+
+    @Inject
+    public AcessoServiceImpl(AcessoRepository acessoRepository) {
+        this.acessoRepository = acessoRepository;
+    }
 
     @Override
     public Acesso findById(Integer id) {

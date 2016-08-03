@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.text.ParseException;
 
 import javax.annotation.Priority;
+import javax.inject.Inject;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -36,7 +37,12 @@ public class SecurityFilter implements ContainerRequestFilter, ContainerResponse
 	private static final String JWT_ERROR_MSG = "Unable to parse JWT";
 	private static final String JWT_INVALID_MSG = "Invalid JWT token";
 
-	private AcessoService acessoService = new AcessoServiceImpl();
+	private AcessoService acessoService;
+
+	@Inject
+	public SecurityFilter(AcessoService acessoService) {
+		this.acessoService = acessoService;
+	}
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {

@@ -1,5 +1,6 @@
 package org.ees.api.agenda.resource;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -18,7 +19,8 @@ import org.ees.api.agenda.service.RegistrarSalaoService;
 @Produces(MediaType.APPLICATION_JSON)
 public class RegistrarSalaoResource {
 
-	private RegistrarSalaoService salaoService = new RegistrarSalaoServiceImpl();
+	@Inject
+	private RegistrarSalaoService salaoService;
 
 	@POST
 	public Response addSalao(RegistrarSalaoBean registrarSalao) {

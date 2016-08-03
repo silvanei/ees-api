@@ -19,7 +19,8 @@ public class ServicoServiceFactory implements Factory<ServicoService> {
 	@Override
 	public ServicoService provide() {
 		System.out.println("ServicoService provide");
-		return new ServicoServiceImpl();
+		//return new ServicoServiceImpl();
+		return null;
 	}
 	
 }

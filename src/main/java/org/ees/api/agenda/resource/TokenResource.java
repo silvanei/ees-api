@@ -11,6 +11,7 @@ import org.ees.api.agenda.infra.service.AcessoServiceImpl;
 import org.ees.api.agenda.resource.bean.UserBean;
 import org.ees.api.agenda.service.AcessoService;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,7 +28,12 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class TokenResource {
 
-    private AcessoService acessoService = new AcessoServiceImpl();
+    private AcessoService acessoService;
+
+    @Inject
+    public TokenResource(AcessoService acessoService) {
+        this.acessoService = acessoService;
+    }
 
     @POST
     public Response createToken(UserBean user) throws JOSEException{
