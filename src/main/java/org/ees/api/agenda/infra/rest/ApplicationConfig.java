@@ -13,8 +13,8 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 public class ApplicationConfig extends ResourceConfig{
 
     public ApplicationConfig() {
-    	register(new ApplicationBinder());
-        packages("org.ees.api.agenda");
+        register(new ApplicationBinder());
         register(RolesAllowedDynamicFeature.class);
+        packages(true, "org.ees.api.agenda");
     }
 }
