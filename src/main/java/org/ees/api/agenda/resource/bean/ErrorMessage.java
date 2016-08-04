@@ -1,8 +1,5 @@
 package org.ees.api.agenda.resource.bean;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class ErrorMessage {
 
 	private String errorMessage;

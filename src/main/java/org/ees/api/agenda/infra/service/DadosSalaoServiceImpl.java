@@ -5,21 +5,29 @@ import org.ees.api.agenda.entity.HorarioDeFuncionamento;
 import org.ees.api.agenda.entity.Salao;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
-import org.ees.api.agenda.infra.repository.SalaoRepositoryImpl;
 import org.ees.api.agenda.repository.SalaoRepository;
 import org.ees.api.agenda.resource.bean.DadosSalao;
 import org.ees.api.agenda.service.DadosSalaoService;
 import org.ees.api.agenda.service.EnderecoService;
 import org.ees.api.agenda.service.HorarioDeFuncionamentoService;
 
+import javax.inject.Inject;
+
 /**
  * Created by silvanei on 28/07/16.
  */
 public class DadosSalaoServiceImpl implements DadosSalaoService {
 
-    SalaoRepository salaoRepository = new SalaoRepositoryImpl();
-    EnderecoService enderecoService = new EnderecoServiceImpl();
-    HorarioDeFuncionamentoService horarioDeFuncionamentoService = new HorarioDeFuncionamentoServiceImpl();
+    SalaoRepository salaoRepository;
+    EnderecoService enderecoService;
+    HorarioDeFuncionamentoService horarioDeFuncionamentoService;
+
+    @Inject
+    public DadosSalaoServiceImpl(SalaoRepository salaoRepository, EnderecoService enderecoService, HorarioDeFuncionamentoService horarioDeFuncionamentoService) {
+        this.salaoRepository = salaoRepository;
+        this.enderecoService = enderecoService;
+        this.horarioDeFuncionamentoService = horarioDeFuncionamentoService;
+    }
 
     @Override
     public Salao atualizaDadosSalao(Integer idSalao, DadosSalao dadosSalao) {

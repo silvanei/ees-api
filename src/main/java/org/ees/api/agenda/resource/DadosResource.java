@@ -6,6 +6,7 @@ import org.ees.api.agenda.resource.bean.DadosSalao;
 import org.ees.api.agenda.service.DadosSalaoService;
 
 import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
@@ -17,7 +18,8 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class DadosResource {
 
-	private DadosSalaoService dadosSalaoService = new DadosSalaoServiceImpl();
+	@Inject
+	private DadosSalaoService dadosSalaoService;
 
 	@PUT
 	@RolesAllowed("SALAO_ADMIN")

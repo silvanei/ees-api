@@ -17,7 +17,7 @@ public class SalaoResource {
 
 	@Path("/{salaoId}/dados")
 	public DadosResource dadosSalao() {
-		return new DadosResource();
+		return rc.initResource(new DadosResource());
 	}
 
 
