@@ -18,7 +18,7 @@ import com.nimbusds.jwt.SignedJWT;
 /**
  * Created by silvanei on 24/07/16.
  */
-public final class AuthUtils {
+public final class TokenUtil {
 
     private static final JWSHeader JWT_HEADER = new JWSHeader(JWSAlgorithm.HS256);
     private static final String TOKEN_SECRET = "adsiinwonderland**";
@@ -32,9 +32,9 @@ public final class AuthUtils {
         SignedJWT signedJWT = SignedJWT.parse(getSerializedToken(authHeader));
         if (signedJWT.verify(new MACVerifier(TOKEN_SECRET))) {
             return signedJWT.getJWTClaimsSet();
-        } else {
-            throw new JOSEException("Signature verification failed");
         }
+
+        throw new JOSEException("Signature verification failed");
     }
 
     public static Token createToken(Acesso acesso) throws JOSEException {

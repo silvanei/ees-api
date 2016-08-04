@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.ees.api.agenda.infra.auth.DigestUtil;
+import org.ees.api.agenda.infra.auth.Digest;
 
 /**
  * Created by silvanei on 24/07/16.
@@ -25,7 +25,7 @@ public class UserBean {
 
 	public String getPassword() {
 		try {
-			return DigestUtil.generateDigest(this.password);
+			return Digest.generate(this.password);
 
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
 			Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);

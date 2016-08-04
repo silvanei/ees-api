@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.ees.api.agenda.infra.auth.DigestUtil;
+import org.ees.api.agenda.infra.auth.Digest;
 
 public class RegistrarSalaoBean {
 
@@ -54,7 +54,7 @@ public class RegistrarSalaoBean {
 
 	public void setSenhaAdministradorSalao(String senhaAdministradorSalao) {
 		try {
-			this.senhaAdministradorSalao = DigestUtil.generateDigest(senhaAdministradorSalao);
+			this.senhaAdministradorSalao = Digest.generate(senhaAdministradorSalao);
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
 			Logger.getLogger(RegistrarSalaoBean.class.getName()).log(Level.SEVERE, null, ex);
 		}

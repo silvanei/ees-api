@@ -9,11 +9,12 @@ import java.util.logging.Logger;
  * Created by silvanei on 24/07/16.
  */
 
-public class DigestUtil {
 
-    private static final Logger LOG = Logger.getLogger("DigestUtil");
+public class Digest {
 
-    public static String generateDigest(String value)
+    private static final Logger LOG = Logger.getLogger("Digest");
+
+    public static String generate(String value)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");

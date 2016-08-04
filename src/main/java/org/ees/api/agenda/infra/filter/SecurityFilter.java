@@ -16,9 +16,8 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
 import org.ees.api.agenda.entity.Acesso;
-import org.ees.api.agenda.infra.auth.AuthUtils;
+import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
-import org.ees.api.agenda.infra.service.AcessoServiceImpl;
 import org.ees.api.agenda.service.AcessoService;
 import org.joda.time.DateTime;
 
@@ -55,7 +54,7 @@ public class SecurityFilter implements ContainerRequestFilter, ContainerResponse
 		} else {
 			JWTClaimsSet claimSet;
 			try {
-				claimSet = (JWTClaimsSet) AuthUtils.decodeToken(authHeader);
+				claimSet = (JWTClaimsSet) TokenUtil.decodeToken(authHeader);
 			} catch (ParseException e) {
 				throw new UnAuthorizedException(JWT_ERROR_MSG);
 			} catch (JOSEException e) {

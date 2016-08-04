@@ -1,4 +1,4 @@
-package org.ees.api.agenda.infra.rest;
+package org.ees.api.agenda.infra.application;
 
 import javax.ws.rs.ApplicationPath;
 
@@ -10,10 +10,10 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
  */
 
 @ApplicationPath("/")
-public class ApplicationConfig extends ResourceConfig{
+public class Config extends ResourceConfig{
 
-    public ApplicationConfig() {
-        register(new ApplicationBinder());
+    public Config() {
+        register(new Binder());
         register(RolesAllowedDynamicFeature.class);
         packages(true, "org.ees.api.agenda");
     }

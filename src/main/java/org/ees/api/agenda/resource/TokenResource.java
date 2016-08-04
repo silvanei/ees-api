@@ -2,12 +2,11 @@ package org.ees.api.agenda.resource;
 
 import com.nimbusds.jose.JOSEException;
 import org.ees.api.agenda.entity.Acesso;
-import org.ees.api.agenda.infra.auth.AuthUtils;
+import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.auth.Token;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 
 import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
-import org.ees.api.agenda.infra.service.AcessoServiceImpl;
 import org.ees.api.agenda.resource.bean.UserBean;
 import org.ees.api.agenda.service.AcessoService;
 
@@ -43,7 +42,7 @@ public class TokenResource {
         if (foundAcesso == null) {
             throw new DataNotFoundException("Usuário não existe na dase de dados");
         } else if (user.getPassword().equals(foundAcesso.getSenha())) {
-            Token token = AuthUtils.createToken(foundAcesso);
+            Token token = TokenUtil.createToken(foundAcesso);
 
             return Response
                     .status(Response.Status.CREATED)
