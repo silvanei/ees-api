@@ -1,10 +1,15 @@
 package org.ees.api.agenda.entity;
 
+import org.ees.api.agenda.resource.ServicoResource;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+
+import javax.ws.rs.core.Link;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
+import java.net.URI;
 import java.sql.Time;
 
-@XmlRootElement
 public class Servico {
 	
 	private Integer id;
@@ -16,6 +21,9 @@ public class Servico {
 	private BigDecimal valorMinimo;
 
 	private BigDecimal valorMaximo;
+
+	@InjectLink("/salao/{salaoId}/servico/${instance.id}")
+	Link link;
 
 	public Servico() {
 	}
@@ -61,4 +69,11 @@ public class Servico {
 		this.valorMaximo = valorMaximo;
 	}
 
+	public Link getLink() {
+		return link;
+	}
+
+	public void setLink(Link link) {
+		this.link = link;
+	}
 }
