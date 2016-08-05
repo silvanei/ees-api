@@ -1,5 +1,6 @@
 package org.ees.api.agenda.entity;
 
+import com.google.gson.annotations.Expose;
 import org.ees.api.agenda.resource.ServicoResource;
 import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
@@ -11,18 +12,24 @@ import java.net.URI;
 import java.sql.Time;
 
 public class Servico {
-	
+
+	@Expose
 	private Integer id;
-	
+
+	@Expose
 	private String descricao;
-	
+
+	@Expose
 	private Time duracao;
 
+	@Expose
 	private BigDecimal valorMinimo;
 
+	@Expose
 	private BigDecimal valorMaximo;
 
-	@InjectLink("/salao/{salaoId}/servico/${instance.id}")
+	@InjectLink(value = "/salao/{salaoId}/servico/${instance.id}", rel = "self")
+	@Expose
 	private Link link;
 
 	public Servico() {

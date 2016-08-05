@@ -14,7 +14,7 @@ import com.google.gson.JsonSerializer;
 /**
  * Created by silvanei on 30/07/16.
  */
-public class TimeJsonDeserializer implements JsonDeserializer<Time>, JsonSerializer<Time> {
+public class TimeGson implements JsonDeserializer<Time>, JsonSerializer<Time> {
 
     @SuppressWarnings("deprecation")
 	@Override

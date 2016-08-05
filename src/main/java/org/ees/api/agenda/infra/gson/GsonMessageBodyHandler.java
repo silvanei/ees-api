@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
@@ -35,7 +36,9 @@ public class GsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
             final GsonBuilder gsonBuilder = new GsonBuilder();
             gson = gsonBuilder.disableHtmlEscaping()
                     //.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                    .registerTypeAdapter(Time.class, new TimeJsonDeserializer())
+                    .registerTypeAdapter(Time.class, new TimeGson())
+                    .registerTypeAdapter(Link.class, new LinkGson())
+                    .excludeFieldsWithoutExposeAnnotation()
                     .setPrettyPrinting()
                     .serializeNulls()
                     .create();
