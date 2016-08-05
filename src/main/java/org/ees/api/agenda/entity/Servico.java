@@ -23,7 +23,7 @@ public class Servico {
 	private BigDecimal valorMaximo;
 
 	@InjectLink("/salao/{salaoId}/servico/${instance.id}")
-	Link link;
+	private Link link;
 
 	public Servico() {
 	}

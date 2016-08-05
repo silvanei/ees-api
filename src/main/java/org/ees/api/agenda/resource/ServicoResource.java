@@ -21,10 +21,12 @@ public class ServicoResource {
 	@RolesAllowed("SALAO_ADMIN")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response listAllServicos(
-			@BeanParam ServicoFilterBean filterBean
+			@PathParam("salaoId") Integer idSalao,
+			@QueryParam("limit") @DefaultValue("5") int limit,
+			@QueryParam("offset") @DefaultValue("0") int offset
 	) {
 
-		CollectionPaginated<Servico> servicos = servicoService.findByIdSalao(filterBean.getIdSalao(), filterBean.getLimit(), filterBean.getOffset());
+		CollectionPaginated<Servico> servicos = servicoService.findByIdSalao(idSalao, limit, offset);
 
 		return Response.ok(servicos).build();
 	}
