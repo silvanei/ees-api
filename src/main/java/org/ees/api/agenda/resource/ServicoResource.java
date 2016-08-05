@@ -2,7 +2,6 @@ package org.ees.api.agenda.resource;
 
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
-import org.ees.api.agenda.resource.bean.ServicoFilterBean;
 import org.ees.api.agenda.service.ServicoService;
 
 import javax.annotation.security.RolesAllowed;
