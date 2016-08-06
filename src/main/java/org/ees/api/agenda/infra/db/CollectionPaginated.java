@@ -1,7 +1,5 @@
 package org.ees.api.agenda.infra.db;
 
-import com.google.gson.annotations.Expose;
-
 import java.util.List;
 
 /**
@@ -10,20 +8,34 @@ import java.util.List;
 
 public class CollectionPaginated<T> {
 
-    private Metadata metadata;
+    private List<T> items;
 
-    private List<T> result;
+    private int limit;
 
-    public CollectionPaginated(Metadata metadata, List<T> result) {
-        this.metadata = metadata;
-        this.result = result;
+    private int offset;
+
+    private int count;
+
+    public CollectionPaginated(List<T> items, int limit, int offset, int count) {
+        this.items = items;
+        this.limit = limit;
+        this.offset = offset;
+        this.count = count;
     }
 
-    public Metadata getMetadata() {
-        return metadata;
+    public List<T> getItems() {
+        return items;
     }
 
-    public List<T> getResult() {
-        return result;
+    public int getLimit() {
+        return limit;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

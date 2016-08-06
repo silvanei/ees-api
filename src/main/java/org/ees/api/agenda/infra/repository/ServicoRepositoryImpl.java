@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.db.DB;
-import org.ees.api.agenda.infra.db.Metadata;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.ServicoRepository;
 
@@ -110,8 +109,8 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 				servico.setValorMaximo(rs.getBigDecimal("valor_maximo"));
 				servicos.add(servico);
 			}
-            
-			return new CollectionPaginated<Servico>(new Metadata(DB.foundRows(), offset, limit), servicos);
+
+			return new CollectionPaginated<Servico>(servicos, limit, offset, DB.foundRows());
 
 		} catch (SQLException ex) {
 			Logger.getLogger(ServicoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);

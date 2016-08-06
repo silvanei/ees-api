@@ -1,5 +1,6 @@
-package org.ees.api.agenda.infra.db;
+package org.ees.api.agenda.infra.resource;
 
+import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.resource.ServicoResource;
 import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
@@ -9,10 +10,9 @@ import javax.ws.rs.core.Link;
 import java.util.List;
 
 /**
- * Created by silvanei on 30/07/16.
+ * Created by silvanei on 06/08/16.
  */
-
-public class Metadata {
+public class ServicoColection extends CollectionPaginated{
 
     @InjectLinks({
             @InjectLink(
@@ -49,35 +49,7 @@ public class Metadata {
 
     private List<Link> links;
 
-    private Integer count;
-
-    private Integer offset;
-
-    private Integer limit;
-
-    public Metadata(Integer count, Integer offset, Integer limit) {
-        this.count = count;
-        this.offset = offset;
-        this.limit = limit;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public Integer getOffset() {
-        return offset;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public List<Link> getLinks() {
-        return links;
-    }
-
-    public void setLinks(List<Link> links) {
-        this.links = links;
+    public ServicoColection(List items, int limit, int offset, int count) {
+        super(items, limit, offset, count);
     }
 }

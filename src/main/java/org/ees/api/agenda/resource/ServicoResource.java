@@ -2,6 +2,7 @@ package org.ees.api.agenda.resource;
 
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
+import org.ees.api.agenda.infra.resource.ServicoColection;
 import org.ees.api.agenda.service.ServicoService;
 
 import javax.annotation.security.RolesAllowed;
@@ -27,7 +28,9 @@ public class ServicoResource {
 
 		CollectionPaginated<Servico> servicos = servicoService.findByIdSalao(idSalao, limit, offset);
 
-		return Response.ok(servicos).build();
+		ServicoColection servicoColection = new ServicoColection(servicos.getItems(), servicos.getLimit(), servicos.getOffset(), servicos.getCount());
+
+		return Response.ok(servicoColection).build();
 	}
 
 	@GET
