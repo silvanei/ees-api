@@ -11,7 +11,7 @@ public interface ServicoService {
 	
 	public Integer delete(Integer idSalao, Servico servico);
 
-	public Servico findById(Integer idServico);
+	public Servico findById(Integer idSalao, Integer idServico);
 	
 	public CollectionPaginated<Servico> findByIdSalao(Integer idSalao, int limit, int offset);
 

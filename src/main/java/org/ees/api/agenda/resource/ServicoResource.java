@@ -30,6 +30,20 @@ public class ServicoResource {
 		return Response.ok(servicos).build();
 	}
 
+	@GET
+	@RolesAllowed("SALAO_ADMIN")
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Path("/{servicoId}")
+	public Response servico(
+			@PathParam("salaoId") Integer idSalao,
+			@PathParam("servicoId") Integer servicoId
+	) {
+
+		Servico servico = servicoService.findById(idSalao, servicoId);
+
+		return Response.ok(servico).build();
+	}
+
 	@POST
 	@RolesAllowed("SALAO_ADMIN")
 	public Response addServico(@PathParam("salaoId") Integer salaoId, Servico servico) {

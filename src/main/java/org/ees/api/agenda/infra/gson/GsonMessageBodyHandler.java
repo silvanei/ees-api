@@ -38,7 +38,7 @@ public class GsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
                     //.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
                     .registerTypeAdapter(Time.class, new TimeGson())
                     .registerTypeAdapter(Link.class, new LinkGson())
-                    .excludeFieldsWithoutExposeAnnotation()
+                    //.excludeFieldsWithoutExposeAnnotation()
                     .setPrettyPrinting()
                     .serializeNulls()
                     .create();

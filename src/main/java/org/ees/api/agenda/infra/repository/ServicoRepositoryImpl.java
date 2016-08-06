@@ -57,12 +57,13 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 	}
 
 	@Override
-	public Servico findById(Integer idServico) {
-		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo FROM servico WHERE id = ?";
+	public Servico findById(Integer idSalao, Integer idServico) {
+		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo FROM servico WHERE id = ? AND salao_id = ?";
 
 		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);
 			stmt.setInt(1, idServico);
+			stmt.setInt(2, idSalao);
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {

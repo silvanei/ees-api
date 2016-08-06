@@ -2,6 +2,7 @@ package org.ees.api.agenda.infra.service;
 
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
+import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.repository.ServicoRepository;
 import org.ees.api.agenda.service.ServicoService;
 
@@ -22,14 +23,14 @@ public final class ServicoServiceImpl implements ServicoService {
 		
 		Integer idServico = servicoRepository.insert(idSalao, servico);
 		
-		return findById(idServico);
+		return findById(idSalao, idServico);
 	}
 
 	@Override
 	public Servico update(Integer idSalao, Servico servico) {
 		Integer idServico = servicoRepository.update(servico);
 		
-		return findById(idServico);
+		return findById(idSalao, idServico);
 	}
 
 	@Override
@@ -39,8 +40,14 @@ public final class ServicoServiceImpl implements ServicoService {
 	}
 
 	@Override
-	public Servico findById(Integer idServico) {
-		return servicoRepository.findById(idServico);
+	public Servico findById(Integer idSalao, Integer idServico) {
+		Servico servico = servicoRepository.findById(idSalao, idServico);
+
+		if(null == servico) {
+			throw new DataNotFoundException("Não foi possivel encontrar o serviço.");
+		}
+
+		return servico;
 	}
 
 	@Override

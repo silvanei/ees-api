@@ -10,10 +10,8 @@ import java.util.List;
 
 public class CollectionPaginated<T> {
 
-    @Expose
     private Metadata metadata;
 
-    @Expose
     private List<T> result;
 
     public CollectionPaginated(Metadata metadata, List<T> result) {

@@ -1,7 +1,5 @@
 package org.ees.api.agenda.infra.db;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gson.annotations.Expose;
 import org.ees.api.agenda.resource.ServicoResource;
 import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
@@ -20,13 +18,13 @@ public class Metadata {
             @InjectLink(
                     resource = ServicoResource.class,
                     method = "listAllServicos",
-                    style = InjectLink.Style.ABSOLUTE_PATH,
+                    style = InjectLink.Style.ABSOLUTE,
                     rel = "self"
             ),
 
             @InjectLink(
                     resource = ServicoResource.class,
-                    style = InjectLink.Style.ABSOLUTE_PATH,
+                    style = InjectLink.Style.ABSOLUTE,
                     method = "listAllServicos",
                     condition = "${instance.offset + instance.limit < instance.count}",
                     bindings = {
@@ -38,7 +36,7 @@ public class Metadata {
 
             @InjectLink(
                     resource = ServicoResource.class,
-                    style = InjectLink.Style.ABSOLUTE_PATH,
+                    style = InjectLink.Style.ABSOLUTE,
                     method = "listAllServicos",
                     condition = "${instance.offset - instance.limit >= 0}",
                     bindings = {
@@ -48,14 +46,13 @@ public class Metadata {
                     rel = "prev"
             )
     })
-    @Expose
+
     private List<Link> links;
 
-    @Expose
     private Integer count;
-    @Expose
+
     private Integer offset;
-    @Expose
+
     private Integer limit;
 
     public Metadata(Integer count, Integer offset, Integer limit) {
