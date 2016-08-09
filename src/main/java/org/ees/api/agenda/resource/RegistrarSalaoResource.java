@@ -14,7 +14,7 @@ import org.ees.api.agenda.infra.service.RegistrarSalaoServiceImpl;
 import org.ees.api.agenda.resource.bean.RegistrarSalaoBean;
 import org.ees.api.agenda.service.RegistrarSalaoService;
 
-@Path("/registrar-salao")
+@Path("/v1/registrar-salao")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class RegistrarSalaoResource {

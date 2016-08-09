@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
  * Created by silvanei on 24/07/16.
  */
 
-@Path("/token")
+@Path("/v1/token")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TokenResource {

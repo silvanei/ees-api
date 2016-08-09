@@ -16,7 +16,7 @@ import org.ees.api.agenda.entity.PerfilEnum;
 /**
  * Root resource (exposed at "myresource" path)
  */
-@Path("myresource")
+@Path("/v1/myresource")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class MyResource {
