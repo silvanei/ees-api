@@ -1,7 +1,9 @@
-package org.ees.api.agenda.infra.resource;
+package org.ees.api.agenda.infra.resource.collection;
 
+import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.resource.ServicoResource;
+import org.ees.api.agenda.resource.collection.CollectionResponse;
 import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * Created by silvanei on 06/08/16.
  */
-public class ServicoColection extends CollectionPaginated{
+public class ServicoCollection extends CollectionResponse {
 
     @InjectLinks({
             @InjectLink(
@@ -46,10 +48,9 @@ public class ServicoColection extends CollectionPaginated{
                     rel = "prev"
             )
     })
+    protected List<Link> links;
 
-    private List<Link> links;
-
-    public ServicoColection(List items, int limit, int offset, int count) {
-        super(items, limit, offset, count);
+    public ServicoCollection(CollectionPaginated<Servico> collectionPaginated) {
+        super(collectionPaginated);
     }
 }
