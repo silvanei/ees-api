@@ -27,21 +27,30 @@ public final class ServicoServiceImpl implements ServicoService {
 	}
 
 	@Override
-	public Servico update(Integer idSalao, Servico servico) {
-		Integer idServico = servicoRepository.update(servico);
+	public Servico update(Integer salaoId, Integer servicoId, Servico servico) {
+
+		if(null == servicoRepository.findById(salaoId, servicoId)) {
+			throw new DataNotFoundException("Serviço não encontrado");
+		}
+		servico.setId(servicoId);
+
+		servicoRepository.update(servico);
 		
-		return findById(idSalao, idServico);
+		return findById(salaoId, servicoId);
 	}
 
 	@Override
-	public Integer delete(Integer idSalao, Servico servico) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer delete(Integer salaoId, Integer servicoId) {
+        if(null == servicoRepository.findById(salaoId, servicoId)) {
+            throw new DataNotFoundException("Serviço não encontrado");
+        }
+
+        return servicoRepository.delete(servicoId);
 	}
 
 	@Override
-	public Servico findById(Integer idSalao, Integer idServico) {
-		Servico servico = servicoRepository.findById(idSalao, idServico);
+	public Servico findById(Integer salaoId, Integer idServico) {
+		Servico servico = servicoRepository.findById(salaoId, idServico);
 
 		if(null == servico) {
 			throw new DataNotFoundException("Não foi possivel encontrar o serviço.");

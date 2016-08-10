@@ -19,7 +19,7 @@ public class ServicoCollection extends CollectionResponse {
     @InjectLinks({
             @InjectLink(
                     resource = ServicoResource.class,
-                    method = "listAllServicos",
+                    method = "servicos",
                     style = InjectLink.Style.ABSOLUTE,
                     rel = "self"
             ),
@@ -27,7 +27,7 @@ public class ServicoCollection extends CollectionResponse {
             @InjectLink(
                     resource = ServicoResource.class,
                     style = InjectLink.Style.ABSOLUTE,
-                    method = "listAllServicos",
+                    method = "servicos",
                     condition = "${instance.offset + instance.limit < instance.count}",
                     bindings = {
                             @Binding(name = "offset", value = "${instance.offset + instance.limit}"),
@@ -39,7 +39,7 @@ public class ServicoCollection extends CollectionResponse {
             @InjectLink(
                     resource = ServicoResource.class,
                     style = InjectLink.Style.ABSOLUTE,
-                    method = "listAllServicos",
+                    method = "servicos",
                     condition = "${instance.offset - instance.limit >= 0}",
                     bindings = {
                             @Binding(name = "offset", value = "${instance.offset - instance.limit}"),

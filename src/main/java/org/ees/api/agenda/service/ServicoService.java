@@ -5,14 +5,14 @@ import org.ees.api.agenda.infra.db.CollectionPaginated;
 
 public interface ServicoService {
 	
-	public Servico insert(Integer idSalao, Servico servico);
+	public Servico insert(Integer salaoId, Servico servico);
 
-	public Servico update(Integer idSalao, Servico servico);
+	public Servico update(Integer salaoId, Integer servicoId, Servico servico);
 	
-	public Integer delete(Integer idSalao, Servico servico);
+	public Integer delete(Integer salaoId, Integer servicoId);
 
-	public Servico findById(Integer idSalao, Integer idServico);
+	public Servico findById(Integer salaoId, Integer idServico);
 	
-	public CollectionPaginated<Servico> findByIdSalao(Integer idSalao, int limit, int offset);
+	public CollectionPaginated<Servico> findByIdSalao(Integer salaoId, int limit, int offset);
 
 }

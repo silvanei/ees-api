@@ -9,9 +9,9 @@ public interface ServicoRepository {
 
 	public Integer update(Servico servico);
 	
-	public Integer delete(Servico servico);
+	public Integer delete(Integer servicoId);
 
-	public Servico findById(Integer idSalao, Integer idServico);
+	public Servico findById(Integer salaoId, Integer idServico);
 	
 	public CollectionPaginated<Servico> findByIdSalao(Integer idSalao, int limit, int offset);
 }

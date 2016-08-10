@@ -38,31 +38,64 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 			return null;
 
 		} catch (SQLException ex) {
-			Logger.getLogger(HorarioDeFuncionamentoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(ServicoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
 			throw new AcessoADadosException("Error ao inserirum servico de um Salão");
 		}
 	}
 
 	@Override
 	public Integer update(Servico servico) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "UPDATE servico SET descricao = ?, duracao = ?, valor_minimo = ?, valor_maximo = ? WHERE id = ?";
+
+		try {
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setString(1, servico.getDescricao());
+			stmt.setTime(2, servico.getDuracao());
+			stmt.setBigDecimal(3, servico.getValorMinimo());
+			stmt.setBigDecimal(4, servico.getValorMaximo());
+			stmt.setInt(5, servico.getId());
+
+			if (stmt.executeUpdate() > 0) {
+				return servico.getId();
+			}
+
+			return null;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(ServicoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Error ao atualizar servico de um Salão");
+		}
 	}
 
 	@Override
-	public Integer delete(Servico servico) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer delete(Integer servicoId) {
+		String sql = "UPDATE servico SET deletado = ? WHERE id = ?";
+
+		try {
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setInt(1, 1);
+			stmt.setInt(2, servicoId);
+
+			if (stmt.executeUpdate() > 0) {
+				return servicoId;
+			}
+
+			return null;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(ServicoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Error ao atualizar servico de um Salão");
+		}
 	}
 
 	@Override
-	public Servico findById(Integer idSalao, Integer idServico) {
-		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo FROM servico WHERE id = ? AND salao_id = ?";
+	public Servico findById(Integer salaoId, Integer idServico) {
+		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo FROM servico WHERE id = ? AND salao_id = ? AND deletado = 0";
 
 		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);
 			stmt.setInt(1, idServico);
-			stmt.setInt(2, idSalao);
+			stmt.setInt(2, salaoId);
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
@@ -87,7 +120,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 	public CollectionPaginated<Servico> findByIdSalao(Integer idSalao, int limit, int offset) {
 		String sql = "SELECT SQL_CALC_FOUND_ROWS id, descricao, duracao, valor_minimo, valor_maximo " +
 				"FROM servico " +
-				"WHERE salao_id = ? " +
+				"WHERE salao_id = ? AND deletado = 0 " +
 				"ORDER BY id " +
 				"LIMIT ? OFFSET ?";
 
