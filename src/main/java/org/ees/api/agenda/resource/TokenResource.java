@@ -2,10 +2,9 @@ package org.ees.api.agenda.resource;
 
 import com.nimbusds.jose.JOSEException;
 import org.ees.api.agenda.entity.Acesso;
-import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.auth.Token;
+import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
-
 import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
 import org.ees.api.agenda.resource.bean.UserBean;
 import org.ees.api.agenda.service.AcessoService;

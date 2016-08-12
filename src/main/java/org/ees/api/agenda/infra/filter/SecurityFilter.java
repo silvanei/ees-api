@@ -46,7 +46,7 @@ public class SecurityFilter implements ContainerRequestFilter, ContainerResponse
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		SecurityContext originalContext = requestContext.getSecurityContext();
-		String authHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+		String authHeader = requestContext.getHeaderString(TokenUtil.AUTH_HEADER_KEY);
 
 		if (authHeader == null || authHeader.isEmpty() || authHeader.split(" ").length != 2) {
 			Authorizer authorizer = new Authorizer("", "", originalContext.isSecure());

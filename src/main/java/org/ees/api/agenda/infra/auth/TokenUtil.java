@@ -3,6 +3,7 @@ package org.ees.api.agenda.infra.auth;
 import java.text.ParseException;
 
 import org.ees.api.agenda.entity.Acesso;
+import org.ees.api.agenda.entity.Funcionario;
 import org.joda.time.DateTime;
 
 import com.nimbusds.jose.JOSEException;
@@ -42,6 +43,8 @@ public final class TokenUtil {
         claim.setSubject(Integer.toString(acesso.getId()));
         claim.setIssueTime(DateTime.now().toDate());
         claim.setExpirationTime(DateTime.now().plusDays(1).toDate());
+        claim.setCustomClaim("sla", acesso.getSalaoId());
+        claim.setCustomClaim("cli", acesso.getClienteId());
 
         JWSSigner signer = new MACSigner(TOKEN_SECRET);
         SignedJWT jwt = new SignedJWT(JWT_HEADER, claim);

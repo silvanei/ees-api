@@ -7,6 +7,9 @@ public class Acesso {
 	private String email;
 	private String senha;
 
+    private Integer salaoId;
+    private Integer clienteId;
+
 	public Acesso() {
 		super();
 	}
@@ -50,4 +53,19 @@ public class Acesso {
 		this.senha = senha;
 	}
 
+    public Integer getSalaoId() {
+        return salaoId;
+    }
+
+    public void setSalaoId(Integer salaoId) {
+        this.salaoId = salaoId;
+    }
+
+    public Integer getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Integer clienteId) {
+        this.clienteId = clienteId;
+    }
 }

@@ -1,15 +1,15 @@
 package org.ees.api.agenda.infra.repository;
 
+import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.infra.db.DB;
+import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
+import org.ees.api.agenda.repository.FuncionarioRepository;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.ees.api.agenda.entity.Funcionario;
-import org.ees.api.agenda.infra.db.DB;
-import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
-import org.ees.api.agenda.repository.FuncionarioRepository;
 
 public class FuncionarioRepositoryImpl implements FuncionarioRepository {
 
@@ -61,8 +61,7 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
 
 		}catch (SQLException ex){
 			Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-			throw new AcessoADadosException("Erro ao buscar um funcionario");
+			throw new AcessoADadosException("Erro ao buscar um funcionario pelo id");
 		}
-
 	}
 }
