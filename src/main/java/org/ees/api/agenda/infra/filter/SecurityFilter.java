@@ -1,8 +1,13 @@
 package org.ees.api.agenda.infra.filter;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.text.ParseException;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jwt.JWTClaimsSet;
+import org.ees.api.agenda.entity.Acesso;
+import org.ees.api.agenda.infra.auth.Parameters;
+import org.ees.api.agenda.infra.auth.TokenUtil;
+import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
+import org.ees.api.agenda.service.AcessoService;
+import org.joda.time.DateTime;
 
 import javax.annotation.Priority;
 import javax.inject.Inject;
@@ -12,20 +17,12 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
-
-import org.ees.api.agenda.entity.Acesso;
-import org.ees.api.agenda.infra.auth.Parameters;
-import org.ees.api.agenda.infra.auth.TokenUtil;
-import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
-import org.ees.api.agenda.service.AcessoService;
-import org.joda.time.DateTime;
-
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jwt.JWTClaimsSet;
+import java.io.IOException;
+import java.security.Principal;
+import java.text.ParseException;
 
 /**
  * Created by silvanei on 24/07/16.
