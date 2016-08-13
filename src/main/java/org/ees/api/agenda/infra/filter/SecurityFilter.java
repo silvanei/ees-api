@@ -6,16 +6,19 @@ import java.text.ParseException;
 
 import javax.annotation.Priority;
 import javax.inject.Inject;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
 import org.ees.api.agenda.entity.Acesso;
+import org.ees.api.agenda.infra.auth.Parameters;
 import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
 import org.ees.api.agenda.service.AcessoService;
@@ -33,6 +36,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 public class SecurityFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
 	private static final String EXPIRE_ERROR_MSG = "Token has expired";
+	private static final String FORBIDDEN_ERROR_MSG = "Access denied";
 	private static final String JWT_ERROR_MSG = "Unable to parse JWT";
 	private static final String JWT_INVALID_MSG = "Invalid JWT token";
 
@@ -65,6 +69,26 @@ public class SecurityFilter implements ContainerRequestFilter, ContainerResponse
 			if (new DateTime(claimSet.getExpirationTime()).isBefore(DateTime.now())) {
 				throw new UnAuthorizedException(EXPIRE_ERROR_MSG);
 			} else {
+
+				MultivaluedMap<String, String> pathParameters = requestContext.getUriInfo().getPathParameters();
+
+                if (pathParameters.get(Parameters.SALAO_ID.toString()) != null) {
+                    int salaoId = Integer.parseInt(pathParameters.get(Parameters.SALAO_ID.toString()).get(0));
+                    int sla = Integer.parseInt(claimSet.getCustomClaim(Parameters.SLA.toString()).toString());
+                    if(salaoId != sla) {
+                        throw new ForbiddenException(FORBIDDEN_ERROR_MSG);
+                    }
+                }
+
+                if (pathParameters.get(Parameters.CLIENTE_ID.toString()) != null) {
+                    int clienteId = Integer.parseInt(pathParameters.get(Parameters.CLIENTE_ID.toString()).get(0));
+                    int cli = Integer.parseInt(claimSet.getCustomClaim(Parameters.CLI.toString()).toString());
+                    if(clienteId != cli) {
+                        throw new ForbiddenException(FORBIDDEN_ERROR_MSG);
+                    }
+                }
+
+
 				Acesso acesso = acessoService.findById(Integer.parseInt(claimSet.getSubject()));
 				Authorizer authorizer = new Authorizer(acesso.getPerfil(), acesso.getEmail(),
 						originalContext.isSecure());

@@ -43,8 +43,8 @@ public final class TokenUtil {
         claim.setSubject(Integer.toString(acesso.getId()));
         claim.setIssueTime(DateTime.now().toDate());
         claim.setExpirationTime(DateTime.now().plusDays(1).toDate());
-        claim.setCustomClaim("sla", acesso.getSalaoId());
-        claim.setCustomClaim("cli", acesso.getClienteId());
+        claim.setCustomClaim(Parameters.SLA.toString(), acesso.getSalaoId());
+        claim.setCustomClaim(Parameters.CLI.toString(), acesso.getClienteId());
 
         JWSSigner signer = new MACSigner(TOKEN_SECRET);
         SignedJWT jwt = new SignedJWT(JWT_HEADER, claim);

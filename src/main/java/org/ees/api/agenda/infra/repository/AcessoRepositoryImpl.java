@@ -42,7 +42,10 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 	@Override
 	public Acesso findById(Integer id) {
 
-		String sql = "SELECT id, email, senha, perfil FROM acesso a WHERE id = ?";
+		String sql = "SELECT a.id, a.email, a.senha, a.perfil, f.salao_id " +
+				"FROM acesso a " +
+                "LEFT JOIN funcionario f ON (f.acesso_id = a.id) " +
+                "WHERE a.id = ?";
 
 		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);
@@ -55,6 +58,7 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 				acesso.setEmail(resultSet.getString("email"));
 				acesso.setSenha(resultSet.getString("senha"));
 				acesso.setPerfil(resultSet.getString("perfil"));
+                acesso.setSalaoId(resultSet.getInt("salao_id"));
 
 				return acesso;
 			}
