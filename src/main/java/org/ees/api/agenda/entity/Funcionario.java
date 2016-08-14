@@ -1,5 +1,10 @@
 package org.ees.api.agenda.entity;
 
+import org.ees.api.agenda.resource.FuncionarioResource;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+
+import javax.ws.rs.core.Link;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -9,9 +14,21 @@ public class Funcionario {
 	private String nome;
 	private String apelido;
 	private String telefone;
+	private String celular;
 	private Cargo cargo;
 	private Acesso acesso;
 	private Salao salao;
+
+    @InjectLink(
+            resource = FuncionarioResource.class,
+            method = "funcionario",
+            style = InjectLink.Style.ABSOLUTE,
+            bindings = {
+                    @Binding(name = "funcionarioId", value = "${instance.id}")
+            },
+            rel = "self"
+    )
+    private Link link;
 
 	public Funcionario() {
 		super();
@@ -58,6 +75,14 @@ public class Funcionario {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
 	}
 
 	public Cargo getCargo() {

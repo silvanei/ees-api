@@ -1,0 +1,93 @@
+package org.ees.api.agenda.resource;
+
+import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.infra.db.CollectionPaginated;
+import org.ees.api.agenda.infra.resource.collection.FuncionarioCollection;
+import org.ees.api.agenda.service.FuncionarioService;
+
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+
+/**
+ * Created by silvanei on 14/08/16.
+ */
+public class FuncionarioResource {
+
+    @Inject
+    FuncionarioService funcionarioService;
+
+    @GET
+    @RolesAllowed("SALAO_ADMIN")
+    public Response funcionarios(
+            @PathParam("salaoId") Integer idSalao,
+            @QueryParam("limit") @DefaultValue("5") int limit,
+            @QueryParam("offset") @DefaultValue("0") int offset
+    ) {
+
+        CollectionPaginated<Funcionario> funcionarios = funcionarioService.findByIdSalao(idSalao, limit, offset);
+
+        FuncionarioCollection funcionarioColection = new FuncionarioCollection(funcionarios);
+
+        return Response.ok(funcionarioColection).build();
+    }
+
+    @GET
+    @Path("/{funcionarioId}")
+    @RolesAllowed("SALAO_ADMIN")
+    public Response funcionario(
+            @PathParam("salaoId") Integer salaoId,
+            @PathParam("funcionarioId") Integer funcionarioId
+    ) {
+
+        Funcionario funcionario = funcionarioService.findById(salaoId, funcionarioId);
+
+        return Response.ok(funcionario).build();
+    }
+
+    @POST
+    @RolesAllowed("SALAO_ADMIN")
+    public Response createFuncionario(
+            @PathParam("salaoId") Integer salaoId,
+            Funcionario funcionario,
+            @Context UriInfo uriInfo
+    ) {
+
+        Funcionario newFuncionario = funcionarioService.insert(salaoId, funcionario);
+
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(Integer.toString(newFuncionario.getId()));
+        return Response.created(builder.build()).entity(newFuncionario).build();
+    }
+
+    @PUT
+    @Path("/{funcionarioId}")
+    @RolesAllowed("SALAO_ADMIN")
+    public Response updateFuncionario(
+            @PathParam("salaoId") Integer salaoId,
+            @PathParam("funcionarioId") Integer funcionarioId,
+            Funcionario funcionario
+    ) {
+
+        Funcionario newFuncionario = funcionarioService.update(salaoId, funcionarioId, funcionario);
+
+        return Response.ok().entity(newFuncionario).build();
+    }
+
+    @DELETE
+    @Path("/{funcionarioId}")
+    @RolesAllowed("SALAO_ADMIN")
+    public Response deleteFuncionario(
+            @PathParam("salaoId") Integer salaoId,
+            @PathParam("funcionarioId") Integer funcionarioId
+    ) {
+
+        funcionarioService.delete(salaoId, funcionarioId);
+
+        return Response.noContent().build();
+    }
+}

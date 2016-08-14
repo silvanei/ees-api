@@ -9,7 +9,7 @@ import org.ees.api.agenda.service.ServicoService;
 import javax.inject.Inject;
 
 
-public final class ServicoServiceImpl implements ServicoService {
+public class ServicoServiceImpl implements ServicoService {
 
 	private ServicoRepository servicoRepository;
 

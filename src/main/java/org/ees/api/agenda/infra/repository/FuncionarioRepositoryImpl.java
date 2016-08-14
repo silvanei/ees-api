@@ -1,6 +1,7 @@
 package org.ees.api.agenda.infra.repository;
 
 import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.FuncionarioRepository;
@@ -8,60 +9,148 @@ import org.ees.api.agenda.repository.FuncionarioRepository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FuncionarioRepositoryImpl implements FuncionarioRepository {
 
-	@Override
-	public Integer insert(Funcionario funcionario, Integer idSalao, Integer idAcesso) {
-		
-		String sql = "INSERT INTO funcionario (nome, apelido, salao_id, acesso_id) VALUES (?, ?, ?, ?)";
+    @Override
+    public Integer insert(Integer idSalao, Funcionario funcionario) {
 
-        try{
-			PreparedStatement stmt = DB.preparedStatement(sql);
-			stmt.setString(1, funcionario.getNome());
-        	stmt.setString(2, funcionario.getApelido());
-        	stmt.setInt(3, idSalao);
-        	stmt.setInt(4, idAcesso);
+        String sql = "INSERT INTO funcionario (nome, apelido, telefone, celular, salao_id) VALUES (?, ?, ?, ?, ?)";
 
-            if(stmt.executeUpdate()>0){
-            	ResultSet rs = stmt.getGeneratedKeys();
-            	if (rs.next()){
-            		return rs.getInt(1);
-            	}
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setString(1, funcionario.getNome());
+            stmt.setString(2, funcionario.getApelido());
+            stmt.setString(3, funcionario.getTelefone());
+            stmt.setString(4, funcionario.getCelular());
+            stmt.setInt(5, idSalao);
+
+            if (stmt.executeUpdate() > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
-            
+
             return null;
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new AcessoADadosException("Error ao inserir um Funcionario");
         }
-	}
+    }
 
-	@Override
-	public Funcionario findById(Integer idFuncionario) {
-		String sql = "SELECT id, nome, apelido, salao_id, acesso_id FROM funcionario WHERE id = ?";
+    @Override
+    public Funcionario findById(Integer idSalao, Integer idFuncionario) {
+        String sql = "SELECT id, nome, apelido, telefone, celular FROM funcionario WHERE salao_id = ? AND id = ? AND deletado = 0";
 
-		try{
-			PreparedStatement stmt = DB.preparedStatement(sql);
-			stmt.setInt(1, idFuncionario);
-			ResultSet resultSet = stmt.executeQuery();
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, idSalao);
+            stmt.setInt(2, idFuncionario);
+            ResultSet resultSet = stmt.executeQuery();
 
-			if(resultSet.next()){
-				Funcionario funcionario = new Funcionario();
-				funcionario.setId(resultSet.getInt("id"));
-				funcionario.setNome(resultSet.getString("nome"));
-				funcionario.setApelido(resultSet.getString("apelido"));
+            if (resultSet.next()) {
+                Funcionario funcionario = new Funcionario();
+                funcionario.setId(resultSet.getInt("id"));
+                funcionario.setNome(resultSet.getString("nome"));
+                funcionario.setApelido(resultSet.getString("apelido"));
+                funcionario.setTelefone(resultSet.getString("telefone"));
+                funcionario.setCelular(resultSet.getString("celular"));
 
-				return funcionario;
-			}
+                return funcionario;
+            }
 
-			return null;
+            return null;
 
-		}catch (SQLException ex){
-			Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-			throw new AcessoADadosException("Erro ao buscar um funcionario pelo id");
-		}
-	}
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Erro ao buscar um funcionario pelo id");
+        }
+    }
+
+    @Override
+    public CollectionPaginated<Funcionario> findByIdSalao(Integer salaoId, int limit, int offset) {
+        String sql = "SELECT SQL_CALC_FOUND_ROWS id, nome, apelido, telefone, celular " +
+                "FROM funcionario " +
+                "WHERE salao_id = ? AND deletado = 0 " +
+                "ORDER BY id " +
+                "LIMIT ? OFFSET ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, salaoId);
+            stmt.setInt(2, limit);
+            stmt.setInt(3, offset);
+            ResultSet rs = stmt.executeQuery();
+
+            List<Funcionario> funcionarios = new ArrayList<>();
+
+            while (rs.next()) {
+                Funcionario funcionario = new Funcionario();
+                funcionario.setId(rs.getInt("id"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setApelido(rs.getString("apelido"));
+                funcionario.setTelefone(rs.getString("telefone"));
+                funcionario.setCelular(rs.getString("celular"));
+                funcionarios.add(funcionario);
+            }
+
+            return new CollectionPaginated<Funcionario>(funcionarios, limit, offset, DB.foundRows());
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao buscar funcionarios pelo idSalao");
+        }
+    }
+
+    @Override
+    public Integer update(Integer salaoId, Integer funcionarioId, Funcionario funcionario) {
+        String sql = "UPDATE funcionario SET  nome = ?, apelido = ?, telefone = ?, celular = ? WHERE salao_id = ? AND id = ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setString(1, funcionario.getNome());
+            stmt.setString(2, funcionario.getApelido());
+            stmt.setString(3, funcionario.getTelefone());
+            stmt.setString(4, funcionario.getCelular());
+            stmt.setInt(5, salaoId);
+            stmt.setInt(6, funcionarioId);
+
+            if (stmt.executeUpdate() > 0) {
+                return funcionarioId;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao atualizar o funcionario de um Salão");
+        }
+    }
+
+    @Override
+    public Integer delete(Integer salaoId, Integer funcionarioId) {
+        String sql = "UPDATE funcionario SET  deletado = ? WHERE salao_id = ? AND id = ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, salaoId);
+            stmt.setInt(3, funcionarioId);
+
+            if (stmt.executeUpdate() > 0) {
+                return funcionarioId;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao deletar o funcionario de um Salão");
+        }
+    }
 }

@@ -25,4 +25,9 @@ public class SalaoResource {
 	public ServicoResource servicoSalao() {
 		return rc.initResource(new ServicoResource());
 	}
+
+	@Path("/{salaoId}/funcionario")
+	public FuncionarioResource funcionarioSalao() {
+		return rc.initResource(new FuncionarioResource());
+	}
 }
