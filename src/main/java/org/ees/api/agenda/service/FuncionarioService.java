@@ -17,4 +17,6 @@ public interface FuncionarioService {
     public Funcionario update(Integer salaoId, Integer funcionarioId, Funcionario sefuncionariorvico);
 
     public Integer delete(Integer salaoId, Integer funcionarioId);
+
+    public Funcionario addServico(Integer salaoId, Integer funcionarioId, Integer servicoId);
 }

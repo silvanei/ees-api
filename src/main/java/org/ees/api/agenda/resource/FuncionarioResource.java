@@ -90,4 +90,19 @@ public class FuncionarioResource {
 
         return Response.noContent().build();
     }
+
+    @POST
+    @Path("/{funcionarioId}/servico/{servicoId}")
+    @RolesAllowed("SALAO_ADMIN")
+    public Response adicionarServico(
+            @PathParam("salaoId") Integer salaoId,
+            @PathParam("funcionarioId") Integer funcionarioId,
+            @PathParam("servicoId") Integer servicoId
+    ) {
+
+        Funcionario funcionario = funcionarioService.addServico(salaoId, funcionarioId, servicoId);
+
+        return Response.ok().entity(funcionario).build();
+    }
+
 }

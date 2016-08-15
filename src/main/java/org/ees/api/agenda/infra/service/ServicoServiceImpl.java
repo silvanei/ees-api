@@ -7,6 +7,7 @@ import org.ees.api.agenda.repository.ServicoRepository;
 import org.ees.api.agenda.service.ServicoService;
 
 import javax.inject.Inject;
+import java.util.List;
 
 
 public class ServicoServiceImpl implements ServicoService {
@@ -64,4 +65,8 @@ public class ServicoServiceImpl implements ServicoService {
 		return servicoRepository.findByIdSalao(idSalao, limit, offset);
 	}
 
+	@Override
+	public List<Servico> findByIdFuncionario(Integer salaoId, Integer funcionarioId) {
+		return servicoRepository.findByIdFuncionario(salaoId, funcionarioId);
+	}
 }

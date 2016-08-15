@@ -3,6 +3,8 @@ package org.ees.api.agenda.service;
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 
+import java.util.List;
+
 public interface ServicoService {
 	
 	public Servico insert(Integer salaoId, Servico servico);
@@ -14,5 +16,7 @@ public interface ServicoService {
 	public Servico findById(Integer salaoId, Integer idServico);
 	
 	public CollectionPaginated<Servico> findByIdSalao(Integer salaoId, int limit, int offset);
+
+	public List<Servico> findByIdFuncionario(Integer salaoId, Integer funcionarioId);
 
 }

@@ -150,7 +150,37 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 			throw new AcessoADadosException("Error ao buscar um servico pelo idSalao");
 		}
 	}
-	
-	
-	
+
+    @Override
+    public List<Servico> findByIdFuncionario(Integer salaoId, Integer funcionarioId) {
+        String sql = "SELECT s.id, s.descricao, s.duracao, s.valor_minimo, s.valor_maximo " +
+                "FROM servico s " +
+                "INNER JOIN funcionario_presta_servico ps ON (ps.servico_id = s.id AND ps.funcionario_salao_id = s.salao_id) " +
+                "WHERE s.salao_id = ? AND ps.funcionario_id = ? AND s.deletado = 0 ";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, salaoId);
+            stmt.setInt(2, funcionarioId);
+            ResultSet rs = stmt.executeQuery();
+
+            List<Servico> servicos = new ArrayList<Servico>();
+
+            while (rs.next()) {
+                Servico servico = new Servico();
+                servico.setId(rs.getInt("id"));
+                servico.setDescricao(rs.getString("descricao"));
+                servico.setDuracao(rs.getTime("duracao"));
+                servico.setValorMinimo(rs.getBigDecimal("valor_minimo"));
+                servico.setValorMaximo(rs.getBigDecimal("valor_maximo"));
+                servicos.add(servico);
+            }
+
+            return servicos;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ServicoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao buscar servicos prestados por um funcionario");
+        }
+    }
 }

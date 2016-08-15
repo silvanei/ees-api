@@ -6,8 +6,8 @@ import org.glassfish.jersey.linking.InjectLink;
 
 import javax.ws.rs.core.Link;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
-@XmlRootElement
 public class Funcionario {
 
 	private Integer id;
@@ -15,6 +15,9 @@ public class Funcionario {
 	private String apelido;
 	private String telefone;
 	private String celular;
+
+    private List<Servico> servicosPrestados;
+
 	private Cargo cargo;
 	private Acesso acesso;
 	private Salao salao;
@@ -108,4 +111,12 @@ public class Funcionario {
 	public void setSalao(Salao salao) {
 		this.salao = salao;
 	}
+
+    public List<Servico> getServicosPrestados() {
+        return servicosPrestados;
+    }
+
+    public void setServicosPrestados(List<Servico> servicosPrestados) {
+        this.servicosPrestados = servicosPrestados;
+    }
 }

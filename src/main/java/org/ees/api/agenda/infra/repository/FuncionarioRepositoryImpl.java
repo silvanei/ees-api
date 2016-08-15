@@ -153,4 +153,29 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
             throw new AcessoADadosException("Error ao deletar o funcionario de um Salão");
         }
     }
+
+    @Override
+    public Integer addServico(Integer salaoId, Integer funcionarioId, Integer servicoId) {
+        String sql = "INSERT INTO funcionario_presta_servico (funcionario_id, funcionario_salao_id, servico_id) VALUES (?, ?, ?)";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, funcionarioId);
+            stmt.setInt(2, salaoId);
+            stmt.setInt(3, servicoId);
+
+            if (stmt.executeUpdate() > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao inserir um servico para o Funcionario");
+        }
+
+    }
 }

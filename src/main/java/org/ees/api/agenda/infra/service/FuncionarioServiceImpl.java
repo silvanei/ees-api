@@ -1,10 +1,12 @@
 package org.ees.api.agenda.infra.service;
 
 import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.repository.FuncionarioRepository;
 import org.ees.api.agenda.service.FuncionarioService;
+import org.ees.api.agenda.service.ServicoService;
 
 import javax.inject.Inject;
 
@@ -14,10 +16,12 @@ import javax.inject.Inject;
 public class FuncionarioServiceImpl implements FuncionarioService {
 
     private FuncionarioRepository funcionarioRepository;
+    private ServicoService servicoService;
 
     @Inject
-    public FuncionarioServiceImpl(FuncionarioRepository funcionarioRepository) {
+    public FuncionarioServiceImpl(FuncionarioRepository funcionarioRepository, ServicoService servicoService) {
         this.funcionarioRepository = funcionarioRepository;
+        this.servicoService = servicoService;
     }
 
     @Override
@@ -35,12 +39,19 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             throw new DataNotFoundException("Funcionario não encontrado");
         }
 
+        funcionario.setServicosPrestados(servicoService.findByIdFuncionario(idSalao, idFuncionario));
+
         return funcionario;
     }
 
     @Override
     public CollectionPaginated<Funcionario> findByIdSalao(Integer salaoId, int limit, int offset) {
-        return funcionarioRepository.findByIdSalao(salaoId, limit, offset);
+        CollectionPaginated<Funcionario> funcionarios = funcionarioRepository.findByIdSalao(salaoId, limit, offset);
+        for(Funcionario funcionario: funcionarios.getItems()) {
+            funcionario.setServicosPrestados(servicoService.findByIdFuncionario(salaoId, funcionario.getId()));
+        }
+
+        return funcionarios;
     }
 
     @Override
@@ -58,5 +69,20 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         findById(salaoId, funcionarioId);
 
         return funcionarioRepository.delete(salaoId, funcionarioId);
+    }
+
+    @Override
+    public Funcionario addServico(Integer salaoId, Integer funcionarioId, Integer servicoId) {
+
+        Servico servico = servicoService.findById(salaoId, servicoId);
+        if(null == servico) {
+            throw new DataNotFoundException("Servico não encontrado");
+        }
+
+        findById(salaoId, funcionarioId);
+
+        funcionarioRepository.addServico(salaoId, funcionarioId, servicoId);
+
+        return findById(salaoId, funcionarioId);
     }
 }
