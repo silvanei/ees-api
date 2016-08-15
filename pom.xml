@@ -3,14 +3,14 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.s3.agenda</groupId>
-    <artifactId>api</artifactId>
+    <groupId>org.ees.api.agenda</groupId>
+    <artifactId>agenda</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>api</name>
+    <name>agenda</name>
 
     <build>
-        <finalName>api</finalName>
+        <finalName>agenda</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
