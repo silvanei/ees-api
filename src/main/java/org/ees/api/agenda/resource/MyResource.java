@@ -11,7 +11,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
-import org.ees.api.agenda.entity.PerfilEnum;
+import org.ees.api.agenda.entity.Perfil;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -31,11 +31,11 @@ public class MyResource {
      * @return String that will be returned as a text/plain response.
      */
     @GET
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public String getIt() throws JOSEException {
 		
-    	System.out.println(PerfilEnum.SALAO_ADMIN.name());
-        System.out.println(securityContext.isUserInRole(PerfilEnum.SALAO_ADMIN.name()));
+    	System.out.println(Perfil.SALAO_ADMIN);
+        System.out.println(securityContext.isUserInRole(Perfil.SALAO_ADMIN));
         return "Got it!";
     }
 }

@@ -1,5 +1,6 @@
 package org.ees.api.agenda.resource;
 
+import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.entity.Salao;
 import org.ees.api.agenda.infra.service.DadosSalaoServiceImpl;
 import org.ees.api.agenda.resource.bean.DadosSalao;
@@ -22,7 +23,7 @@ public class DadosResource {
 	private DadosSalaoService dadosSalaoService;
 
 	@PUT
-	@RolesAllowed("SALAO_ADMIN")
+	@RolesAllowed(Perfil.SALAO_ADMIN)
 	public Response atualizaDadosSalao(
 			@PathParam("salaoId") Integer salaoId,
 			DadosSalao dadosSalao

@@ -1,5 +1,6 @@
 package org.ees.api.agenda.resource;
 
+import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.resource.collection.ServicoCollection;
@@ -16,7 +17,7 @@ public class ServicoResource {
     private ServicoService servicoService;
 
     @GET
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     @Produces({MediaType.APPLICATION_JSON})
     public Response servicos(
             @PathParam("salaoId") Integer idSalao,
@@ -33,7 +34,7 @@ public class ServicoResource {
 
     @GET
     @Path("/{servicoId}")
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response servico(
             @PathParam("salaoId") Integer salaoId,
             @PathParam("servicoId") Integer servicoId
@@ -45,7 +46,7 @@ public class ServicoResource {
     }
 
     @POST
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response createServico(
             @PathParam("salaoId") Integer salaoId,
             Servico servico,
@@ -61,7 +62,7 @@ public class ServicoResource {
 
     @PUT
     @Path("/{servicoId}")
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response updateServico(
             @PathParam("salaoId") Integer salaoId,
             @PathParam("servicoId") Integer servicoId,
@@ -75,7 +76,7 @@ public class ServicoResource {
 
     @DELETE
     @Path("/{servicoId}")
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response deleteServico(
             @PathParam("salaoId") Integer salaoId,
             @PathParam("servicoId") Integer servicoId

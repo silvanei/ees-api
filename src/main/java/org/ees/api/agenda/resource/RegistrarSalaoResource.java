@@ -8,9 +8,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Funcionario;
-import org.ees.api.agenda.entity.PerfilEnum;
+import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.entity.Salao;
-import org.ees.api.agenda.infra.service.RegistrarSalaoServiceImpl;
 import org.ees.api.agenda.resource.bean.RegistrarSalaoBean;
 import org.ees.api.agenda.service.RegistrarSalaoService;
 
@@ -27,7 +26,7 @@ public class RegistrarSalaoResource {
 
 		Salao salao = new Salao(registrarSalao.getNomeSalao(), registrarSalao.getTelefoneSalao());
 
-		Acesso acesso = new Acesso(PerfilEnum.SALAO_ADMIN.name(), registrarSalao.getEmailAdministradorSalao(),
+		Acesso acesso = new Acesso(Perfil.SALAO_ADMIN, registrarSalao.getEmailAdministradorSalao(),
 				registrarSalao.getSenhaAdministradorSalao());
 
 		Funcionario administrador = new Funcionario(registrarSalao.getNomeAdministradorSalao());

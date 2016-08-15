@@ -1,6 +1,7 @@
 package org.ees.api.agenda.resource;
 
 import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.resource.collection.FuncionarioCollection;
 import org.ees.api.agenda.service.FuncionarioService;
@@ -22,7 +23,7 @@ public class FuncionarioResource {
     FuncionarioService funcionarioService;
 
     @GET
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response funcionarios(
             @PathParam("salaoId") Integer idSalao,
             @QueryParam("limit") @DefaultValue("5") int limit,
@@ -38,7 +39,7 @@ public class FuncionarioResource {
 
     @GET
     @Path("/{funcionarioId}")
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response funcionario(
             @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId
@@ -50,7 +51,7 @@ public class FuncionarioResource {
     }
 
     @POST
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response createFuncionario(
             @PathParam("salaoId") Integer salaoId,
             Funcionario funcionario,
@@ -66,7 +67,7 @@ public class FuncionarioResource {
 
     @PUT
     @Path("/{funcionarioId}")
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response updateFuncionario(
             @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId,
@@ -80,7 +81,7 @@ public class FuncionarioResource {
 
     @DELETE
     @Path("/{funcionarioId}")
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response deleteFuncionario(
             @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId
@@ -93,7 +94,7 @@ public class FuncionarioResource {
 
     @POST
     @Path("/{funcionarioId}/servico/{servicoId}")
-    @RolesAllowed("SALAO_ADMIN")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response adicionarServico(
             @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId,
