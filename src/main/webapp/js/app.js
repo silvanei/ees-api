@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('agenda',['agenda.services', 'agenda.controllers']);
+angular.module('agenda',['agenda.services', 'agenda.controllers', 'ui.calendar']);

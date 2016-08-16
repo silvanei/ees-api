@@ -25,7 +25,8 @@
         <div ng-include="'views/main-header.html'"></div>
         <div class="content-wrapper">
             <div ng-controller="ServicoController">
-                <div ng-include="'views/cliente-page.html'"></div>
+                <!--<div ng-include="'views/cliente-page.html'"></div>-->
+                <div ui-calendar ng-model="eventSources"></div>
             </div>
         </div><!-- /.content-wrapper -->
         <div ng-include="'views/main-footer.html'"></div>
@@ -52,6 +53,7 @@
     <script src="./assets/components/fullcalendar/dist/fullcalendar.min.js"></script>
     <script src="./assets/components/fullcalendar/dist/gcal.js"></script>
     <script src="./assets/components/angular-resource/angular-resource.js"></script>
+    <script src="./assets/components/angular-ui-calendar/src/calendar.js"></script>
     <script src="./dist/js/app.min.js"></script>
     <script src="./js/app.js"></script>
     <script src="./js/services.js"></script>
