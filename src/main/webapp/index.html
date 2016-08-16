@@ -1,17 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="agenda">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="/bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="/js/app.js"></script>
-    <script src="/js/services.js"></script>
-    <script src="/js/controller.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Nome do Salão | Dashboard</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+
+    <link rel="stylesheet" href="./assets/components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/components/fullcalendar/dist/fullcalendar.css"/>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 </head>
-<body ng-app="agenda">
-    <div ng-controller="ServicoController">
-        <pre>{{ teste }}</pre>
+<body class="hold-transition skin-blue layout-top-nav">
+    <div class="wrapper">
+        <div ng-include="'views/main-header.html'"></div>
+        <div class="content-wrapper">
+            <div ng-controller="ServicoController">
+                <div ng-include="'views/cliente-page.html'"></div>
+            </div>
+        </div><!-- /.content-wrapper -->
+        <div ng-include="'views/main-footer.html'"></div>
     </div>
+    <script>
+        var AdminLTEOptions = {
+        };
+    </script>
+    <script src="./assets/components/jquery/dist/jquery.min.js"></script>
+    <script src="./assets/components/moment/min/moment.min.js"></script>
+    <script src="./assets/components/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="./assets/components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="./assets/components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="./assets/components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+
+    <script src="./assets/components/angular/angular.js"></script>
+    <script src="./assets/components/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script src="./assets/components/fullcalendar/dist/gcal.js"></script>
+    <script src="./assets/components/angular-resource/angular-resource.js"></script>
+    <script src="./dist/js/app.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/services.js"></script>
+    <script src="./js/controller.js"></script>
+
 </body>
 </html>

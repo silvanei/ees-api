@@ -10,7 +10,7 @@ services.factory('ServicoFactory', function($resource){
             params: {},
             isArray: false,
             headers: {
-                'Authorization': 'Behar eyJhbGciOiJIUzI1NiJ9.eyJjbGkiOm51bGwsInNsYSI6MSwic3ViIjoiMSIsImV4cCI6MTQ3MTM2MjQzOSwiaWF0IjoxNDcxMjc2MDM5fQ.Ux4-cNmsaxOelGC6PSmrEV7ZOd7yvoAM53Yrq5jIF8E',
+                'Authorization': 'Behar eyJhbGciOiJIUzI1NiJ9.eyJjbGkiOm51bGwsInNsYSI6MSwic3ViIjoiMSIsImV4cCI6MTQ3MTQ1Mzg3NSwiaWF0IjoxNDcxMzY3NDc1fQ.pxflwkyxoiOhD3K4hM90JfvASfyzDZSzRoeWegyPMfc',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
