@@ -1,8 +1,8 @@
 'use strict';
 
-var services = angular.module('agenda.services', ['ngResource']);
+angular.module('agenda.services', ['ngResource']);
 
-services.factory('ServicoFactory', function($resource){
+angular.module('agenda.services').factory('ServicoFactory', function($resource){
 
     return $resource('/rest/v1/salao/1/servico', {}, {
         query: {
