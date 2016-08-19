@@ -24,13 +24,16 @@
 
 </head>
 <body class="hold-transition skin-blue layout-top-nav" ng-controller="MainController" >
+
     <div class="wrapper">
-        <div ng-include="'view/header.html'"></div>
+        <div ui-view="header"></div>
         <div class="content-wrapper">
-            <div ui-view></div>
-        </div><!-- /.content-wrapper -->
-        <div ng-include="'view/footer.html'"></div>
+            <div ui-view="content"></div>
+            <div ui-view="login" class="agenda-login-box agenda-register-box" ></div>
+        </div>
+        <div ui-view="footer"></div>
     </div>
+
     <script src="./assets/components/jquery/dist/jquery.min.js"></script>
     <script src="./assets/components/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

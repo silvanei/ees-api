@@ -9,3 +9,9 @@
     background-color: #007bb6;
     color: #fff;
 }
+
+.login-box, .register-box {
+    width: 360px!important;
+    margin: 0 auto!important;
+    #padding-top: 7%;
+}

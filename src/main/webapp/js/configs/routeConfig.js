@@ -16,38 +16,53 @@
         $stateProvider
             .state('agenda', {
                 url: "/agenda",
-                templateUrl: '/view/agenda.html',
-                controller: 'agendaController'
+                views: {
+                    'header': { templateUrl:"/view/header.html"},
+                    'content': { controller: 'agendaController', templateUrl:"/view/agenda.html"},
+                    'footer': { templateUrl:"/view/footer.html"}
+                }
             })
             .state('salao', {
                 url: "/salao",
-                templateUrl: '/view/salao.html',
-                controller: 'salaoController'
+                views: {
+                    'header': { templateUrl:"/view/header.html"},
+                    'content': { controller: 'salaoController', templateUrl:"/view/salao.html"},
+                    'footer': { templateUrl:"/view/footer.html"}
+                }
             })
             .state('profissional', {
                 url: "/profissional",
-                templateUrl: '/view/profissional.html',
-                controller: 'profissionalController'
+                views: {
+                    'header': { templateUrl:"/view/header.html"},
+                    'content': { controller: 'profissionalController', templateUrl:"/view/profissional.html"},
+                    'footer': { templateUrl:"/view/footer.html"}
+                }
             })
             .state('cliente', {
                 url: "/cliente",
-                templateUrl: '/view/cliente.html',
-                controller: 'clienteController'
+                views: {
+                    'header': { templateUrl:"/view/header.html"},
+                    'content': { controller: 'clienteController', templateUrl:"/view/cliente.html"},
+                    'footer': { templateUrl:"/view/footer.html"}
+                }
             })
             .state('login', {
                 url: "/login",
-                templateUrl: '/view/login.html',
-                controller: 'loginController'
+                views: {
+                    'content': { controller: 'loginController', templateUrl:"/view/login.html"}
+                }
             })
             .state('registro', {
                 url: "/registro",
-                templateUrl: '/view/registro.html',
-                controller: 'registroController'
+                views: {
+                    'content': { controller: 'registroController', templateUrl:"/view/registro.html"}
+                }
             })
             .state('recuperar-senha', {
                 url: "/recuperar-senha",
-                templateUrl: '/view//recuperar-senha.html',
-                controller: 'recuperarSenhaController'
+                views: {
+                    'content': { controller: 'recuperarSenhaController', templateUrl:"/view/recuperar-senha.html"}
+                }
             })
         ;
     }]);
