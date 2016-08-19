@@ -4,8 +4,7 @@
 (function () {
     'use strict';
 
-    angular.module('agenda.controllers', []);
-    angular.module('agenda.controllers').controller('AgendaController', ['$scope', function ($scope) {
+    angular.module('agenda').controller('agendaController', ['$scope', function ($scope) {
 
         var date = new Date();
         var d = date.getDate(),

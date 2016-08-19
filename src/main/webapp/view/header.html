@@ -2,7 +2,7 @@
     <nav class="navbar navbar-static-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a href="<?=$this->url('agenda')?>" class="navbar-brand"><b>Nome do Salão</b></a>
+                <a href="/" class="navbar-brand"><b>Nome do Salão</b></a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
@@ -11,17 +11,17 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="<?=($this->active == 'agenda') ? 'active' : ''?>">
-                        <a href="<?=$this->url('agenda')?>"><i class="fa fa-calendar margin-r-5"></i> Agenda</a>
+                    <li class="">
+                        <a href="/agenda"><i class="fa fa-calendar margin-r-5"></i> Agenda</a>
                     </li>
-                    <li class="<?=($this->active == 'salao') ? 'active' : ''?>">
-                        <a href="<?=$this->url('salao')?>"><i class="fa fa-cogs margin-r-5"></i> Salão</a>
+                    <li class="">
+                        <a href="/salao"><i class="fa fa-cogs margin-r-5"></i> Salão</a>
                     </li>
-                    <li class="<?=($this->active == 'profissional') ? 'active' : ''?>">
-                        <a href="<?=$this->url('profissional')?>"><i class="fa fa-user margin-r-5"></i> Profissional</a>
+                    <li class="">
+                        <a href="/profissional"><i class="fa fa-user margin-r-5"></i> Profissional</a>
                     </li>
-                    <li class="<?=($this->active == 'cliente') ? 'active' : ''?>">
-                        <a href="<?=$this->url('cliente')?>"><i class="fa fa-users margin-r-5"></i> Clientes</a>
+                    <li class="">
+                        <a href="/cliente"><i class="fa fa-users margin-r-5"></i> Clientes</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

@@ -1,0 +1,399 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>Perfil do Salão</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+                            <br />
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-offset-4 col-sm-8">
+                                        <button type="submit" class="btn btn-primary">Enviar</button>
+                                        <button type="submit" class="btn">Excluir</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div><!-- /.col -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#dados" data-toggle="tab">Dados do Salão</a></li>
+                    <li><a href="#servicos" data-toggle="tab">Serviços</a></li>
+                    <li><a href="#acessos" data-toggle="tab">Acessos</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="dados">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="input-nomeo" class="col-sm-2 control-label">Nome</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="input-nome" placeholder="Nome do salão" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-dias-funcionamento" class="col-sm-2 control-label">Dias de funcionamento</label>
+                                        <div class="col-sm-9">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="option1" checked> Dom
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="option2"> Seg
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="option3" checked> Ter
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="option3" checked> Qua
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="option3" checked> Qui
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="option3" checked> Sex
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="option3" checked> Sáb
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-horario-inicio" class="col-sm-2 control-label">Horário</label>
+                                        <div class="col-sm-10">
+                                            <input style="width: 100px; text-align: center; display: inline-block;" type="time" value="08:00" class="form-control" id="input-horario-inicio" > Até
+                                            <input style="width: 100px; text-align: center; display: inline-block;" type="time" value="20:00" class="form-control" id="input-horario-fim" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-tel-fixo" class="col-sm-2 control-label" >Telefone fixo</label>
+                                        <div class="col-sm-2">
+                                            <input type="tel" class="form-control" id="input-tel-fixo" placeholder="Telefone fixo do salão">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-tel-celulae" class="col-sm-2 control-label">Telefone celular</label>
+                                        <div class="col-sm-2">
+                                            <input type="tel" class="form-control" id="input-tel-celular" placeholder="Telefone celular do salão">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-endereco" class="col-sm-2 control-label">Endereço</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="input-endereco" placeholder="Endereço">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-numero" class="col-sm-2 control-label">Número</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="input-numero" placeholder="Número">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-estado" class="col-sm-2 control-label">Estado</label>
+                                        <div class="col-sm-3">
+                                            <select class="form-control" id="input-estado">
+                                                <option value="">Selecione</option>
+                                                <option value="AC">Acre</option>
+                                                <option value="AL">Alagoas</option>
+                                                <option value="AP">Amapá</option>
+                                                <option value="AM">Amazonas</option>
+                                                <option value="BA">Bahia</option>
+                                                <option value="CE">Ceará</option>
+                                                <option value="DF">Distrito Federal</option>
+                                                <option value="ES">Espirito Santo</option>
+                                                <option value="GO">Goiás</option>
+                                                <option value="MA">Maranhão</option>
+                                                <option value="MS">Mato Grosso do Sul</option>
+                                                <option value="MT">Mato Grosso</option>
+                                                <option value="MG">Minas Gerais</option>
+                                                <option value="PA">Pará</option>
+                                                <option value="PB">Paraíba</option>
+                                                <option value="PR">Paraná</option>
+                                                <option value="PE">Pernambuco</option>
+                                                <option value="PI">Piauí</option>
+                                                <option value="RJ">Rio de Janeiro</option>
+                                                <option value="RN">Rio Grande do Norte</option>
+                                                <option value="RS">Rio Grande do Sul</option>
+                                                <option value="RO">Rondônia</option>
+                                                <option value="RR">Roraima</option>
+                                                <option value="SC">Santa Catarina</option>
+                                                <option value="SP">São Paulo</option>
+                                                <option value="SE">Sergipe</option>
+                                                <option value="TO">Tocantins</option>
+                                            </select>
+                                        </div>
+
+                                        <label for="input-cidade" class="col-sm-2 control-label">Cidade</label>
+                                        <div class="col-sm-4">
+                                            <select class="form-control" id="input-cidade">
+                                                <option value="">Selecione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-bairro" class="col-sm-2 control-label">Bairro</label>
+                                        <div class="col-sm-3">
+                                            <select class="form-control" id="input-bairro">
+                                                <option value="">Selecione</option>
+                                            </select>
+                                        </div>
+
+                                        <label for="input-cep" class="col-sm-2 control-label">CEP</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="input-cep" placeholder="CEP">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-endereco" class="col-sm-2 control-label">Visível no APP</label>
+                                        <div class="col-sm-9">
+                                            <input type="checkbox" value="option1" checked>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-9">
+                                            <button type="submit" class="btn btn-primary">Salvar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!-- /.col -->
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="servicos">
+                        <div>
+                            <a class="btn btn-primary" data-toggle="modal" data-target="#novo-servico"><i class="fa fa-fw fa-plus-circle"></i>Novo Serviço</a>
+                        </div>
+                        <br />
+                        <table class="table table-condensed">
+                            <tr>
+                                <th>Serviço</th>
+                                <th>Duração</th>
+                                <th>Valor Padrão (R$)</th>
+                                <th>A partir de (R$)</th>
+                                <th>Até (R$)</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td>Corte Feminino</td>
+                                <td>00:40</td>
+                                <td>R$ 25,00</td>
+                                <td>R$ 00,00</td>
+                                <td>R$ 00,00</td>
+                                <td>
+                                    <a data-toggle="modal" data-target="#editar-servico"><i class="fa fa-fw fa-edit"></i></a>
+                                    <a data-toggle="modal" data-target="#excluir-servico"><i class="fa fa-fw fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="fade modal" id="novo-servico">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title" id="myModalLabel">Novo Serviço</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Serviço</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="Nome do serviço">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Duração</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="time" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Valor Padrão  (R$)</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="number" class="form-control" min="1" step="any" placeholder="Valor em Reais">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">A partir de  (R$)</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="number" class="form-control" min="1" step="any"  placeholder="Valor em Reais">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Até (R$)</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <input type="number" class="form-control" min="1" step="any"  placeholder="Valor em Reais">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary">Salvar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fade modal" id="excluir-servico">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title" id="myModalLabel">Excluir Serviço</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Deseja excluir este serviço ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary">Sim</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane" id="acessos">
+                        <div>
+                            <a class="btn btn-primary" data-toggle="modal" data-target="#novo-usuario"><i class="fa fa-fw fa-plus-circle"></i>Novo Acesso</a>
+                        </div>
+                        <br />
+                        <table class="table table-condensed">
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail de Acesso</th>
+                                <th>Perfil</th>
+                                <th>Data de Cadastro</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td>Adiminitrador</td>
+                                <td>admin@gmail.com</td>
+                                <td>Administrador</td>
+                                <td><?=date('d/m/Y H:i:s')?></td>
+                                <td>
+                                    <a data-toggle="modal" data-target="#editar-usuario"><i class="fa fa-fw fa-edit"></i></a>
+                                    <a data-toggle="modal" data-target="#excluir-usuario"><i class="fa fa-fw fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="fade modal" id="novo-usuario">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title" id="myModalLabel">Novo Acesso</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Perfil</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control">
+                                                        <option>Administrador</option>
+                                                        <option>Profissional - Administrador</option>
+                                                        <option>Profissional - Visualização</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Profissional</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control">
+                                                        <option>Profissional 1</option>
+                                                        <option>Profissional 2</option>
+                                                        <option>Profissional 3</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">E-mail</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input type="email" class="form-control" placeholder="E-mail de acesso ao sistema">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Senha</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input type="password" class="form-control" placeholder="Senha do usuario">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Confirma Senha</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input type="password" class="form-control" placeholder="Confirme a senha do usuario">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary">Salvar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fade modal" id="excluir-usuario">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title" id="myModalLabel">Excluir Acesso</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Deseja excluir este acesso ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary">Sim</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.tab-content -->
+            </div><!-- /.nav-tabs-custom -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</section><!-- /.content -->
+

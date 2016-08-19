@@ -23,18 +23,13 @@
 
 
 </head>
-<body class="hold-transition skin-blue layout-top-nav">
+<body class="hold-transition skin-blue layout-top-nav" ng-controller="MainController" >
     <div class="wrapper">
-        <div ng-include="'views/main-header.html'"></div>
+        <div ng-include="'view/header.html'"></div>
         <div class="content-wrapper">
-            <div>
-                <ui-view></ui-view>
-                <!--<div ng-include="'views/login.html'"></div>-->
-                <!--<div ng-include="'views/agenda-page.html'"></div>-->
-                <!--<div ui-calendar ng-model="eventSources"></div>-->
-            </div>
+            <div ui-view></div>
         </div><!-- /.content-wrapper -->
-        <div ng-include="'views/main-footer.html'"></div>
+        <div ng-include="'view/footer.html'"></div>
     </div>
     <script src="./assets/components/jquery/dist/jquery.min.js"></script>
     <script src="./assets/components/jquery-ui/jquery-ui.min.js"></script>
@@ -55,6 +50,10 @@
     </script>
     <script src="./dist/js/app.min.js"></script>
     <script src="./assets/components/angular/angular.js"></script>
+    <script type="text/javascript">
+        angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
+    </script>
+    <!--<script src="./assets/components/angular-route/angular-route.min.js"></script>-->
     <script src="./assets/components/fullcalendar/dist/fullcalendar.min.js"></script>
     <script src="./assets/components/fullcalendar/dist/lang/pt-br.js"></script>
     <script src="./assets/components/fullcalendar-scheduler/dist/scheduler.min.js"></script>
@@ -64,12 +63,22 @@
     <script src="./assets/components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="./assets/components/ngstorage/ngStorage.min.js"></script>
 
-
+    <!-- APP -->
     <script src="./js/app.js"></script>
-    <script src="./js/services/ServicoFactory.js"></script>
-    <script src="./js/services/AuthenticationService.js"></script>
-    <script src="./js/controllers/IndexController.js"></script>
-    <script src="./js/controllers/AgendaController.js"></script>
+    <!-- SERVICES -->
+    <script src="js/services/servicoFactory.js"></script>
+    <script src="js/services/authenticationService.js"></script>
+    <!-- CONTROLLERS -->
+    <script src="js/controllers/mainController.js"></script>
+    <script src="js/controllers/agendaController.js"></script>
+    <script src="js/controllers/salaoController.js"></script>
+    <script src="js/controllers/profissionalController.js"></script>
+    <script src="js/controllers/clienteController.js"></script>
+    <script src="js/controllers/loginController.js"></script>
+    <script src="js/controllers/registroController.js"></script>
+    <script src="js/controllers/recuperarSenhaController.js"></script>
 
+    <!-- CONFIGS -->
+    <script src="./js/configs/routeConfig.js"></script>
 </body>
 </html>
