@@ -13,5 +13,5 @@
 .login-box, .register-box {
     width: 360px!important;
     margin: 0 auto!important;
-    #padding-top: 7%;
+    padding-top: 10%;
 }
