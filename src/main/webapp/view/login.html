@@ -1,51 +1,36 @@
 <div class="login-box">
     <div class="login-box-body">
         <p class="login-box-msg">Entre com o Login e Senha ou <a href="/registro" class="text-center">Registre-se</a></p>
-        <form action=#" method="get">
+        <form name="form" ng-submit="form.$valid && login()" novalidate>
             <div class="form-group has-feedback">
-                <input type="email" class="form-control" placeholder="Email">
+                <input type="email" name="email" id="email" class="form-control" ng-model="user.email" required placeholder="Email">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <div ng-messages="form.$submitted && form.email.$error" class="help-block">
+                    <div ng-message="required">Email é obrigatório</div>
+                </div>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" placeholder="Password">
+                <input type="password" name="password" id="password" class="form-control" ng-model="user.password" required placeholder="Password">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <div ng-messages="form.$submitted && form.password.$error" class="help-block">
+                    <div ng-message="required">Password é obrigatório</div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+                    <button ng-disabled="loading" class="btn btn-primary btn-block btn-flat">Login</button>
+                    <img ng-if="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                 </div><!-- /.col -->
             </div>
         </form>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div ng-if="error" class="alert alert-danger">{{error}}</div>
+            </div>
+        </div>
 
         <a ui-sref="recuperar-senha">Eu esqueci minha senha</a><br>
 
     </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->
-
-
-<!--
-<div class="col-md-6 col-md-offset-3">
-    <h2>Login</h2>
-    <form name="form" ng-submit="form.$valid && vm.login()" novalidate>
-        <div class="form-group" ng-class="{ 'has-error': form.$submitted && form.email.$invalid }">
-            <label for="email">email</label>
-            <input type="text" name="email" id="email" class="form-control" ng-model="vm.email" required />
-            <div ng-messages="form.$submitted && form.email.$error" class="help-block">
-                <div ng-message="required">email is required</div>
-            </div>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error': form.$submitted && form.password.$invalid }">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="vm.password" required />
-            <div ng-messages="form.$submitted && form.password.$error" class="help-block">
-                <div ng-message="required">Password is required</div>
-            </div>
-        </div>
-        <div class="form-group">
-            <button ng-disabled="vm.loading" class="btn btn-primary">Login</button>
-            <img ng-if="vm.loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-        </div>
-        <div ng-if="vm.error" class="alert alert-danger">{{vm.error}}</div>
-    </form>
-</div>
--->

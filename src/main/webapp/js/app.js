@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('agenda', ['ui.router', 'ui.calendar']);
+    angular.module('agenda', ['ui.router', 'ui.calendar', 'angular-jwt', 'ngMessages', 'ngStorage']);
     //angular.module('agenda', ['agenda.services', 'agenda.controllers', 'ui.calendar', 'ui.router', 'ngMessages', 'ngStorage'])
     //    .config(config)
     //    .run(run);

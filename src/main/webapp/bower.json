@@ -28,10 +28,9 @@
     "angular-ui-router": "^0.3.1",
     "angular-messages": "^1.5.8",
     "angular-mocks": "^1.5.8",
-    "ngstorage": "^0.3.11"
+    "ngstorage": "^0.3.11",
+    "angular-jwt": "^0.1.2"
   },
-
-
   "resolutions": {
     "angular": "^1.5.8",
     "fullcalendar": ">=2.9.1"
