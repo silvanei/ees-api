@@ -20,7 +20,8 @@
                     'header': { templateUrl:"/view/header.html"},
                     'content': { controller: 'agendaController', templateUrl:"/view/agenda.html"},
                     'footer': { templateUrl:"/view/footer.html"}
-                }
+                },
+                authorize: true
             })
             .state('salao', {
                 url: "/salao",

@@ -8,8 +8,8 @@
 
     angular
         .module('agenda')
-        .config(['$httpProvider', 'jwtOptionsProvider',
-            function($httpProvider, jwtOptionsProvider){
+        .config(['$httpProvider',
+            function($httpProvider){
                 $httpProvider.interceptors.push('jwtInterceptor');
             }
         ]);

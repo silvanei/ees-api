@@ -70,8 +70,9 @@
     <!-- APP -->
     <script src="./js/app.js"></script>
     <!-- SERVICES -->
-    <script src="js/services/servicoFactory.js"></script>
+    <script src="js/services/servicoService.js"></script>
     <script src="js/services/authenticationService.js"></script>
+    <script src="js/services/jwtHelperService.js"></script>
     <!-- CONTROLLERS -->
     <script src="js/controllers/mainController.js"></script>
     <script src="js/controllers/agendaController.js"></script>
@@ -82,9 +83,13 @@
     <script src="js/controllers/registroController.js"></script>
     <script src="js/controllers/recuperarSenhaController.js"></script>
 
+    <!-- INTERSEPTORS -->
+    <script src="js/interceptor/jwtInterceptor.js"></script>
+
     <!-- CONFIGS -->
+    <script src="./js/configs/valueConfig.js"></script>
     <script src="./js/configs/routeConfig.js"></script>
-    <script src="./js/configs/jwtOptionsProviderConfig.js"></script>
     <script src="./js/configs/interceptorConfig.js"></script>
+
 </body>
 </html>

@@ -9,8 +9,10 @@
         .controller('loginController', ['$scope', 'authenticationService', '$location',
             function ($scope, authenticationService, $location) {
 
+                authenticationService.logout();
+
                 $scope.login = function() {
-                    authenticationService.Login($scope.user.email, $scope.user.password, function (result) {
+                    authenticationService.login($scope.user.email, $scope.user.password, function (result) {
                         $scope.loading = true;
                         if (result === true) {
                             $location.path('/agenda');
