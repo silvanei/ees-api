@@ -10,7 +10,7 @@
                 var salaoId = authManagerService.identity().salaoId;
 
                 function get(limit, offset) {
-                    return $http.get(config.baseUrl + '/rest/v1/salao/'+salaoId+'/servico?limit='+ limit + '&offset=' + offset);
+                    return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/servico?limit='+ limit + '&offset=' + offset);
                 }
 
                 function atualizar(servico) {
@@ -26,7 +26,7 @@
                 function criar(servico) {
                     servico = angular.copy(servico);
                     servico.duracao = servico.duracao.getTime();
-                    return $http.post(config.baseUrl + '/rest/v1/salao/'+salaoId+'/servico', servico);
+                    return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/servico', servico);
                 }
 
                 function excluir(servico) {

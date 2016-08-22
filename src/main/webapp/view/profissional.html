@@ -35,19 +35,10 @@
                                     <a data-toggle="modal" ><i class="fa fa-fw fa-trash"></i></a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Profisional 2</td>
-                                <td>Profissional 2</td>
-                                <td>Cabelereira</td>
-                                <td>
-                                    <a data-toggle="modal" data-target="#novo-profissional"><i class="fa fa-fw fa-edit"></i></a>
-                                    <a><i class="fa fa-fw fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Profisional 3</td>
-                                <td>Profissional 3</td>
-                                <td>Cabelereira</td>
+                            <tr ng-repeat="profissional in profissionais">
+                                <td>{{profissional.nome}}</td>
+                                <td>{{profissional.apelido}}</td>
+                                <td>{{profissional.cargo}}</td>
                                 <td>
                                     <a data-toggle="modal" data-target="#novo-profissional"><i class="fa fa-fw fa-edit"></i></a>
                                     <a><i class="fa fa-fw fa-trash"></i></a>
@@ -56,6 +47,7 @@
 
                         </tbody>
                     </table>
+                    <ul uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" max-size="maxSize" ng-change="pageChanged()"></ul>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
         </div><!-- /.col -->

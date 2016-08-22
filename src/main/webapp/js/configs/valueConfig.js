@@ -9,9 +9,9 @@
     angular
         .module('agenda')
         .value('config', {
-            baseUrl: 'http://localhost:9090/agenda',
+            baseUrl: 'http://localhost:9090/agenda/rest',
             paginacao: {
-                itensPorPagina: 10,
+                itensPorPagina: 2,
                 maxSize: 5
             }
         })
