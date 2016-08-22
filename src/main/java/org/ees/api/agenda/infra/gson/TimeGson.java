@@ -21,11 +21,29 @@ public class TimeGson implements JsonDeserializer<Time>, JsonSerializer<Time> {
     public Time deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         String time = json.getAsString();
         String[] parts = time.split(":");
-        return new Time(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+        return new Time(Long.parseLong(time));
     }
 
     @Override
     public JsonElement serialize(Time time, Type type, JsonSerializationContext jsonSerializationContext) {
-        return new JsonPrimitive(time.toString());
+
+        return new JsonPrimitive(time.getTime());
+
+//        int hour = time.getHours();
+//        int minute = time.getMinutes();
+//        String hourString;
+//        String minuteString;
+//
+//        hourString = Integer.toString(hour);
+//        if (hour < 10) {
+//            hourString = "0" + hour;
+//        }
+//
+//        minuteString = Integer.toString(minute);
+//        if (minute < 10) {
+//            minuteString = "0" + minute;
+//        }
+//
+//        return new JsonPrimitive(hourString + ":" + minuteString);
     }
 }

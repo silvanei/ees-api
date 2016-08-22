@@ -19,6 +19,13 @@ public enum Parameters {
         }
     },
 
+    PERFIL {
+        @Override
+        public String toString() {
+            return "per";
+        }
+    },
+
     SALAO_ID {
         @Override
         public String toString() {

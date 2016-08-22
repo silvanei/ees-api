@@ -7,11 +7,11 @@
 
     angular
         .module('agenda')
-        .factory('authenticationService', ['$http', '$localStorage',
-            function($http, $localStorage) {
+        .factory('authenticationService', ['$http', '$localStorage', 'config',
+            function($http, $localStorage, config) {
 
-                var login = function(email, password, callback) {
-                    $http.post('http://localhost:9090/agenda/rest/v1/token', { email: email, password: password })
+                function login(email, password, callback) {
+                    $http.post(config.baseUrl + '/rest/v1/token', { email: email, password: password })
                         .success(function (response) {
                             // login successful if there's a token in the response
                             if (response.token) {
@@ -27,19 +27,19 @@
                         .error(function(data) {
                             callback(false);
                         });
-                };
+                }
 
-                var logout = function() {
+                function logout() {
                     // remove user from local storage and clear http auth header
                     delete $localStorage.currentUser;
-                };
+                }
 
-                var getToken = function() {
+                function getToken() {
                     if ($localStorage.currentUser) {
                         return $localStorage.currentUser.token;
                     }
                     return null;
-                };
+                }
 
                 return {
                     login: login,

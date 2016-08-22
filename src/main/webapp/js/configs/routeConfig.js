@@ -9,13 +9,13 @@
     angular.module('agenda').config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
 
         // default route
-        $urlRouterProvider.otherwise("/login");
+        $urlRouterProvider.otherwise("/");
         // configure html5 to get links working on jsfiddle
         $locationProvider.html5Mode(true);
 
         $stateProvider
             .state('agenda', {
-                url: "/agenda",
+                url: "/",
                 views: {
                     'header': { templateUrl:"/view/header.html"},
                     'content': { controller: 'agendaController', templateUrl:"/view/agenda.html"},

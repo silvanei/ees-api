@@ -6,16 +6,8 @@
 
     angular
         .module('agenda')
-        .controller('agendaController', ['$scope', 'servicoService', 'jwtHelperService',
-            function ($scope, servicoService, jwtHelperService) {
-
-                //var token = 'eyJhbGciOiJIUzI1NiJ9.eyJjbGkiOm51bGwsInNsYSI6MSwic3ViIjoiMSIsImV4cCI6MTQ3MTQ1Mzg3NSwiaWF0IjoxNDcxMzY3NDc1fQ.pxflwkyxoiOhD3K4hM90JfvASfyzDZSzRoeWegyPMfc';
-                //var token = 'eyJhbGciOiJIUzI1NiJ9.eyJjbGkiOm51bGwsInNsYSI6MSwic3ViIjoiMSIsImV4cCI6MTQ3MTc1MzkzMywiaWF0IjoxNDcxNjY3NTMzfQ.BLk490c1Qq6JRMEEc8G_zyu2xBXAQ93RZCHNwHznAik';
-                //console.log(jwtHelperService.decodeToken(token));
-                //console.log(jwtHelperService.getTokenExpirationDate(token));
-                //console.log(jwtHelperService.isTokenExpired(token));
-
-                servicoService.get();
+        .controller('agendaController', ['$scope',
+            function ($scope) {
 
                 var date = new Date();
                 var d = date.getDate(),

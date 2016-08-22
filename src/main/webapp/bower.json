@@ -29,7 +29,9 @@
     "angular-messages": "^1.5.8",
     "angular-mocks": "^1.5.8",
     "ngstorage": "^0.3.11",
-    "angular-jwt": "^0.1.2"
+    "angular-jwt": "^0.1.2",
+    "angular-i18n": "^1.5.8",
+    "angular-bootstrap": "^2.1.1"
   },
   "resolutions": {
     "angular": "^1.5.8",

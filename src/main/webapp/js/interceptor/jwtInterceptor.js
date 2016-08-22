@@ -12,8 +12,6 @@
                 return {
                     request: function(request) {
 
-                        console.log(request.authorize);
-
                         if (request.url.substr(request.url.length - 5) == '.html') {
                             return request;
                         }

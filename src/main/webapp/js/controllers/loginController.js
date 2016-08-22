@@ -15,7 +15,7 @@
                     authenticationService.login($scope.user.email, $scope.user.password, function (result) {
                         $scope.loading = true;
                         if (result === true) {
-                            $location.path('/agenda');
+                            $location.path('/');
                         } else {
                             $scope.error = 'E-mail ou senha incoreto.';
                             $scope.loading = false;
