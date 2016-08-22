@@ -14,6 +14,7 @@
                 }
 
                 function atualizar(servico) {
+                    servico = angular.copy(servico);
                     var link = servico.link;
                     delete servico.link;
 
@@ -23,6 +24,7 @@
                 }
 
                 function criar(servico) {
+                    servico = angular.copy(servico);
                     servico.duracao = servico.duracao.getTime();
                     return $http.post(config.baseUrl + '/rest/v1/salao/'+salaoId+'/servico', servico);
                 }

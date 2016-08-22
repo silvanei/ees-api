@@ -53,6 +53,12 @@
                     'content': { controller: 'loginController', templateUrl:"/view/login.html"}
                 }
             })
+            .state('logout', {
+                url: "/logout",
+                views: {
+                    'content': { controller: 'loginController', templateUrl:"/view/login.html"}
+                }
+            })
             .state('registro', {
                 url: "/registro",
                 views: {
