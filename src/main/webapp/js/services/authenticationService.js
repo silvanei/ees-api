@@ -11,7 +11,7 @@
             function($http, $localStorage, config) {
 
                 function login(email, password, callback) {
-                    $http.post(config.baseUrl + '/rest/v1/token', { email: email, password: password })
+                    $http.post(config.baseUrl + '/v1/token', { email: email, password: password })
                         .success(function (response) {
                             // login successful if there's a token in the response
                             if (response.token) {
