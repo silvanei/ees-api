@@ -11,7 +11,7 @@
         .value('config', {
             baseUrl: 'http://localhost:9090/agenda/rest',
             paginacao: {
-                itensPorPagina: 2,
+                itensPorPagina: 10,
                 maxSize: 5
             }
         })

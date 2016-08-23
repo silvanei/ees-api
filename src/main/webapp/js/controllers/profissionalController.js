@@ -30,16 +30,66 @@
                         $scope.totalItems = data.count;
                         $scope.profissionais = data.items;
 
-                        //$scope.profissionais = data.items.forEach(function(servico) {
-                        //    servico.duracao = new Date(servico.duracao);
-                        //    return servico;
-                        //});
                     }).error(function(data, status) {
                         console.log(data);
                         console.log(status);
                         $scope.error = data.errorMessage;
                     });
                 }
+
+                $scope.adicionar = function () {
+                    delete $scope.profissional;
+                    $scope.dadosProfissionalForm.$setPristine();
+                    $('#modal-profissional').modal('show');
+                };
+
+                $scope.salvar = function (profissional) {
+                    $log.log(profissional);
+
+                    profissionalService.post(profissional).success(function() {
+                        $('#modal-profissional').modal('hide');
+                        delete $scope.profissional;
+                        $scope.dadosProfissionalForm.$setPristine();
+                        carregarLista();
+                    }).error(function(data, status) {
+                        $log.error(data);
+                    });
+                };
+
+                $scope.editar = function (profissional) {
+                    $scope.dadosProfissionalForm.$setPristine();
+                    $scope.profissional = angular.copy(profissional);
+                    $('#modal-profissional').modal('show');
+                };
+
+                $scope.atualizar = function(profissional) {
+                    profissionalService.put(profissional).success(function() {
+                        $('#modal-profissional').modal('hide');
+                        delete $scope.profissional;
+                        $scope.dadosProfissionalForm.$setPristine();
+                        carregarLista();
+                    }).error(function(data, status) {
+                        $log.error(data);
+                    });
+                };
+
+                $scope.confirmExcluir = function(profissional) {
+                    $scope.profissional = angular.copy(profissional);
+                    $('#excluir-profissional').modal('show');
+
+                };
+
+                $scope.excluir = function(profissional) {
+                    profissionalService.delete(profissional).success(function() {
+                        $('#excluir-profissional').modal('hide');
+                        delete $scope.profissional;
+                        $scope.dadosProfissionalForm.$setPristine();
+                        carregarLista();
+                    }).error(function(data, status) {
+                        $log.error(data);
+                    });
+
+                };
 
                 $scope.pageChanged = function() {
                     $log.log('Page changed to: ' + $scope.currentPage);

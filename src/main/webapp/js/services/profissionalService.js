@@ -15,8 +15,27 @@
                     return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario?limit='+ limit + '&offset=' + offset);
                 }
 
+                function criar(profissional) {
+                    return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario', profissional);
+                }
+
+                function atualizar(profissional) {
+                    profissional = angular.copy(profissional);
+                    var link = profissional.link;
+                    delete profissional.link;
+
+                    return $http.put(link.href, profissional);
+                }
+
+                function excluir(profissional) {
+                    return $http.delete(profissional.link.href);
+                }
+
                 return {
-                    get: get
+                    get: get,
+                    post: criar,
+                    put: atualizar,
+                    delete: excluir
                 }
             }
         ]

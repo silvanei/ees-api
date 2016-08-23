@@ -13,7 +13,7 @@
             <div class="box box-primary">
                 <div class="box-body">
                     <div>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#novo-profissional"><i class="fa fa-fw fa-plus-circle"></i>Novo Profissional</a>
+                        <a class="btn btn-primary" data-toggle="modal" ng-click="adicionar()"><i class="fa fa-fw fa-plus-circle"></i>Novo Profissional</a>
                     </div>
                     <br />
                     <table id="profissional-table" class="table table-condensed table-hover">
@@ -26,22 +26,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Profisional 1</td>
-                                <td>Profissional 1</td>
-                                <td>Cabelereira</td>
-                                <td>
-                                    <a data-toggle="modal" data-target="#novo-profissional"><i class="fa fa-fw fa-edit"></i></a>
-                                    <a data-toggle="modal" ><i class="fa fa-fw fa-trash"></i></a>
-                                </td>
-                            </tr>
                             <tr ng-repeat="profissional in profissionais">
                                 <td>{{profissional.nome}}</td>
                                 <td>{{profissional.apelido}}</td>
                                 <td>{{profissional.cargo}}</td>
                                 <td>
-                                    <a data-toggle="modal" data-target="#novo-profissional"><i class="fa fa-fw fa-edit"></i></a>
-                                    <a><i class="fa fa-fw fa-trash"></i></a>
+                                    <a data-toggle="modal" ng-click="editar(profissional)" ><i class="fa fa-fw fa-edit"></i></a>
+                                    <a data-toggle="modal" ng-click="confirmExcluir(profissional)"><i class="fa fa-fw fa-trash"></i></a>
                                 </td>
                             </tr>
 
@@ -55,49 +46,104 @@
 </section><!-- /.content -->
 
 
-<div class="fade modal" id="novo-profissional">
+<div class="fade modal" id="excluir-profissional">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="excluir-profissional-title">Excluir Profissional</h4>
+            </div>
+            <div class="modal-body">
+                <p>Deseja excluir este profissional ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" ng-click="excluir(profissional)">Sim</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fade modal" id="modal-profissional">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form class="form-horizontal">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Novo Profissional</h4>
-                </div>
-                <div class="modal-body no-padding">
-                    <div class="nav-tabs-custom" style="margin-bottom: 0;">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
-                            <li><a href="#servicos" data-toggle="tab">Serviços</a></li>
-                            <li><a href="#horarios" data-toggle="tab">Horários</a></li>
-                        </ul>
-                        <div class="tab-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="modal-profissional-title">Profissional</h4>
+            </div>
+            <div class="modal-body no-padding">
+                <div class="nav-tabs-custom" style="margin-bottom: 0;">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
+                        <li><a href="#servicos" data-toggle="tab">Serviços</a></li>
+                        <li><a href="#horarios" data-toggle="tab">Horários</a></li>
+                    </ul>
+                    <div class="tab-content">
 
-                            <div class="active tab-pane" id="dados">
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <div class="form-group">
+                        <div class="active tab-pane" id="dados">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form class="form-horizontal" name="dadosProfissionalForm">
+                                        <div class="form-group" ng-class="{'has-error': (dadosProfissionalForm.nome.$invalid && dadosProfissionalForm.nome.$dirty)}">
                                             <label for="input-nome" class="col-sm-2 control-label">Nome</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="input-nome" placeholder="Nome do profissional" >
+                                                <input type="text" class="form-control" id="input-nome" name="nome" placeholder="Nome do profissional" ng-model="profissional.nome" ng-required="true" ng-minlength="5" ng-maxlength="255">
+                                                <div ng-messages="dadosProfissionalForm.nome.$error" ng-show="dadosProfissionalForm.nome.$dirty">
+                                                    <div ng-message="required" class="help-block">
+                                                        Por favor, preencher o campo nome
+                                                    </div>
+                                                    <div ng-message="minlength" class="help-block">
+                                                        O campo descrição deve ter no mínimo 5 caracteres
+                                                    </div>
+                                                    <div ng-message="maxlength" class="help-block">
+                                                        O campo descrição de ter no máximo 255 caracteres
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" ng-class="{'has-error': (dadosProfissionalForm.apelido.$invalid && dadosProfissionalForm.apelido.$dirty)}">
                                             <label for="input-apelido" class="col-sm-2 control-label">Apelido</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="input-apelido" placeholder="Apelido do profissional" >
+                                                <input type="text" class="form-control" id="input-apelido" name="apelido" placeholder="Apelido do profissional" ng-model="profissional.apelido" ng-required="true" ng-minlength="5" ng-maxlength="255">
+                                                <div ng-messages="dadosProfissionalForm.apelido.$error" ng-show="dadosProfissionalForm.apelido.$dirty">
+                                                    <div ng-message="required" class="help-block">
+                                                        Por favor, preencher o campo apelido
+                                                    </div>
+                                                    <div ng-message="minlength" class="help-block">
+                                                        O campo apelido deve ter no mínimo 5 caracteres
+                                                    </div>
+                                                    <div ng-message="maxlength" class="help-block">
+                                                        O campo apelido de ter no máximo 255 caracteres
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" ng-class="{'has-error': (dadosProfissionalForm.telefone.$invalid && dadosProfissionalForm.telefone.$dirty)}">
                                             <label for="input-tel-fixo" class="col-sm-2 control-label" >Telefone fixo</label>
                                             <div class="col-sm-9">
-                                                <input type="tel" class="form-control" id="input-tel-fixo" placeholder="Telefone fixo do salão">
+                                                <input type="text" class="form-control" id="input-tel-fixo" name="telefone" placeholder="Telefone fixo do salão" ng-model="profissional.telefone" mask='(99) 9?9999-9999' mask-restrict='reject' mask-clean='true' ng-required="true">
+                                                <div ng-messages="dadosProfissionalForm.telefone.$error" ng-show="dadosProfissionalForm.telefone.$dirty">
+                                                    <div ng-message="required" class="help-block">
+                                                        Por favor, preencher o campo telefone fixo
+                                                    </div>
+                                                    <div ng-message="mask" class="help-block">
+                                                        Telefone inválido
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="input-tel-celulae" class="col-sm-2 control-label">Telefone celular</label>
+                                        <div class="form-group" ng-class="{'has-error': (dadosProfissionalForm.celular.$invalid && dadosProfissionalForm.celular.$dirty)}">
+                                            <label for="input-tel-celular" class="col-sm-2 control-label">Telefone celular</label>
                                             <div class="col-sm-9">
-                                                <input type="tel" class="form-control" id="input-tel-celular" placeholder="Telefone celular do salão">
+                                                <input type="tel" class="form-control" id="input-tel-celular" name="celular" placeholder="Telefone celular do salão" ng-model="profissional.celular" mask='(99) 9?9999-9999' mask-restrict='reject' mask-clean='true' ng-required="true">
+                                                <div ng-messages="dadosProfissionalForm.celular.$error" ng-show="dadosProfissionalForm.celular.$dirty">
+                                                    <div ng-message="required" class="help-block">
+                                                        Por favor, preencher o campo telefone fixo
+                                                    </div>
+                                                    <div ng-message="mask" class="help-block">
+                                                        Telefone inválido
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -111,224 +157,228 @@
                                             </div>
                                         </div>
 
-                                    </div><!-- /.col -->
-                                </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                <button type="button" class="btn btn-primary" ng-hide="!profissional.id" ng-click="atualizar(profissional)" ng-disabled="dadosProfissionalForm.$invalid" >Atualizar</button>
+                                                <button type="button" class="btn btn-primary" ng-hide="profissional.id" ng-click="salvar(profissional)" ng-disabled="dadosProfissionalForm.$invalid" >Salvar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div><!-- /.col -->
                             </div>
 
-                            <div class="tab-pane" id="servicos">
-                                <div class="input-group col-sm-12">
-                                    <select class="form-control">
-                                        <option>Corte Masculino</option>
-                                        <option>Depilação</option>
-                                        <option>Mão e Pé</option>
-                                    </select>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary" type="button">Adicionar Serviço</button>
-                                    </span>
-                                </div>
-                                <br />
-                                <table class="table table-condensed">
-                                    <tr>
-                                        <th>Serviço</th>
-                                        <th>Duração</th>
-                                        <th>Valor Padrão (R$)</th>
-                                        <th>A partir de (R$)</th>
-                                        <th>Até (R$)</th>
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Corte Feminino</td>
-                                        <td>00:40</td>
-                                        <td>R$ 25,00</td>
-                                        <td>R$ 00,00</td>
-                                        <td>R$ 00,00</td>
-                                        <td><a data-toggle="modal" data-target="#excluir-servico"><i class="fa fa-fw fa-trash"></i></a></td>
-                                    </tr>
-                                </table>
+                        </div>
 
+                        <div class="tab-pane" id="servicos">
+                            <div class="input-group col-sm-12">
+                                <select class="form-control">
+                                    <option>Corte Masculino</option>
+                                    <option>Depilação</option>
+                                    <option>Mão e Pé</option>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="button">Adicionar Serviço</button>
+                                </span>
                             </div>
+                            <br />
+                            <table class="table table-condensed">
+                                <tr>
+                                    <th>Serviço</th>
+                                    <th>Duração</th>
+                                    <th>Valor Padrão (R$)</th>
+                                    <th>A partir de (R$)</th>
+                                    <th>Até (R$)</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td>Corte Feminino</td>
+                                    <td>00:40</td>
+                                    <td>R$ 25,00</td>
+                                    <td>R$ 00,00</td>
+                                    <td>R$ 00,00</td>
+                                    <td><a data-toggle="modal" data-target="#excluir-servico"><i class="fa fa-fw fa-trash"></i></a></td>
+                                </tr>
+                            </table>
 
-                            <div class="tab-pane" id="horarios">
-                                <table class="table table-condensed">
-                                    <tr>
-                                        <th class="col-sm-8">Dia</th>
-                                        <th class="col-sm-1">Entrada</th>
-                                        <th class="col-sm-1">Saída</th>
-                                        <th class="col-sm-1">Entrada</th>
-                                        <th class="col-sm-1">Saída</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Domingo</td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Segunda-Feira</td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Terça-Feira</td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Quarta-Feira</td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Quinta-Feira</td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sexta-Feira</td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sábado</td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-sm-3 input-group input-group-sm">
-                                                <input type="time" class="form-control">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+                        </div>
 
-                        </div><!-- /.tab-content -->
-                    </div><!-- /.nav-tabs-custom -->
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
-                    <a class="btn btn-primary">Salvar</a>
-                </div>
-            </form>
+                        <div class="tab-pane" id="horarios">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <th class="col-sm-8">Dia</th>
+                                    <th class="col-sm-1">Entrada</th>
+                                    <th class="col-sm-1">Saída</th>
+                                    <th class="col-sm-1">Entrada</th>
+                                    <th class="col-sm-1">Saída</th>
+                                </tr>
+                                <tr>
+                                    <td>Domingo</td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Segunda-Feira</td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Terça-Feira</td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Quarta-Feira</td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Quinta-Feira</td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sexta-Feira</td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sábado</td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-sm-3 input-group input-group-sm">
+                                            <input type="time" class="form-control">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div><!-- /.tab-content -->
+                </div><!-- /.nav-tabs-custom -->
+            </div>
         </div>
     </div>
 </div>
