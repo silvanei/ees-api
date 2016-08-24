@@ -106,4 +106,18 @@ public class FuncionarioResource {
         return Response.ok().entity(funcionario).build();
     }
 
+    @DELETE
+    @Path("/{funcionarioId}/servico/{servicoId}")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
+    public Response removerServico(
+            @PathParam("salaoId") Integer salaoId,
+            @PathParam("funcionarioId") Integer funcionarioId,
+            @PathParam("servicoId") Integer servicoId
+    ) {
+
+        funcionarioService.removeServico(salaoId, funcionarioId, servicoId);
+
+        return Response.noContent().build();
+    }
+
 }

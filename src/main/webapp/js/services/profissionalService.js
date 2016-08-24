@@ -11,7 +11,11 @@
 
                 var salaoId = authManagerService.identity().salaoId;
 
-                function get(limit, offset) {
+                function get(id) {
+                    return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/' + id);
+                }
+
+                function getAll(limit, offset) {
                     return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario?limit='+ limit + '&offset=' + offset);
                 }
 
@@ -21,11 +25,7 @@
 
                 function atualizar(profissional) {
                     profissional = angular.copy(profissional);
-                    var link = profissional.link;
-                    delete profissional.link;
-                    delete profissional.servicosPrestados;
-
-                    return $http.put(link.href, profissional);
+                    return $http.put(profissional.link.href, profissional);
                 }
 
                 function excluir(profissional) {
@@ -36,12 +36,18 @@
                     return $http.post(profissional.link.href + '/servico/' + idServico);
                 }
 
+                function removerServico(profissional, idServico) {
+                    return $http.delete(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+ profissional +'/servico/' + idServico);
+                }
+
                 return {
                     get: get,
+                    getAll: getAll,
                     post: criar,
                     put: atualizar,
                     delete: excluir,
-                    addService: adicionarServico
+                    addService: adicionarServico,
+                    removeService: removerServico
                 }
             }
         ]

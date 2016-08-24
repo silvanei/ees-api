@@ -10,15 +10,10 @@
         .module('agenda')
         .config(['NotificationProvider',
             function(NotificationProvider){
-                console.log('NotificationProvider');
                 NotificationProvider.setOptions({
-                    delay: 10000,
-                    startTop: 50,
-                    startRight: 30,
-//                    verticalSpacing: 20,
-//                    horizontalSpacing: 20,
-//                    positionX: 'top',
-//                    positionY: 'rigth'
+                    delay: 5000,
+                    startTop: 55,
+                    startRight: 20
                 });
             }
         ]);

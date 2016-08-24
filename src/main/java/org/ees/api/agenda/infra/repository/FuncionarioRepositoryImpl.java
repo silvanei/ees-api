@@ -178,4 +178,25 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
         }
 
     }
+
+    @Override
+    public Integer removeServico(Integer salaoId, Integer funcionarioId, Integer servicoId) {
+        String sql = "DELETE FROM funcionario_presta_servico WHERE funcionario_id = ? AND funcionario_salao_id = ? AND servico_id = ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, funcionarioId);
+            stmt.setInt(2, salaoId);
+            stmt.setInt(3, servicoId);
+
+            if(stmt.executeUpdate() > 0) {
+                return servicoId;
+            }
+
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao excluir um servico de um Funcionario");
+        }
+    }
 }

@@ -87,4 +87,16 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         return findById(salaoId, funcionarioId);
     }
+
+    @Override
+    public Integer removeServico(Integer salaoId, Integer funcionarioId, Integer servicoId) {
+        Servico servico = servicoService.findById(salaoId, servicoId);
+        if(null == servico) {
+            throw new DataNotFoundException("Servico não encontrado");
+        }
+
+        findById(salaoId, funcionarioId);
+
+        return funcionarioRepository.removeServico(salaoId, funcionarioId, servicoId);
+    }
 }

@@ -8,12 +8,17 @@ import java.lang.reflect.Type;
 /**
  * Created by silvanei on 05/08/2016.
  */
-public class LinkGson implements JsonSerializer<Link> {
+public class LinkGson implements JsonDeserializer, JsonSerializer<Link> {
     @Override
     public JsonElement serialize(Link link, Type type, JsonSerializationContext jsonSerializationContext) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("rel", link.getRel());
         jsonObject.addProperty("href", link.getUri().toString());
         return jsonObject;
+    }
+
+    @Override
+    public Object deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+        return null;
     }
 }
