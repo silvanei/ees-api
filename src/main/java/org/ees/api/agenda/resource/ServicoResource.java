@@ -10,6 +10,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.util.ArrayList;
 
 public class ServicoResource {
 
@@ -21,11 +22,16 @@ public class ServicoResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response servicos(
             @PathParam("salaoId") Integer idSalao,
-            @QueryParam("limit") @DefaultValue("5") int limit,
-            @QueryParam("offset") @DefaultValue("0") int offset
+            @QueryParam("offset") int offset,
+            @QueryParam("limit") int limit
     ) {
+        CollectionPaginated<Servico> servicos;
 
-        CollectionPaginated<Servico> servicos = servicoService.findByIdSalao(idSalao, limit, offset);
+        if (0 == limit) {
+            servicos = servicoService.findByIdSalao(idSalao);
+        } else {
+            servicos = servicoService.findByIdSalao(idSalao, limit, offset);
+        }
 
         ServicoCollection servicoColection = new ServicoCollection(servicos);
 

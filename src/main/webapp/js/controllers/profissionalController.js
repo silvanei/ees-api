@@ -6,8 +6,8 @@
 
     angular
         .module('agenda')
-        .controller('profissionalController', ['$scope', 'config', '$log', 'profissionalService',
-            function ($scope,config, $log, profissionalService) {
+        .controller('profissionalController', ['$scope', 'config', '$log', 'profissionalService', 'servicoService',
+            function ($scope,config, $log, profissionalService, servicoService) {
                 function init() {
                     $('.nav-tabs a').click(function (e) {
                         e.preventDefault();
@@ -21,7 +21,7 @@
                     carregarLista();
                 }
 
-                function carregarLista() {
+                function carregarLista(callback) {
                     var limit = config.paginacao.itensPorPagina;
                     var offset = (config.paginacao.itensPorPagina * $scope.currentPage) - config.paginacao.itensPorPagina;
 
@@ -35,6 +35,23 @@
                         console.log(status);
                         $scope.error = data.errorMessage;
                     });
+                }
+
+                function carregarServico(callback) {
+                    servicoService.get().success(function(data) {
+                        $log.log(data);
+                        $scope.servicos = data.items;
+
+                        if( callback instanceof Function) {
+                            callback(data.items);
+                        }
+
+                    }).error(function(data, status) {
+                        console.log(data);
+                        console.log(status);
+                        $scope.error = data.errorMessage;
+                    });
+
                 }
 
                 $scope.adicionar = function () {
@@ -60,6 +77,17 @@
                     $scope.dadosProfissionalForm.$setPristine();
                     $scope.profissional = angular.copy(profissional);
                     $('#modal-profissional').modal('show');
+
+                    carregarServico(function(servicos) {
+                        var result = servicos.filter(function(item1) {
+                            for (var i in $scope.profissional.servicosPrestados) {
+                                if (item1.id === $scope.profissional.servicosPrestados[i].id) { return false; }
+                            };
+                            return true;
+                        });
+                        $scope.servicos = result;
+                    });
+
                 };
 
                 $scope.atualizar = function(profissional) {
@@ -89,6 +117,27 @@
                         $log.error(data);
                     });
 
+                };
+
+                $scope.adicionarServico = function () {
+                    $log.log($scope.profissional);
+
+                    profissionalService.addService($scope.profissional, $scope.servico.selecionado).success(function(data) {
+                        $scope.profissional = data;
+                        carregarLista();
+                        carregarServico(function(servicos) {
+                            var result = servicos.filter(function(item1) {
+                                for (var i in $scope.profissional.servicosPrestados) {
+                                    if (item1.id === $scope.profissional.servicosPrestados[i].id) { return false; }
+                                };
+                                return true;
+                            });
+                            $scope.servicos = result;
+                        });
+
+                    }).error(function(data, status) {
+                        $log.error(data);
+                    });
                 };
 
                 $scope.pageChanged = function() {

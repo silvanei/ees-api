@@ -75,8 +75,8 @@
                 <div class="nav-tabs-custom" style="margin-bottom: 0;">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
-                        <li><a href="#servicos" data-toggle="tab">Serviços</a></li>
-                        <li><a href="#horarios" data-toggle="tab">Horários</a></li>
+                        <li><a href="#servicos" data-toggle="tab" ng-hide="!profissional.id">Serviços</a></li>
+                        <li><a href="#horarios" data-toggle="tab" ng-hide="!profissional.id">Horários</a></li>
                     </ul>
                     <div class="tab-content">
 
@@ -178,16 +178,13 @@
                             </div>
 
                         </div>
-
                         <div class="tab-pane" id="servicos">
                             <div class="input-group col-sm-12">
-                                <select class="form-control">
-                                    <option>Corte Masculino</option>
-                                    <option>Depilação</option>
-                                    <option>Mão e Pé</option>
+                                <select class="form-control" ng-model="servico.selecionado" ng-options="servico.id as servico.descricao for servico in servicos">
+                                    <option value="">Selecione um Serviço</option>
                                 </select>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button">Adicionar Serviço</button>
+                                    <button class="btn btn-primary" type="button" ng-disabled="!servico.selecionado" ng-click="adicionarServico()">Adicionar Serviço</button>
                                 </span>
                             </div>
                             <br />

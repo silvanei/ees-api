@@ -17,6 +17,8 @@ public interface ServicoService {
 	
 	public CollectionPaginated<Servico> findByIdSalao(Integer salaoId, int limit, int offset);
 
+	public CollectionPaginated<Servico> findByIdSalao(Integer salaoId);
+
 	public List<Servico> findByIdFuncionario(Integer salaoId, Integer funcionarioId);
 
 }

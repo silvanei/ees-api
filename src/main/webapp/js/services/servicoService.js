@@ -10,7 +10,13 @@
                 var salaoId = authManagerService.identity().salaoId;
 
                 function get(limit, offset) {
-                    return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/servico?limit='+ limit + '&offset=' + offset);
+
+                    var url =  config.baseUrl + '/v1/salao/'+salaoId+'/servico';
+                    if(limit) {
+                        url +=  '?limit='+ limit + '&offset=' + offset;
+                    }
+
+                    return $http.get(url);
                 }
 
                 function atualizar(servico) {

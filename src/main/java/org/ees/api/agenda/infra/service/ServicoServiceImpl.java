@@ -66,6 +66,11 @@ public class ServicoServiceImpl implements ServicoService {
 	}
 
 	@Override
+	public CollectionPaginated<Servico> findByIdSalao(Integer idSalao) {
+		return servicoRepository.findByIdSalao(idSalao);
+	}
+
+	@Override
 	public List<Servico> findByIdFuncionario(Integer salaoId, Integer funcionarioId) {
 		return servicoRepository.findByIdFuncionario(salaoId, funcionarioId);
 	}

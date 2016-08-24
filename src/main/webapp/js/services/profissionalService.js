@@ -23,6 +23,7 @@
                     profissional = angular.copy(profissional);
                     var link = profissional.link;
                     delete profissional.link;
+                    delete profissional.servicosPrestados;
 
                     return $http.put(link.href, profissional);
                 }
@@ -31,11 +32,16 @@
                     return $http.delete(profissional.link.href);
                 }
 
+                function adicionarServico(profissional, idServico) {
+                    return $http.post(profissional.link.href + '/servico/' + idServico);
+                }
+
                 return {
                     get: get,
                     post: criar,
                     put: atualizar,
-                    delete: excluir
+                    delete: excluir,
+                    addService: adicionarServico
                 }
             }
         ]

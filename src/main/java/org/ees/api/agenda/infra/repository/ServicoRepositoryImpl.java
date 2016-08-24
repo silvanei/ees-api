@@ -151,6 +151,40 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 		}
 	}
 
+	@Override
+	public CollectionPaginated<Servico> findByIdSalao(Integer idSalao) {
+		String sql = "SELECT id, descricao, duracao, valor_minimo, valor_maximo " +
+				"FROM servico " +
+				"WHERE salao_id = ? AND deletado = 0 " +
+				"ORDER BY id ";
+
+		try {
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setInt(1, idSalao);
+			ResultSet rs = stmt.executeQuery();
+
+			List<Servico> servicos = new ArrayList<Servico>();
+
+			while (rs.next()) {
+				Servico servico = new Servico();
+				servico.setId(rs.getInt("id"));
+				servico.setDescricao(rs.getString("descricao"));
+				servico.setDuracao(rs.getTime("duracao"));
+				servico.setValorMinimo(rs.getBigDecimal("valor_minimo"));
+				servico.setValorMaximo(rs.getBigDecimal("valor_maximo"));
+				servicos.add(servico);
+			}
+
+            int total = servicos.size();
+
+			return new CollectionPaginated<Servico>(servicos, total, 0, total);
+
+		} catch (SQLException ex) {
+			Logger.getLogger(ServicoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Error ao buscar um servico pelo idSalao");
+		}
+	}
+
     @Override
     public List<Servico> findByIdFuncionario(Integer salaoId, Integer funcionarioId) {
         String sql = "SELECT s.id, s.descricao, s.duracao, s.valor_minimo, s.valor_maximo " +
