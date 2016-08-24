@@ -20,4 +20,6 @@ public interface ServicoRepository {
 	public CollectionPaginated<Servico> findByIdSalao(Integer idSalao);
 
 	public List<Servico> findByIdFuncionario(Integer salaoId, Integer funcionarioId);
+
+	public List<Servico> findNotInFuncionario(Integer salaoId, Integer funcionarioId);
 }

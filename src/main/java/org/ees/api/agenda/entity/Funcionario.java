@@ -17,6 +17,7 @@ public class Funcionario {
 	private String celular;
 
     private List<Servico> servicosPrestados;
+    private List<Servico> servicosDisponiveis;
 
 	private Cargo cargo;
 	private Acesso acesso;
@@ -119,4 +120,12 @@ public class Funcionario {
     public void setServicosPrestados(List<Servico> servicosPrestados) {
         this.servicosPrestados = servicosPrestados;
     }
+
+	public List<Servico> getServicosDisponiveis() {
+		return servicosDisponiveis;
+	}
+
+	public void setServicosDisponiveis(List<Servico> servicosDisponiveis) {
+		this.servicosDisponiveis = servicosDisponiveis;
+	}
 }

@@ -74,4 +74,9 @@ public class ServicoServiceImpl implements ServicoService {
 	public List<Servico> findByIdFuncionario(Integer salaoId, Integer funcionarioId) {
 		return servicoRepository.findByIdFuncionario(salaoId, funcionarioId);
 	}
+
+	@Override
+	public List<Servico> findNotInFuncionario(Integer salaoId, Integer funcionarioId) {
+        return servicoRepository.findNotInFuncionario(salaoId, funcionarioId);
+	}
 }

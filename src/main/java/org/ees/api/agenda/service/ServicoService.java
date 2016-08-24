@@ -21,4 +21,6 @@ public interface ServicoService {
 
 	public List<Servico> findByIdFuncionario(Integer salaoId, Integer funcionarioId);
 
+	public List<Servico> findNotInFuncionario(Integer salaoId, Integer funcionarioId);
+
 }

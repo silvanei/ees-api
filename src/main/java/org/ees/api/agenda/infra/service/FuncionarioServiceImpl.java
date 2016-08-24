@@ -49,6 +49,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         CollectionPaginated<Funcionario> funcionarios = funcionarioRepository.findByIdSalao(salaoId, limit, offset);
         for(Funcionario funcionario: funcionarios.getItems()) {
             funcionario.setServicosPrestados(servicoService.findByIdFuncionario(salaoId, funcionario.getId()));
+            funcionario.setServicosDisponiveis(servicoService.findNotInFuncionario(salaoId, funcionario.getId()));
         }
 
         return funcionarios;
