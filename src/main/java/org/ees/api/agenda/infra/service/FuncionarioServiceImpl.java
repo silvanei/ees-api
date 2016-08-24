@@ -40,6 +40,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         }
 
         funcionario.setServicosPrestados(servicoService.findByIdFuncionario(idSalao, idFuncionario));
+        funcionario.setServicosDisponiveis(servicoService.findNotInFuncionario(idSalao, funcionario.getId()));
 
         return funcionario;
     }

@@ -180,7 +180,7 @@
                         </div>
                         <div class="tab-pane" id="servicos">
                             <div class="input-group col-sm-12">
-                                <select class="form-control" ng-model="servico.selecionado" ng-options="servico.id as servico.descricao for servico in servicos">
+                                <select class="form-control" ng-model="servico.selecionado" ng-options="servico.id as servico.descricao for servico in profissional.servicosDisponiveis">
                                     <option value="">Selecione um Serviço</option>
                                 </select>
                                 <span class="input-group-btn">

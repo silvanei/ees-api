@@ -6,8 +6,8 @@
 
     angular
         .module('agenda')
-        .controller('profissionalController', ['$scope', 'config', '$log', 'profissionalService', 'servicoService',
-            function ($scope,config, $log, profissionalService, servicoService) {
+        .controller('profissionalController', ['$scope', 'config', '$log', 'profissionalService',
+            function ($scope,config, $log, profissionalService) {
                 function init() {
                     $('.nav-tabs a').click(function (e) {
                         e.preventDefault();
@@ -37,35 +37,20 @@
                     });
                 }
 
-                function carregarServico(callback) {
-                    servicoService.get().success(function(data) {
-                        $log.log(data);
-                        $scope.servicos = data.items;
-
-                        if( callback instanceof Function) {
-                            callback(data.items);
-                        }
-
-                    }).error(function(data, status) {
-                        console.log(data);
-                        console.log(status);
-                        $scope.error = data.errorMessage;
-                    });
-
-                }
-
                 $scope.adicionar = function () {
+                    $('#modal-profissional').modal('show');
                     delete $scope.profissional;
                     $scope.dadosProfissionalForm.$setPristine();
-                    $('#modal-profissional').modal('show');
+                    $('#modal-profissional a[href="#dados"]').tab('show');
                 };
 
                 $scope.salvar = function (profissional) {
                     $log.log(profissional);
 
-                    profissionalService.post(profissional).success(function() {
-                        $('#modal-profissional').modal('hide');
+                    profissionalService.post(profissional).success(function(data) {
+                        //$('#modal-profissional').modal('hide');
                         delete $scope.profissional;
+                        $scope.profissional = data;
                         $scope.dadosProfissionalForm.$setPristine();
                         carregarLista();
                     }).error(function(data, status) {
@@ -76,18 +61,8 @@
                 $scope.editar = function (profissional) {
                     $scope.dadosProfissionalForm.$setPristine();
                     $scope.profissional = angular.copy(profissional);
+                    console.log($scope.profissional);
                     $('#modal-profissional').modal('show');
-
-                    carregarServico(function(servicos) {
-                        var result = servicos.filter(function(item1) {
-                            for (var i in $scope.profissional.servicosPrestados) {
-                                if (item1.id === $scope.profissional.servicosPrestados[i].id) { return false; }
-                            };
-                            return true;
-                        });
-                        $scope.servicos = result;
-                    });
-
                 };
 
                 $scope.atualizar = function(profissional) {
@@ -124,17 +99,8 @@
 
                     profissionalService.addService($scope.profissional, $scope.servico.selecionado).success(function(data) {
                         $scope.profissional = data;
+                        console.log($scope.profissional);
                         carregarLista();
-                        carregarServico(function(servicos) {
-                            var result = servicos.filter(function(item1) {
-                                for (var i in $scope.profissional.servicosPrestados) {
-                                    if (item1.id === $scope.profissional.servicosPrestados[i].id) { return false; }
-                                };
-                                return true;
-                            });
-                            $scope.servicos = result;
-                        });
-
                     }).error(function(data, status) {
                         $log.error(data);
                     });
