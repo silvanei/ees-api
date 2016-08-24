@@ -6,8 +6,38 @@
 
     angular
         .module('agenda')
-        .controller('profissionalController', ['$scope', 'config', '$log', 'profissionalService',
-            function ($scope,config, $log, profissionalService) {
+        .controller('profissionalController', ['$scope', 'config', '$log', 'profissionalService', 'Notification',
+            function ($scope,config, $log, profissionalService, Notification) {
+//                Notification.success('Primary notification');
+//                Notification.error('Primary notification');
+//                Notification.success({message: 'Success notification<br>Some other <b>content</b><br><a href="https://github.com/alexcrack/angular-ui-notification">This is a link</a><br><img src="https://angularjs.org/img/AngularJS-small.png">', title: 'Html content'});
+//
+//
+//                  // or simply..
+////                  Notification('Primary notification');
+////
+////                  // Other Options
+////                  // Success
+////                  Notification.success('Success notification');
+////
+////                  // Message with custom type
+////                  Notification({message: 'Warning notification'}, 'warning');
+////
+////                  // With Title
+////                  Notification({message: 'Primary notification', title: 'Primary notification'});
+////
+////                  // Message with custom delay
+////                  Notification.error({message: 'Error notification 1s', delay: 1000});
+////
+////                  // Embed HTML within your message.....
+////                  Notification.success({message: 'Success notification<br>Some other <b>content</b><br><a href="https://github.com/alexcrack/angular-ui-notification">This is a link</a><br><img src="https://angularjs.org/img/AngularJS-small.png">', title: 'Html content'});
+////
+////                  // Change position notification
+////                  Notification.error({message: 'Error Bottom Right', positionY: 'bottom', positionX: 'right'});
+////
+////                  // Replace message
+////                  Notification.error({message: 'Error notification 1s', replaceMessage: true});
+
                 function init() {
                     $('.nav-tabs a').click(function (e) {
                         e.preventDefault();
