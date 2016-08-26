@@ -23,15 +23,11 @@
                     servico = angular.copy(servico);
                     var link = servico.link;
                     delete servico.link;
-
-                    servico.duracao = servico.duracao.getTime();
-
                     return $http.put(link.href, servico);
                 }
 
                 function criar(servico) {
                     servico = angular.copy(servico);
-                    servico.duracao = servico.duracao.getTime();
                     return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/servico', servico);
                 }
 

@@ -26,7 +26,6 @@
                         $scope.totalItems = data.count;
 
                         $scope.servicos = data.items.map(function(servico) {
-                            servico.duracao = new Date(servico.duracao);
                             return servico;
                         });
                     }).error(function(data, status) {

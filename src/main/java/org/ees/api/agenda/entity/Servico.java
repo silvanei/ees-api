@@ -14,7 +14,7 @@ public class Servico {
 
 	private String descricao;
 
-	private Time duracao;
+	private Integer duracao;
 
 	private BigDecimal valorMinimo;
 
@@ -52,11 +52,11 @@ public class Servico {
 	}
 
 	
-	public Time getDuracao() {
+	public Integer getDuracao() {
 		return duracao;
 	}
 
-	public void setDuracao(Time duracao) {
+	public void setDuracao(Integer duracao) {
 		this.duracao = duracao;
 	}
 

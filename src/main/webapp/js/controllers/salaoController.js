@@ -14,6 +14,8 @@
                         e.preventDefault();
                         $(this).tab('show');
                     });
+
+                    $scope.teste = 1472178069286;
                 }
 
                 init();

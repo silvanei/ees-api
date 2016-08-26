@@ -23,7 +23,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);
 			stmt.setString(1, servico.getDescricao());
-			stmt.setTime(2, servico.getDuracao());
+			stmt.setInt(2, servico.getDuracao());
 			stmt.setBigDecimal(3, servico.getValorMinimo());
 			stmt.setBigDecimal(4, servico.getValorMaximo());
 			stmt.setInt(5, idSalao);
@@ -50,7 +50,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);
 			stmt.setString(1, servico.getDescricao());
-			stmt.setTime(2, servico.getDuracao());
+			stmt.setInt(2, servico.getDuracao());
 			stmt.setBigDecimal(3, servico.getValorMinimo());
 			stmt.setBigDecimal(4, servico.getValorMaximo());
 			stmt.setInt(5, servico.getId());
@@ -102,7 +102,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 				Servico servico = new Servico();
 				servico.setId(rs.getInt("id"));
 				servico.setDescricao(rs.getString("descricao"));
-				servico.setDuracao(rs.getTime("duracao"));
+				servico.setDuracao(rs.getInt("duracao"));
 				servico.setValorMinimo(rs.getBigDecimal("valor_minimo"));
 				servico.setValorMaximo(rs.getBigDecimal("valor_maximo"));
 				return servico;
@@ -137,7 +137,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 				Servico servico = new Servico();
 				servico.setId(rs.getInt("id"));
 				servico.setDescricao(rs.getString("descricao"));
-				servico.setDuracao(rs.getTime("duracao"));
+				servico.setDuracao(rs.getInt("duracao"));
 				servico.setValorMinimo(rs.getBigDecimal("valor_minimo"));
 				servico.setValorMaximo(rs.getBigDecimal("valor_maximo"));
 				servicos.add(servico);
@@ -169,7 +169,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 				Servico servico = new Servico();
 				servico.setId(rs.getInt("id"));
 				servico.setDescricao(rs.getString("descricao"));
-				servico.setDuracao(rs.getTime("duracao"));
+				servico.setDuracao(rs.getInt("duracao"));
 				servico.setValorMinimo(rs.getBigDecimal("valor_minimo"));
 				servico.setValorMaximo(rs.getBigDecimal("valor_maximo"));
 				servicos.add(servico);
@@ -204,7 +204,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
                 Servico servico = new Servico();
                 servico.setId(rs.getInt("id"));
                 servico.setDescricao(rs.getString("descricao"));
-                servico.setDuracao(rs.getTime("duracao"));
+                servico.setDuracao(rs.getInt("duracao"));
                 servico.setValorMinimo(rs.getBigDecimal("valor_minimo"));
                 servico.setValorMaximo(rs.getBigDecimal("valor_maximo"));
                 servicos.add(servico);
@@ -237,7 +237,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 				Servico servico = new Servico();
 				servico.setId(rs.getInt("id"));
 				servico.setDescricao(rs.getString("descricao"));
-				servico.setDuracao(rs.getTime("duracao"));
+				servico.setDuracao(rs.getInt("duracao"));
 				servico.setValorMinimo(rs.getBigDecimal("valor_minimo"));
 				servico.setValorMaximo(rs.getBigDecimal("valor_maximo"));
 				servicos.add(servico);
