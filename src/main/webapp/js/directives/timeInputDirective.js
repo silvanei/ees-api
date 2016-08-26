@@ -66,7 +66,9 @@
 
                         if(value.length === 5) {
                             var time = value.split(":");
-                            return new Date(1970, 0, 1, time[1], time[0]);
+                            var date = new Date(1970, 0, 1, time[1], time[0]);
+
+                            return date.getTime();
                         }
                     });
 
