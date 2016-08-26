@@ -6,6 +6,7 @@ import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.repository.FuncionarioRepository;
 import org.ees.api.agenda.service.FuncionarioService;
+import org.ees.api.agenda.service.HorarioTrabalhoService;
 import org.ees.api.agenda.service.ServicoService;
 
 import javax.inject.Inject;
@@ -17,11 +18,17 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     private FuncionarioRepository funcionarioRepository;
     private ServicoService servicoService;
+    private HorarioTrabalhoService horarioTrabalhoService;
 
     @Inject
-    public FuncionarioServiceImpl(FuncionarioRepository funcionarioRepository, ServicoService servicoService) {
+    public FuncionarioServiceImpl(
+            FuncionarioRepository funcionarioRepository,
+            ServicoService servicoService,
+            HorarioTrabalhoService horarioTrabalhoService
+    ) {
         this.funcionarioRepository = funcionarioRepository;
         this.servicoService = servicoService;
+        this.horarioTrabalhoService = horarioTrabalhoService;
     }
 
     @Override
@@ -41,6 +48,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         funcionario.setServicosPrestados(servicoService.findByIdFuncionario(idSalao, idFuncionario));
         funcionario.setServicosDisponiveis(servicoService.findNotInFuncionario(idSalao, funcionario.getId()));
+        funcionario.setHorariosTrabalho(horarioTrabalhoService.findByIdFuncionario(funcionario.getId()));
 
         return funcionario;
     }
@@ -51,6 +59,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         for(Funcionario funcionario: funcionarios.getItems()) {
             funcionario.setServicosPrestados(servicoService.findByIdFuncionario(salaoId, funcionario.getId()));
             funcionario.setServicosDisponiveis(servicoService.findNotInFuncionario(salaoId, funcionario.getId()));
+            funcionario.setHorariosTrabalho(horarioTrabalhoService.findByIdFuncionario(funcionario.getId()));
         }
 
         return funcionarios;

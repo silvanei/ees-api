@@ -38,7 +38,7 @@ public class MyResource {
     @GET
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response getIt() throws Exception {
-        DiaDaSemana diaDaSemana = new DiaDaSemana(10);
+        DiaDaSemana diaDaSemana = new DiaDaSemana(DiaDaSemana.DOMINGO);
         HorarioTrabalho horarioTrabalho = new HorarioTrabalho(
             diaDaSemana,
             new Time(10, 51, 0),

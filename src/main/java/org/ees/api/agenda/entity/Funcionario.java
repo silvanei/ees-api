@@ -18,6 +18,7 @@ public class Funcionario {
 
     private List<Servico> servicosPrestados;
     private List<Servico> servicosDisponiveis;
+	private List<HorarioTrabalho> horariosTrabalho;
 
 	private Cargo cargo;
 	private Acesso acesso;
@@ -127,5 +128,13 @@ public class Funcionario {
 
 	public void setServicosDisponiveis(List<Servico> servicosDisponiveis) {
 		this.servicosDisponiveis = servicosDisponiveis;
+	}
+
+	public List<HorarioTrabalho> getHorariosTrabalho() {
+		return horariosTrabalho;
+	}
+
+	public void setHorariosTrabalho(List<HorarioTrabalho> horariosTrabalho) {
+		this.horariosTrabalho = horariosTrabalho;
 	}
 }
