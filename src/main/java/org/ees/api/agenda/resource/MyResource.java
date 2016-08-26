@@ -9,9 +9,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.ees.api.agenda.entity.DiaDaSemana;
+import org.ees.api.agenda.entity.HorarioTrabalho;
 import org.ees.api.agenda.entity.Perfil;
+
+import java.sql.Time;
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -32,10 +37,20 @@ public class MyResource {
      */
     @GET
     @RolesAllowed(Perfil.SALAO_ADMIN)
-    public String getIt() throws JOSEException {
+    public Response getIt() throws Exception {
+        DiaDaSemana diaDaSemana = new DiaDaSemana(10);
+        HorarioTrabalho horarioTrabalho = new HorarioTrabalho(
+            diaDaSemana,
+            new Time(10, 51, 0),
+            new Time(10, 51, 0),
+            new Time(10, 51, 0),
+            new Time(10, 51, 0)
+        );
+
+        return Response.ok(horarioTrabalho).build();
 		
-    	System.out.println(Perfil.SALAO_ADMIN);
-        System.out.println(securityContext.isUserInRole(Perfil.SALAO_ADMIN));
-        return "Got it!";
+//    	System.out.println(Perfil.SALAO_ADMIN);
+//        System.out.println(securityContext.isUserInRole(Perfil.SALAO_ADMIN));
+//        return "Got it!";
     }
 }

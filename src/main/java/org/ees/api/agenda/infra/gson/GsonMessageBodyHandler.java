@@ -7,6 +7,7 @@ package org.ees.api.agenda.infra.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.ees.api.agenda.entity.DiaDaSemana;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -38,6 +39,7 @@ public class GsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
                     //.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
                     .registerTypeAdapter(Time.class, new TimeGson())
                     .registerTypeAdapter(Link.class, new LinkGson())
+                    .registerTypeAdapter(DiaDaSemana.class, new DiaDaSemanaGson())
                     //.excludeFieldsWithoutExposeAnnotation()
                     .setPrettyPrinting()
                     .serializeNulls()
