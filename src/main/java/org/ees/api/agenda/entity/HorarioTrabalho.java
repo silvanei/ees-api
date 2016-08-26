@@ -10,6 +10,9 @@ public class HorarioTrabalho {
     private Time entrada2;
     private Time saida2;
 
+    public HorarioTrabalho() {
+    }
+
     public HorarioTrabalho(DiaDaSemana diaDaSemana, Time entrada1, Time saida1, Time entrada2, Time saida2) {
         this.diaDaSemana = diaDaSemana;
         this.entrada1 = entrada1;
@@ -36,5 +39,25 @@ public class HorarioTrabalho {
 
     public Time getSaida2() {
         return saida2;
+    }
+
+    public void setDiaDaSemana(DiaDaSemana diaDaSemana) {
+        this.diaDaSemana = diaDaSemana;
+    }
+
+    public void setEntrada1(Time entrada1) {
+        this.entrada1 = entrada1;
+    }
+
+    public void setSaida1(Time saida1) {
+        this.saida1 = saida1;
+    }
+
+    public void setEntrada2(Time entrada2) {
+        this.entrada2 = entrada2;
+    }
+
+    public void setSaida2(Time saida2) {
+        this.saida2 = saida2;
     }
 }

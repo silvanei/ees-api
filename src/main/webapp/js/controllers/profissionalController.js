@@ -65,6 +65,28 @@
                 $scope.editar = function (profissional) {
                     $scope.dadosProfissionalForm.$setPristine();
                     $scope.profissional = angular.copy(profissional);
+
+                    var horarioTrabalhoList = [];
+                    for(var i = 0; i < 7; i++) {
+
+                        horarioTrabalhoList.push({
+                            diaDaSemana: i,
+                            entrada1: null,
+                            saida1: null,
+                            entrada2: null,
+                            saida2: null
+                        });
+
+                        $scope.profissional.horariosTrabalho.forEach(function(item) {
+                            if(item.diaDaSemana === i) {
+                                horarioTrabalhoList[i] = item;
+                            }
+                        });
+                    }
+
+                    $scope.horarioTrabalho = horarioTrabalhoList;
+                    console.log(horarioTrabalhoList);
+
                     console.log($scope.profissional);
                     $('#modal-profissional').modal('show');
                 };

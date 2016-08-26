@@ -8,11 +8,21 @@ import java.lang.reflect.Type;
 /**
  * Created by silvanei on 30/07/16.
  */
-public class DiaDaSemanaGson implements JsonSerializer<DiaDaSemana> {
+public class DiaDaSemanaGson implements JsonDeserializer<DiaDaSemana>, JsonSerializer<DiaDaSemana> {
 
     @Override
     public JsonElement serialize(DiaDaSemana diaDaSemana, Type type, JsonSerializationContext jsonSerializationContext) {
 
         return new JsonPrimitive(diaDaSemana.dia());
+    }
+
+    @Override
+    public DiaDaSemana deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+        int dia = jsonElement.getAsInt();
+        try {
+            return new DiaDaSemana(dia);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -209,164 +209,26 @@
                                     <th class="col-sm-1">Entrada</th>
                                     <th class="col-sm-1">Saída</th>
                                 </tr>
-                                <tr>
-                                    <td>Domingo</td>
+                                <tr ng-repeat="horarioTrabalho in horarioTrabalho">
+                                    <td>{{horarioTrabalho.diaDaSemana | diasSemanaToLabel}}</td>
                                     <td>
                                         <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control" time-input ng-model="entrada1" >
+                                            <input type="text" class="form-control" time-input ng-model="horarioTrabalho.entrada1" >
                                         </div>
                                     </td>
                                     <td>
                                         <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control" time-input ng-model="saida1">
+                                            <input type="text" class="form-control" time-input ng-model="horarioTrabalho.saida1">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control" time-input ng-model="entrada2">
+                                            <input type="text" class="form-control" time-input ng-model="horarioTrabalho.entrada2">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control" time-input ng-model="saida2">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Segunda-Feira</td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Terça-Feira</td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Quarta-Feira</td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Quinta-Feira</td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Sexta-Feira</td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Sábado</td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="col-sm-9 input-group input-group-sm">
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" time-input ng-model="horarioTrabalho.saida2">
                                         </div>
                                     </td>
                                 </tr>

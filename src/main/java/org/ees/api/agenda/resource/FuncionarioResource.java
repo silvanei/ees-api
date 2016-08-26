@@ -1,6 +1,7 @@
 package org.ees.api.agenda.resource;
 
 import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.entity.HorarioTrabalho;
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.resource.collection.FuncionarioCollection;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import java.util.List;
 
 /**
  * Created by silvanei on 14/08/16.
@@ -118,6 +120,20 @@ public class FuncionarioResource {
         funcionarioService.removeServico(salaoId, funcionarioId, servicoId);
 
         return Response.noContent().build();
+    }
+
+    @POST
+    @Path("/{funcionarioId}/horarios")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
+    public Response adicionarHorarios(
+            @PathParam("salaoId") Integer salaoId,
+            @PathParam("funcionarioId") Integer funcionarioId,
+            List<HorarioTrabalho> horarios
+    ) {
+
+        //Funcionario funcionario = funcionarioService.addServico(salaoId, funcionarioId, servicoId);
+
+        return Response.ok().entity(horarios).build();
     }
 
 }
