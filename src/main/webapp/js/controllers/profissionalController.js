@@ -27,22 +27,8 @@
                     var offset = (config.paginacao.itensPorPagina * $scope.currentPage) - config.paginacao.itensPorPagina;
 
                     profissionalService.getAll(limit, offset).success(function(data) {
-                        $log.log(data);
                         $scope.totalItems = data.count;
                         $scope.profissionais = data.items;
-
-                        $scope.horarioTrabalho = [];
-
-                        for (var i = 0; i < 7; i++) {
-                            data.items.horariosTrabalho.forEach(function(item) {
-                                if(i === item.diaDaSemana) {
-                                    $scope.horarioTrabalho.push(item);
-                                };
-                            });
-                        }
-
-                        console.log($scope.horarioTrabalho);
-                        
                     }).error(function(data, status) {
                         console.log(data);
                         console.log(status);
