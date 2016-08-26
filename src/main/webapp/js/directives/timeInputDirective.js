@@ -23,7 +23,7 @@
                         }
 
                         if(time.length === 2) {
-                            if(time.substring(0) > 24) {
+                            if(time.substring(0) > 23) {
                                 return time.substring(0, 1);
                             }
                         }
@@ -66,8 +66,8 @@
 
                         if(value.length === 5) {
                             var time = value.split(":");
-                            var date = new Date(1970, 0, 1, time[1], time[0]);
-
+                            // new Date(ano, mês, dia, hora, minuto, segundo, milissegundo);
+                            var date = new Date(70, 0, 1, parseInt(time[0]), parseInt(time[1]), 0, 0);
                             return date.getTime();
                         }
                     });
