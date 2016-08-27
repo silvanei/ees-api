@@ -18,11 +18,15 @@ public class DiaDaSemanaGson implements JsonDeserializer<DiaDaSemana>, JsonSeria
 
     @Override
     public DiaDaSemana deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-        int dia = jsonElement.getAsInt();
-        try {
-            return new DiaDaSemana(dia);
-        } catch (Exception e) {
-            return null;
+        if(jsonElement.getAsInt() >= 0) {
+            int dia = jsonElement.getAsInt();
+            try {
+                return new DiaDaSemana(dia);
+            } catch (Exception e) {
+                return null;
+            }
         }
+
+        return null;
     }
 }

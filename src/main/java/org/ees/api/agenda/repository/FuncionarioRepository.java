@@ -1,7 +1,10 @@
 package org.ees.api.agenda.repository;
 
 import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.entity.HorarioTrabalho;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
+
+import java.util.List;
 
 public interface FuncionarioRepository {
 

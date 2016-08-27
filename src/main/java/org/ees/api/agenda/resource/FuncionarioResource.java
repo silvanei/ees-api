@@ -1,5 +1,6 @@
 package org.ees.api.agenda.resource;
 
+import org.ees.api.agenda.entity.DiaDaSemana;
 import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.HorarioTrabalho;
 import org.ees.api.agenda.entity.Perfil;
@@ -14,7 +15,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
 
 /**
  * Created by silvanei on 14/08/16.
@@ -123,17 +123,47 @@ public class FuncionarioResource {
     }
 
     @POST
-    @Path("/{funcionarioId}/horarios")
+    @Path("/{funcionarioId}/horario-trabalho/{diaDaSemana}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
-    public Response adicionarHorarios(
+    public Response adicionarHorario(
             @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId,
-            List<HorarioTrabalho> horarios
-    ) {
+            @PathParam("diaDaSemana") int diaDaSemana,
+            HorarioTrabalho horario
+    ) throws Exception {
 
-        //Funcionario funcionario = funcionarioService.addServico(salaoId, funcionarioId, servicoId);
+        HorarioTrabalho newHorario = funcionarioService.addHorario(salaoId, funcionarioId, new DiaDaSemana(diaDaSemana), horario);
 
-        return Response.ok().entity(horarios).build();
+        return Response.ok().entity(newHorario).build();
+    }
+
+    @PUT
+    @Path("/{funcionarioId}/horario-trabalho/{diaDaSemana}")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
+    public Response atualizarHorario(
+            @PathParam("salaoId") Integer salaoId,
+            @PathParam("funcionarioId") Integer funcionarioId,
+            @PathParam("diaDaSemana") int diaDaSemana,
+            HorarioTrabalho horario
+    ) throws Exception {
+
+        HorarioTrabalho newHorario = funcionarioService.updateHorario(salaoId, funcionarioId, new DiaDaSemana(diaDaSemana), horario);
+
+        return Response.ok().entity(newHorario).build();
+    }
+
+    @DELETE
+    @Path("/{funcionarioId}/horario-trabalho/{diaDaSemana}")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
+    public Response excluirHorario(
+            @PathParam("salaoId") Integer salaoId,
+            @PathParam("funcionarioId") Integer funcionarioId,
+            @PathParam("diaDaSemana") int diaDaSemana
+    ) throws Exception {
+
+        funcionarioService.deleteHorario(salaoId, funcionarioId, new DiaDaSemana(diaDaSemana));
+
+        return Response.noContent().build();
     }
 
 }

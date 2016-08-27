@@ -1,6 +1,8 @@
 package org.ees.api.agenda.infra.service;
 
+import org.ees.api.agenda.entity.DiaDaSemana;
 import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.entity.HorarioTrabalho;
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
@@ -107,5 +109,40 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         findById(salaoId, funcionarioId);
 
         return funcionarioRepository.removeServico(salaoId, funcionarioId, servicoId);
+    }
+
+    @Override
+    public HorarioTrabalho addHorario(Integer salaoId, Integer funcionarioId, DiaDaSemana diaDaSemana, HorarioTrabalho horario) {
+        findById(salaoId, funcionarioId);
+
+        DiaDaSemana dia = horarioTrabalhoService.add(salaoId, funcionarioId, diaDaSemana, horario);
+
+        return horarioTrabalhoService.findByDiaSemana(salaoId, funcionarioId, dia);
+    }
+
+    @Override
+    public HorarioTrabalho updateHorario(Integer salaoId, Integer funcionarioId, DiaDaSemana diaDaSemana, HorarioTrabalho horario) {
+        findById(salaoId, funcionarioId);
+
+        HorarioTrabalho horarioTrabalho = horarioTrabalhoService.findByDiaSemana(salaoId, funcionarioId, diaDaSemana);
+        if(null == horarioTrabalho) {
+            throw new DataNotFoundException("Horario de trabalho não encontrado para atualização");
+        }
+
+        horarioTrabalhoService.update(salaoId, funcionarioId, diaDaSemana, horario);
+
+        return horarioTrabalhoService.findByDiaSemana(salaoId, funcionarioId, diaDaSemana);
+    }
+
+    @Override
+    public DiaDaSemana deleteHorario(Integer salaoId, Integer funcionarioId, DiaDaSemana diaDaSemana) {
+        HorarioTrabalho horarioTrabalho = horarioTrabalhoService.findByDiaSemana(salaoId, funcionarioId, diaDaSemana);
+        if(null == horarioTrabalho) {
+            throw new DataNotFoundException("Horario de trabalho não encontrado para atualização");
+        }
+
+        findById(salaoId, funcionarioId);
+
+        return horarioTrabalhoService.deleteHorario(salaoId, funcionarioId, diaDaSemana);
     }
 }
