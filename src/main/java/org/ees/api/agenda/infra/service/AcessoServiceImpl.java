@@ -1,6 +1,7 @@
 package org.ees.api.agenda.infra.service;
 
 import org.ees.api.agenda.entity.Acesso;
+import org.ees.api.agenda.infra.exceptions.ConflictException;
 import org.ees.api.agenda.infra.repository.AcessoRepositoryImpl;
 import org.ees.api.agenda.repository.AcessoRepository;
 import org.ees.api.agenda.service.AcessoService;
@@ -18,6 +19,16 @@ public class AcessoServiceImpl implements AcessoService {
     @Inject
     public AcessoServiceImpl(AcessoRepository acessoRepository) {
         this.acessoRepository = acessoRepository;
+    }
+
+    @Override
+    public Integer insert(Acesso acesso) {
+
+        if(null != acessoRepository.findByEmail(acesso.getEmail())) {
+            throw new ConflictException("E-mail já existente no sistema");
+        }
+
+        return acessoRepository.insert(acesso);
     }
 
     @Override

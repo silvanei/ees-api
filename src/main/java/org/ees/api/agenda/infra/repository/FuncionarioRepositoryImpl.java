@@ -226,4 +226,49 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
             throw new AcessoADadosException("Error ao excluir um servico de um Funcionario");
         }
     }
+
+    @Override
+    public Integer addAcesso(Integer salaoId, Integer funcionarioId, Integer acessoId) {
+        String sql = "UPDATE funcionario SET  acesso_id = ? WHERE salao_id = ? AND id = ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, acessoId);
+            stmt.setInt(2, salaoId);
+            stmt.setInt(3, funcionarioId);
+
+            if (stmt.executeUpdate() > 0) {
+                return funcionarioId;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao adicionar acesso para o funcionario de um Salão");
+        }
+    }
+
+    @Override
+    public Boolean hasAcesso(Integer salaoId, Integer funcionarioId) {
+        String sql = "SELECT count(acesso_id) as total FROM funcionario WHERE salao_id = ? AND id = ? AND deletado = 0";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, salaoId);
+            stmt.setInt(2, funcionarioId);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                int total = resultSet.getInt("total");
+                return (total > 0);
+            }
+
+            return false;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Erro ao buscar um funcionario pelo id");
+        }
+    }
 }

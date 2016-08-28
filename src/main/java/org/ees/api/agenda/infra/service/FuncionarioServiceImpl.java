@@ -1,17 +1,20 @@
 package org.ees.api.agenda.infra.service;
 
-import org.ees.api.agenda.entity.DiaDaSemana;
-import org.ees.api.agenda.entity.Funcionario;
-import org.ees.api.agenda.entity.HorarioTrabalho;
-import org.ees.api.agenda.entity.Servico;
+import org.ees.api.agenda.entity.*;
+import org.ees.api.agenda.infra.auth.Digest;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
+import org.ees.api.agenda.infra.exceptions.ConflictException;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.repository.FuncionarioRepository;
+import org.ees.api.agenda.service.AcessoService;
 import org.ees.api.agenda.service.FuncionarioService;
 import org.ees.api.agenda.service.HorarioTrabalhoService;
 import org.ees.api.agenda.service.ServicoService;
 
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by silvanei on 12/08/2016.
@@ -21,16 +24,19 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     private FuncionarioRepository funcionarioRepository;
     private ServicoService servicoService;
     private HorarioTrabalhoService horarioTrabalhoService;
+    private AcessoService acessoService;
 
     @Inject
     public FuncionarioServiceImpl(
             FuncionarioRepository funcionarioRepository,
             ServicoService servicoService,
-            HorarioTrabalhoService horarioTrabalhoService
+            HorarioTrabalhoService horarioTrabalhoService,
+            AcessoService acessoService
     ) {
         this.funcionarioRepository = funcionarioRepository;
         this.servicoService = servicoService;
         this.horarioTrabalhoService = horarioTrabalhoService;
+        this.acessoService = acessoService;
     }
 
     @Override
@@ -144,5 +150,32 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         findById(salaoId, funcionarioId);
 
         return horarioTrabalhoService.deleteHorario(salaoId, funcionarioId, diaDaSemana);
+    }
+
+    @Override
+    public Acesso addAcesso(Integer salaoId, Integer funcionarioId, Acesso acesso) {
+
+        try {
+            acesso.setSenha(Digest.generate(acesso.getSenha()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new BadRequestException("Não foi possível criar a senha");
+        } catch (UnsupportedEncodingException e) {
+            throw new BadRequestException("Não foi possível criar a senha");
+        }
+
+        Funcionario funcionario = funcionarioRepository.findById(salaoId, funcionarioId);
+        if(null == funcionario) {
+            throw new DataNotFoundException("Funcionário não encontrado");
+        }
+
+        if(funcionarioRepository.hasAcesso(salaoId, funcionarioId)) {
+            throw new ConflictException("Funcionário já possui um acesso");
+        }
+
+
+        Integer id = acessoService.insert(acesso);
+        funcionarioRepository.addAcesso(salaoId, funcionarioId, id);
+
+        return acessoService.findById(id);
     }
 }

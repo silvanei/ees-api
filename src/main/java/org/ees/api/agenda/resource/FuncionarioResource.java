@@ -1,11 +1,9 @@
 package org.ees.api.agenda.resource;
 
-import org.ees.api.agenda.entity.DiaDaSemana;
-import org.ees.api.agenda.entity.Funcionario;
-import org.ees.api.agenda.entity.HorarioTrabalho;
-import org.ees.api.agenda.entity.Perfil;
+import org.ees.api.agenda.entity.*;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.resource.collection.FuncionarioCollection;
+import org.ees.api.agenda.service.AcessoService;
 import org.ees.api.agenda.service.FuncionarioService;
 
 import javax.annotation.security.RolesAllowed;
@@ -24,7 +22,10 @@ public class FuncionarioResource {
     private Integer salaoId;
 
     @Inject
-    FuncionarioService funcionarioService;
+    private FuncionarioService funcionarioService;
+
+    @Context
+    private UriInfo uriInfo;
 
     public FuncionarioResource(Integer salaoId) {
         this.salaoId = salaoId;
@@ -58,10 +59,7 @@ public class FuncionarioResource {
 
     @POST
     @RolesAllowed(Perfil.SALAO_ADMIN)
-    public Response createFuncionario(
-            Funcionario funcionario,
-            @Context UriInfo uriInfo
-    ) {
+    public Response createFuncionario(Funcionario funcionario) {
 
         Funcionario newFuncionario = funcionarioService.insert(salaoId, funcionario);
 
@@ -160,6 +158,20 @@ public class FuncionarioResource {
         funcionarioService.deleteHorario(salaoId, funcionarioId, new DiaDaSemana(diaDaSemana));
 
         return Response.noContent().build();
+    }
+
+    @POST
+    @Path("/{funcionarioId}/acesso")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
+    public Response acesso(
+            @PathParam("funcionarioId") Integer funcionarioId,
+            Acesso acesso
+    ) {
+
+        Acesso newAcesso = funcionarioService.addAcesso(salaoId, funcionarioId, acesso);
+
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        return Response.created(builder.build()).entity(newAcesso).build();
     }
 
 

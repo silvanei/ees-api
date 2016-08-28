@@ -1,5 +1,6 @@
 package org.ees.api.agenda.service;
 
+import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.DiaDaSemana;
 import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.HorarioTrabalho;
@@ -31,4 +32,6 @@ public interface FuncionarioService {
     public HorarioTrabalho updateHorario(Integer salaoId, Integer funcionarioId, DiaDaSemana diaDaSemana, HorarioTrabalho horario);
 
     public DiaDaSemana deleteHorario(Integer salaoId, Integer funcionarioId, DiaDaSemana diaDaSemana);
+
+    public Acesso addAcesso(Integer salaoId, Integer funcionarioId, Acesso acesso);
 }

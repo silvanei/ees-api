@@ -22,4 +22,8 @@ public interface FuncionarioRepository {
     public Integer addServico(Integer salaoId, Integer funcionarioId, Integer servicoId);
 
     public Integer removeServico(Integer salaoId, Integer funcionarioId, Integer servicoId);
+
+    public Integer addAcesso(Integer salaoId, Integer funcionarioId, Integer acessoId);
+
+    public Boolean hasAcesso(Integer salaoId, Integer funcionarioId);
 }

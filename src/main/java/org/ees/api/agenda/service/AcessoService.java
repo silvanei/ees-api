@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface AcessoService {
 
+    public Integer insert(Acesso acesso);
+
     public Acesso findById(Integer id);
 
     public Acesso findByEmail(String email);
