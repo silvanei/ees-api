@@ -2,6 +2,7 @@ package org.ees.api.agenda.resource;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
@@ -27,7 +28,9 @@ public class SalaoResource {
 	}
 
 	@Path("/{salaoId}/funcionario")
-	public FuncionarioResource funcionarioSalao() {
-		return rc.initResource(new FuncionarioResource());
+	public FuncionarioResource funcionarioSalao(
+			@PathParam("salaoId") Integer salaoId
+	) {
+		return rc.initResource(new FuncionarioResource(salaoId));
 	}
 }

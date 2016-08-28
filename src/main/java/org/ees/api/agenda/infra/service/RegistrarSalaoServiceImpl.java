@@ -36,8 +36,7 @@ public class RegistrarSalaoServiceImpl implements RegistrarSalaoService {
 
 			Integer idSalao = salaoRepository.insert(salao);
 			Integer idAcesso = acessoRepository.insert(acesso);
-			//Integer idFuncionario = funcionarioRepository.insert(administrador, idSalao, idAcesso);
-			Integer idFuncionario = funcionarioRepository.insert(idSalao, administrador);
+			Integer idFuncionario = funcionarioRepository.insert(idSalao, administrador, idAcesso);
 
 			Salao newSalao = salaoRepository.findById(idSalao);
 			Funcionario newFuncionario = funcionarioRepository.findById(idSalao, idFuncionario);

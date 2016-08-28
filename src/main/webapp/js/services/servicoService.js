@@ -7,10 +7,8 @@
         .factory('servicoService', ['$http', 'config', 'authManagerService',
             function($http, config, authManagerService){
 
-                var salaoId = authManagerService.identity().salaoId;
-
                 function get(limit, offset) {
-
+                    var salaoId = authManagerService.identity().salaoId;
                     var url =  config.baseUrl + '/v1/salao/'+salaoId+'/servico';
                     if(limit) {
                         url +=  '?limit='+ limit + '&offset=' + offset;
@@ -27,6 +25,7 @@
                 }
 
                 function criar(servico) {
+                    var salaoId = authManagerService.identity().salaoId;
                     servico = angular.copy(servico);
                     return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/servico', servico);
                 }

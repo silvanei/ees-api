@@ -44,6 +44,33 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
     }
 
     @Override
+    public Integer insert(Integer idSalao, Funcionario funcionario, Integer acessoId) {
+        String sql = "INSERT INTO funcionario (nome, apelido, telefone, celular, salao_id, acesso_id) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setString(1, funcionario.getNome());
+            stmt.setString(2, funcionario.getApelido());
+            stmt.setString(3, funcionario.getTelefone());
+            stmt.setString(4, funcionario.getCelular());
+            stmt.setInt(5, idSalao);
+            stmt.setInt(6, acessoId);
+
+            if (stmt.executeUpdate() > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao inserir um Funcionario com acesso");
+        }
+    }
+
+    @Override
     public Funcionario findById(Integer idSalao, Integer idFuncionario) {
         String sql = "SELECT id, nome, apelido, telefone, celular FROM funcionario WHERE salao_id = ? AND id = ? AND deletado = 0";
 

@@ -7,9 +7,8 @@
         .factory('salaoService', ['$http', 'config', 'authManagerService',
             function($http, config, authManagerService){
 
-                var salaoId = authManagerService.identity().salaoId;
-
                 function get() {
+                    var salaoId = authManagerService.identity().salaoId;
                     var url =  config.baseUrl + '/v1/salao/'+salaoId+'/dados';
                     return $http.get(url);
                 }

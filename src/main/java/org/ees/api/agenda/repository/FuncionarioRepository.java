@@ -9,6 +9,7 @@ import java.util.List;
 public interface FuncionarioRepository {
 
     public Integer insert(Integer idSalao, Funcionario funcionario);
+    public Integer insert(Integer idSalao, Funcionario funcionario, Integer acessoId);
 
     public Funcionario findById(Integer idSalao, Integer funcionarioId);
 

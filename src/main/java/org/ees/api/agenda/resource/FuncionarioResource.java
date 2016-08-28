@@ -21,18 +21,23 @@ import javax.ws.rs.core.UriInfo;
  */
 public class FuncionarioResource {
 
+    private Integer salaoId;
+
     @Inject
     FuncionarioService funcionarioService;
+
+    public FuncionarioResource(Integer salaoId) {
+        this.salaoId = salaoId;
+    }
 
     @GET
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response funcionarios(
-            @PathParam("salaoId") Integer idSalao,
             @QueryParam("limit") @DefaultValue("5") int limit,
             @QueryParam("offset") @DefaultValue("0") int offset
     ) {
 
-        CollectionPaginated<Funcionario> funcionarios = funcionarioService.findByIdSalao(idSalao, limit, offset);
+        CollectionPaginated<Funcionario> funcionarios = funcionarioService.findByIdSalao(salaoId, limit, offset);
 
         FuncionarioCollection funcionarioColection = new FuncionarioCollection(funcionarios);
 
@@ -43,7 +48,6 @@ public class FuncionarioResource {
     @Path("/{funcionarioId}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response funcionario(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId
     ) {
 
@@ -55,7 +59,6 @@ public class FuncionarioResource {
     @POST
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response createFuncionario(
-            @PathParam("salaoId") Integer salaoId,
             Funcionario funcionario,
             @Context UriInfo uriInfo
     ) {
@@ -71,7 +74,6 @@ public class FuncionarioResource {
     @Path("/{funcionarioId}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response updateFuncionario(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId,
             Funcionario funcionario
     ) {
@@ -85,7 +87,6 @@ public class FuncionarioResource {
     @Path("/{funcionarioId}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response deleteFuncionario(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId
     ) {
 
@@ -98,7 +99,6 @@ public class FuncionarioResource {
     @Path("/{funcionarioId}/servico/{servicoId}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response adicionarServico(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId,
             @PathParam("servicoId") Integer servicoId
     ) {
@@ -112,7 +112,6 @@ public class FuncionarioResource {
     @Path("/{funcionarioId}/servico/{servicoId}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response removerServico(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId,
             @PathParam("servicoId") Integer servicoId
     ) {
@@ -126,7 +125,6 @@ public class FuncionarioResource {
     @Path("/{funcionarioId}/horario-trabalho/{diaDaSemana}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response adicionarHorario(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId,
             @PathParam("diaDaSemana") int diaDaSemana,
             HorarioTrabalho horario
@@ -141,7 +139,6 @@ public class FuncionarioResource {
     @Path("/{funcionarioId}/horario-trabalho/{diaDaSemana}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response atualizarHorario(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId,
             @PathParam("diaDaSemana") int diaDaSemana,
             HorarioTrabalho horario
@@ -156,7 +153,6 @@ public class FuncionarioResource {
     @Path("/{funcionarioId}/horario-trabalho/{diaDaSemana}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response excluirHorario(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("funcionarioId") Integer funcionarioId,
             @PathParam("diaDaSemana") int diaDaSemana
     ) throws Exception {
@@ -166,4 +162,12 @@ public class FuncionarioResource {
         return Response.noContent().build();
     }
 
+
+    public Integer getSalaoId() {
+        return salaoId;
+    }
+
+    public void setSalaoId(Integer salaoId) {
+        this.salaoId = salaoId;
+    }
 }

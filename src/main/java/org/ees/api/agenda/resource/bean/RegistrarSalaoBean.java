@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 import org.ees.api.agenda.infra.auth.Digest;
 
+import javax.ws.rs.BadRequestException;
+
 public class RegistrarSalaoBean {
 
 	private String nomeSalao;
@@ -49,8 +51,14 @@ public class RegistrarSalaoBean {
 	}
 
 	public String getSenhaAdministradorSalao() {
-		return senhaAdministradorSalao;
-	}
+        try {
+            return Digest.generate(this.senhaAdministradorSalao);
+        } catch (NoSuchAlgorithmException e) {
+            throw new BadRequestException("Não foi possível criar a senha");
+        } catch (UnsupportedEncodingException e) {
+            throw new BadRequestException("Não foi possível criar a senha");
+        }
+    }
 
 	public void setSenhaAdministradorSalao(String senhaAdministradorSalao) {
 		try {

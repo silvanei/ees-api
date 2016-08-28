@@ -2,8 +2,7 @@ package org.ees.api.agenda.resource;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
 import org.ees.api.agenda.entity.Acesso;
@@ -18,8 +17,13 @@ import org.ees.api.agenda.service.RegistrarSalaoService;
 @Produces(MediaType.APPLICATION_JSON)
 public class RegistrarSalaoResource {
 
+	private Integer salaoId;
+
 	@Inject
 	private RegistrarSalaoService salaoService;
+
+    @Context
+    private UriInfo uriInfo;
 
 	@POST
 	public Response addSalao(RegistrarSalaoBean registrarSalao) {
@@ -33,7 +37,19 @@ public class RegistrarSalaoResource {
 
 		Salao newSalao = salaoService.registrarSalao(salao, administrador, acesso);
 
-		return Response.status(Status.CREATED).entity(newSalao).build();
+		this.salaoId = newSalao.getId();
 
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(Integer.toString(newSalao.getId()));
+        return Response.created(builder.build()).entity(newSalao).build();
+
+	}
+
+	public Integer getSalaoId() {
+		return salaoId;
+	}
+
+	public void setSalaoId(Integer salaoId) {
+		this.salaoId = salaoId;
 	}
 }
