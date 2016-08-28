@@ -6,18 +6,18 @@
 
     angular
         .module('agenda')
-        .controller('loginController', ['$scope', 'authenticationService', '$location',
-            function ($scope, authenticationService, $location) {
+        .controller('loginController', ['$scope', 'authenticationService', '$location', 'Notification',
+            function ($scope, authenticationService, $location, Notification) {
 
                 authenticationService.logout();
 
-                $scope.login = function() {
-                    authenticationService.login($scope.user.email, $scope.user.password, function (result) {
-                        $scope.loading = true;
+                $scope.login = function(user) {
+                    $scope.loading = true;
+                    authenticationService.login(user.email, user.password, function (result) {
                         if (result === true) {
                             $location.path('/');
                         } else {
-                            $scope.error = 'E-mail ou senha incoreto.';
+                            Notification.error('E-mail ou senha incoreto');
                             $scope.loading = false;
                         }
                     });
