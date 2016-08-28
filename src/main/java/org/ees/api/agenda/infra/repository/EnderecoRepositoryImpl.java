@@ -17,8 +17,8 @@ import org.ees.api.agenda.repository.EnderecoRepository;
 public class EnderecoRepositoryImpl implements EnderecoRepository{
 
     @Override
-    public Integer inserirEndereco(Endereco endereco) {
-        String sql = "INSERT INTO endereco(rua, numero, estado, cidade, bairro, cep) VALUES (?, ?, ?, ?, ?, ?)";
+    public Integer inserirEndereco(Integer salaoId, Endereco endereco) {
+        String sql = "INSERT INTO endereco(rua, numero, estado, cidade, bairro, cep, salao_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try{
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -28,6 +28,7 @@ public class EnderecoRepositoryImpl implements EnderecoRepository{
             stmt.setInt(4, endereco.getCidade());
             stmt.setInt(5, endereco.getBairro());
             stmt.setString(6, endereco.getCep());
+            stmt.setInt(7, salaoId);
 
             if(stmt.executeUpdate()>0){
                 ResultSet rs = stmt.getGeneratedKeys();

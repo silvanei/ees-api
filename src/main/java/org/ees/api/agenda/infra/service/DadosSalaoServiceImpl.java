@@ -7,6 +7,7 @@ import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.SalaoRepository;
 import org.ees.api.agenda.resource.bean.DadosSalao;
+import org.ees.api.agenda.service.AcessoService;
 import org.ees.api.agenda.service.DadosSalaoService;
 import org.ees.api.agenda.service.EnderecoService;
 import org.ees.api.agenda.service.HorarioDeFuncionamentoService;
@@ -21,12 +22,19 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
     SalaoRepository salaoRepository;
     EnderecoService enderecoService;
     HorarioDeFuncionamentoService horarioDeFuncionamentoService;
+    AcessoService acessoService;
 
     @Inject
-    public DadosSalaoServiceImpl(SalaoRepository salaoRepository, EnderecoService enderecoService, HorarioDeFuncionamentoService horarioDeFuncionamentoService) {
+    public DadosSalaoServiceImpl(
+            SalaoRepository salaoRepository,
+            EnderecoService enderecoService,
+            HorarioDeFuncionamentoService horarioDeFuncionamentoService,
+            AcessoService acessoService
+    ) {
         this.salaoRepository = salaoRepository;
         this.enderecoService = enderecoService;
         this.horarioDeFuncionamentoService = horarioDeFuncionamentoService;
+        this.acessoService = acessoService;
     }
 
     @Override
@@ -34,6 +42,7 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
         Salao salao = salaoRepository.findById(salaoId);
         salao.setHorarioDeFuncionamento(horarioDeFuncionamentoService.byIdSalao(salaoId));
         salao.setEndereco(enderecoService.byIdSalao(salaoId));
+        salao.setAcessos(acessoService.findByIdSalao(salaoId));
         return salao;
     }
 
@@ -51,7 +60,7 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
             endereco.setNumero(dadosSalao.getEndereco().getNumero());
             endereco.setCep(dadosSalao.getEndereco().getCep());
             if(null == endereco.getId()) {
-            	Integer idEndereco = enderecoService.inserirEndereco(endereco);
+            	Integer idEndereco = enderecoService.inserirEndereco(salaoId, endereco);
             	endereco.setId(idEndereco);
             } else {
             	enderecoService.atualizarEndereco(endereco);
@@ -68,7 +77,7 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
             horarioDeFuncionamento.setSabado(dadosSalao.getHorarioDeFuncionamento().isSabado());
             horarioDeFuncionamento.setDomingo(dadosSalao.getHorarioDeFuncionamento().isDomingo());
             if(null == horarioDeFuncionamento.getId()) {
-            	Integer idHorarioDeFuncionamento = horarioDeFuncionamentoService.inserirHorarioDeFuncionamento(horarioDeFuncionamento);
+            	Integer idHorarioDeFuncionamento = horarioDeFuncionamentoService.inserirHorarioDeFuncionamento(salaoId, horarioDeFuncionamento);
             	horarioDeFuncionamento.setId(idHorarioDeFuncionamento);
             } else {
             	horarioDeFuncionamentoService.atualizarHorarioDeFuncionamento(horarioDeFuncionamento);

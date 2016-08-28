@@ -3,6 +3,8 @@ package org.ees.api.agenda.infra.repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -103,4 +105,36 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 		}
 	}
 
+	@Override
+	public List<Acesso> findByIdSalao(Integer salaoId) {
+		String sql = "SELECT a.id, a.email, a.senha, a.perfil, f.salao_id " +
+				"FROM acesso a " +
+				"LEFT JOIN funcionario f ON (f.acesso_id = a.id) " +
+				"WHERE f.salao_id = ? ";
+
+		try {
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setInt(1, salaoId);
+			ResultSet resultSet = stmt.executeQuery();
+
+			List<Acesso> acessos = new ArrayList<>();
+
+			while (resultSet.next()) {
+				Acesso acesso = new Acesso();
+				acesso.setId(resultSet.getInt("id"));
+				acesso.setEmail(resultSet.getString("email"));
+				//acesso.setSenha(resultSet.getString("senha"));
+				acesso.setPerfil(resultSet.getString("perfil"));
+				acesso.setSalaoId(resultSet.getInt("salao_id"));
+				acessos.add(acesso);
+
+			}
+
+			return acessos;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(AcessoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Erro ao buscar os acessos de um salão");
+		}
+	}
 }

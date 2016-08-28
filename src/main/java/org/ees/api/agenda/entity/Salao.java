@@ -20,11 +20,15 @@ public class Salao {
 	private List<Funcionario> funcionarios;
 	private List<Servico> servicos;
 	private List<Cliente> clientes;
+	private List<Acesso> acessos;
 
 	@InjectLink(
 			resource = DadosResource.class,
 			method = "dadosSalao",
 			style = InjectLink.Style.ABSOLUTE,
+            bindings = {
+                    @Binding(name = "salaoId", value = "${instance.id}")
+            },
 			rel = "self"
 	)
 	private Link link;
@@ -130,4 +134,12 @@ public class Salao {
 	public void setCelular(String celular) {
 		this.celular = celular;
 	}
+
+    public List<Acesso> getAcessos() {
+        return acessos;
+    }
+
+    public void setAcessos(List<Acesso> acessos) {
+        this.acessos = acessos;
+    }
 }

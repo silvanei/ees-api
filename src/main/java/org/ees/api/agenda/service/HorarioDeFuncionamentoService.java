@@ -7,7 +7,7 @@ import org.ees.api.agenda.entity.HorarioDeFuncionamento;
  */
 public interface HorarioDeFuncionamentoService {
 
-    public Integer inserirHorarioDeFuncionamento(HorarioDeFuncionamento horarioDeFuncionamento);
+    public Integer inserirHorarioDeFuncionamento(Integer salaoId, HorarioDeFuncionamento horarioDeFuncionamento);
 	
     public Integer atualizarHorarioDeFuncionamento(HorarioDeFuncionamento horarioDeFuncionamento);
 	

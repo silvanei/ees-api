@@ -7,7 +7,7 @@ import org.ees.api.agenda.entity.Endereco;
  */
 public interface EnderecoRepository {
 
-    public Integer inserirEndereco(Endereco endereco);
+    public Integer inserirEndereco(Integer salaoId, Endereco endereco);
 
 	public Endereco byIdSalao(Integer idSalao);
 

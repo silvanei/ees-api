@@ -17,21 +17,22 @@ import org.ees.api.agenda.repository.HorarioDeFuncionamentoRepository;
 public class HorarioDeFuncionamentoRepositoryImpl implements HorarioDeFuncionamentoRepository {
 
 	@Override
-	public Integer inserirHorarioDeFuncionamento(HorarioDeFuncionamento horarioDeFuncionamento) {
-		String sql = "INSERT INTO horario_funcionamento (hora_inicio, hora_fim, segunda, terca, quarta, quinta, sexta, sabado, domingo) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public Integer inserirHorarioDeFuncionamento(Integer salaoId, HorarioDeFuncionamento horarioDeFuncionamento) {
+		String sql = "INSERT INTO horario_funcionamento (salao_id, hora_inicio, hora_fim, segunda, terca, quarta, quinta, sexta, sabado, domingo) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);
-			stmt.setTime(1, horarioDeFuncionamento.getHorarioInicio());
-			stmt.setTime(2, horarioDeFuncionamento.getHorarioFinal());
-			stmt.setBoolean(3, horarioDeFuncionamento.isSegunda());
-			stmt.setBoolean(4, horarioDeFuncionamento.isTerca());
-			stmt.setBoolean(5, horarioDeFuncionamento.isQuarta());
-			stmt.setBoolean(6, horarioDeFuncionamento.isQuinta());
-			stmt.setBoolean(7, horarioDeFuncionamento.isSexta());
-			stmt.setBoolean(8, horarioDeFuncionamento.isSabado());
-			stmt.setBoolean(9, horarioDeFuncionamento.isDomingo());
+			stmt.setInt(1, salaoId);
+			stmt.setTime(2, horarioDeFuncionamento.getHorarioInicio());
+			stmt.setTime(3, horarioDeFuncionamento.getHorarioFinal());
+			stmt.setBoolean(4, horarioDeFuncionamento.isSegunda());
+			stmt.setBoolean(5, horarioDeFuncionamento.isTerca());
+			stmt.setBoolean(6, horarioDeFuncionamento.isQuarta());
+			stmt.setBoolean(7, horarioDeFuncionamento.isQuinta());
+			stmt.setBoolean(8, horarioDeFuncionamento.isSexta());
+			stmt.setBoolean(9, horarioDeFuncionamento.isSabado());
+			stmt.setBoolean(10, horarioDeFuncionamento.isDomingo());
 
 			if (stmt.executeUpdate() > 0) {
 				ResultSet rs = stmt.getGeneratedKeys();

@@ -19,8 +19,8 @@ public class HorarioDeFuncionamentoServiceImpl implements HorarioDeFuncionamento
 	}
 
 	@Override
-    public Integer inserirHorarioDeFuncionamento(HorarioDeFuncionamento horarioDeFuncionamento) {
-        return horarioDeFuncionamentoRepostory.inserirHorarioDeFuncionamento(horarioDeFuncionamento);
+    public Integer inserirHorarioDeFuncionamento(Integer salaoId, HorarioDeFuncionamento horarioDeFuncionamento) {
+        return horarioDeFuncionamentoRepostory.inserirHorarioDeFuncionamento(salaoId, horarioDeFuncionamento);
     }
 
 	@Override
