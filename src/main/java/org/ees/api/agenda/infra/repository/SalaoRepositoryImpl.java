@@ -41,7 +41,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 
 	@Override
 	public Integer update(Salao salao) {
-		String sql = "UPDATE salao SET nome = ?, visivel_no_app = ?, telefone = ?, celular = ?, endereco_id = ?, horario_funcionamento_id = ? WHERE id = ?";
+		String sql = "UPDATE salao SET nome = ?, visivel_no_app = ?, telefone = ?, celular = ? WHERE id = ?";
 
 		try{
 			PreparedStatement stmt = DB.preparedStatement(sql);
@@ -49,9 +49,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 			stmt.setBoolean(2, salao.isVisivelNoApp());
 			stmt.setString(3, salao.getTelefone());
 			stmt.setString(4, salao.getCelular());
-			stmt.setInt(5, salao.getEndereco().getId());
-			stmt.setInt(6, salao.getHorarioDeFuncionamento().getId());
-			stmt.setInt(7, salao.getId());
+			stmt.setInt(5, salao.getId());
 
 			if(stmt.executeUpdate()>0){
 				return salao.getId();
@@ -67,7 +65,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 
 	@Override
 	public Salao findById(Integer idSalao) {
-		String sql = "SELECT id, nome, visivel_no_app, telefone FROM salao WHERE id = ?";
+		String sql = "SELECT id, nome, visivel_no_app, telefone, celular FROM salao WHERE id = ?";
 
 		try{
 			PreparedStatement stmt = DB.preparedStatement(sql);
@@ -80,6 +78,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 				salao.setNome(resultSet.getString("nome"));
 				salao.setVisivelNoApp(resultSet.getBoolean("visivel_no_app"));
 				salao.setTelefone(resultSet.getString("telefone"));
+				salao.setCelular(resultSet.getString("celular"));
 
 				return salao;
 			}

@@ -42,7 +42,7 @@ public class GsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
                     .registerTypeAdapter(DiaDaSemana.class, new DiaDaSemanaGson())
                     //.excludeFieldsWithoutExposeAnnotation()
                     .setPrettyPrinting()
-                    .serializeNulls()
+                    //.serializeNulls()
                     .create();
         }
         return gson;

@@ -46,10 +46,7 @@ public class EnderecoRepositoryImpl implements EnderecoRepository{
 
 	@Override
 	public Endereco byIdSalao(Integer idSalao) {
-		String sql = "SELECT e.id, e.rua, e.numero, e.estado, e.cidade, e.bairro, e.cep "
-				+ "FROM endereco e "
-				+ "INNER JOIN salao s ON (s.endereco_id = e.id) "
-				+ "WHERE s.id = ?";
+		String sql = "SELECT id, rua, numero, estado, cidade, bairro, cep FROM endereco WHERE salao_id = ? ";
 
 		try {	
 			
@@ -62,7 +59,8 @@ public class EnderecoRepositoryImpl implements EnderecoRepository{
 			if (resultSet.next()) {
 				endereco.setId(resultSet.getInt("id"));
 				endereco.setRua(resultSet.getString("rua"));
-				endereco.setNumero(resultSet.getInt("estado"));
+				endereco.setNumero(resultSet.getInt("numero"));
+				endereco.setEstado(resultSet.getInt("estado"));
 				endereco.setCidade(resultSet.getInt("cidade"));
 				endereco.setBairro(resultSet.getInt("bairro"));
 				endereco.setCep(resultSet.getString("cep"));
@@ -83,7 +81,11 @@ public class EnderecoRepositoryImpl implements EnderecoRepository{
 		try{
 			PreparedStatement stmt = DB.preparedStatement(sql);
 			stmt.setString(1, endereco.getRua());
-			stmt.setInt(2, endereco.getNumero());
+            if (null == endereco.getNumero()) {
+                stmt.setNull(2, java.sql.Types.INTEGER);
+            } else {
+                stmt.setInt(2, endereco.getNumero());
+            }
 			stmt.setInt(3, endereco.getEstado());
 			stmt.setInt(4, endereco.getCidade());
 			stmt.setInt(5, endereco.getBairro());

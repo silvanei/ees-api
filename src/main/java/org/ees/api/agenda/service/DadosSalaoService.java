@@ -8,5 +8,7 @@ import org.ees.api.agenda.resource.bean.DadosSalao;
  */
 public interface DadosSalaoService {
 
-    public Salao atualizaDadosSalao(Integer idSalao, DadosSalao dadosSalao);
+    public Salao findById(Integer salaoId);
+
+    public Salao atualizaDadosSalao(Integer salaoId, DadosSalao dadosSalao);
 }

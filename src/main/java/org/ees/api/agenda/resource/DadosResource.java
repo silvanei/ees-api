@@ -8,10 +8,7 @@ import org.ees.api.agenda.service.DadosSalaoService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.PUT;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -22,6 +19,17 @@ public class DadosResource {
 	@Inject
 	private DadosSalaoService dadosSalaoService;
 
+	@GET
+	@RolesAllowed(Perfil.SALAO_ADMIN)
+	public Response dadosSalao(
+			@PathParam("salaoId") Integer salaoId
+	) {
+
+		Salao salao = dadosSalaoService.findById(salaoId);
+
+		return Response.ok(salao).build();
+	}
+
 	@PUT
 	@RolesAllowed(Perfil.SALAO_ADMIN)
 	public Response atualizaDadosSalao(
@@ -31,9 +39,6 @@ public class DadosResource {
 
 		Salao salao = dadosSalaoService.atualizaDadosSalao(salaoId, dadosSalao);
 
-		return Response
-				.status(Response.Status.CREATED)
-				.entity(salao)
-				.build();
+		return Response.ok(salao).build();
 	}
 }

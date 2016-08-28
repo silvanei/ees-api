@@ -50,9 +50,7 @@ public class HorarioDeFuncionamentoRepositoryImpl implements HorarioDeFuncioname
 
 	@Override
 	public HorarioDeFuncionamento byIdSalao(Integer idSalao) {
-		String sql = "SELECT hf.id, hf.hora_inicio, hf.hora_fim, hf.segunda, hf.terca, hf.quarta, hf.quinta, hf.sexta, hf.sabado, hf.domingo "
-				+ "FROM horario_funcionamento hf " + "INNER JOIN salao s ON (s.horario_funcionamento_id = hf.id) "
-				+ "WHERE s.id = ?";
+		String sql = "SELECT id, salao_id, hora_inicio, hora_fim, segunda, terca, quarta, quinta, sexta, sabado, domingo FROM horario_funcionamento WHERE salao_id = ?";
 
 		try {
 

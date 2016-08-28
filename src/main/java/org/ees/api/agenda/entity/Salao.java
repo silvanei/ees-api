@@ -1,5 +1,10 @@
 package org.ees.api.agenda.entity;
 
+import org.ees.api.agenda.resource.DadosResource;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+
+import javax.ws.rs.core.Link;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +20,14 @@ public class Salao {
 	private List<Funcionario> funcionarios;
 	private List<Servico> servicos;
 	private List<Cliente> clientes;
+
+	@InjectLink(
+			resource = DadosResource.class,
+			method = "dadosSalao",
+			style = InjectLink.Style.ABSOLUTE,
+			rel = "self"
+	)
+	private Link link;
 
 	public Salao() {
 		super();

@@ -30,12 +30,20 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
     }
 
     @Override
-    public Salao atualizaDadosSalao(Integer idSalao, DadosSalao dadosSalao) {
+    public Salao findById(Integer salaoId) {
+        Salao salao = salaoRepository.findById(salaoId);
+        salao.setHorarioDeFuncionamento(horarioDeFuncionamentoService.byIdSalao(salaoId));
+        salao.setEndereco(enderecoService.byIdSalao(salaoId));
+        return salao;
+    }
+
+    @Override
+    public Salao atualizaDadosSalao(Integer salaoId, DadosSalao dadosSalao) {
 
         try{
             DB.beginTransaction();
         	
-            Endereco endereco = enderecoService.byIdSalao(idSalao);
+            Endereco endereco = enderecoService.byIdSalao(salaoId);
             endereco.setRua(dadosSalao.getEndereco().getRua());
             endereco.setEstado(dadosSalao.getEndereco().getEstado());
             endereco.setCidade(dadosSalao.getEndereco().getCidade());
@@ -49,7 +57,7 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
             	enderecoService.atualizarEndereco(endereco);
             }
             
-            HorarioDeFuncionamento horarioDeFuncionamento = horarioDeFuncionamentoService.byIdSalao(idSalao);
+            HorarioDeFuncionamento horarioDeFuncionamento = horarioDeFuncionamentoService.byIdSalao(salaoId);
             horarioDeFuncionamento.setHorarioInicio(dadosSalao.getHorarioDeFuncionamento().getHorarioInicio());
             horarioDeFuncionamento.setHorarioFinal(dadosSalao.getHorarioDeFuncionamento().getHorarioFinal());
             horarioDeFuncionamento.setSegunda(dadosSalao.getHorarioDeFuncionamento().isSegunda());
@@ -67,7 +75,7 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
             }
             
             Salao salao = new Salao();
-            salao.setId(idSalao);
+            salao.setId(salaoId);
             salao.setNome(dadosSalao.getNome());
             salao.setVisivelNoApp(dadosSalao.isVisivelNoApp());
             salao.setTelefone(dadosSalao.getTelefone());
