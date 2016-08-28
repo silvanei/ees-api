@@ -27,11 +27,12 @@ public class HorarioTrabalhoRepositoryImpl implements HorarioTrabalhoRepository 
             PreparedStatement stmt = DB.preparedStatement(sql);
             stmt.setInt(1, funcionarioId);
             stmt.setInt(2, salaoId);
-            stmt.setInt(3, diaDaSemana.dia());
+            stmt.setInt(3, diaDaSemana.getDia());
             ResultSet resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
                 HorarioTrabalho horarioTrabalho = new HorarioTrabalho(
+                        resultSet.getInt("funcionario_id"),
                         new DiaDaSemana(resultSet.getInt("dia_da_semana")),
                         resultSet.getTime("entrada1"),
                         resultSet.getTime("saida1"),
@@ -55,7 +56,7 @@ public class HorarioTrabalhoRepositoryImpl implements HorarioTrabalhoRepository 
 
     @Override
     public List<HorarioTrabalho> findByIdFuncionario(Integer idfuncionario) {
-        String sql = "SELECT dia_da_semana, entrada1, saida1, entrada2, saida2 FROM horario_trabalho WHERE funcionario_id = ?";
+        String sql = "SELECT funcionario_id, dia_da_semana, entrada1, saida1, entrada2, saida2 FROM horario_trabalho WHERE funcionario_id = ?";
 
         try{
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -66,6 +67,7 @@ public class HorarioTrabalhoRepositoryImpl implements HorarioTrabalhoRepository 
 
             while (resultSet.next()) {
                 HorarioTrabalho horarioTrabalho = new HorarioTrabalho(
+                    resultSet.getInt("funcionario_id"),
                     new DiaDaSemana(resultSet.getInt("dia_da_semana")),
                     resultSet.getTime("entrada1"),
                     resultSet.getTime("saida1"),
@@ -98,7 +100,7 @@ public class HorarioTrabalhoRepositoryImpl implements HorarioTrabalhoRepository 
 
             stmt.setInt(1, funcionarioId);
             stmt.setInt(2, salaoId);
-            stmt.setInt(3, diaDaSemana.dia());
+            stmt.setInt(3, diaDaSemana.getDia());
             stmt.setTime(4, horario.getEntrada1());
             stmt.setTime(5, horario.getSaida1());
             stmt.setTime(6, horario.getEntrada2());
@@ -126,7 +128,7 @@ public class HorarioTrabalhoRepositoryImpl implements HorarioTrabalhoRepository 
             stmt.setTime(2, horario.getSaida1());
             stmt.setTime(3, horario.getEntrada2());
             stmt.setTime(4, horario.getSaida2());
-            stmt.setInt(5, diaDaSemana.dia());
+            stmt.setInt(5, diaDaSemana.getDia());
             stmt.setInt(6, funcionarioId);
             stmt.setInt(7, salaoId);
 
@@ -151,7 +153,7 @@ public class HorarioTrabalhoRepositoryImpl implements HorarioTrabalhoRepository 
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
-            stmt.setInt(1, diaDaSemana.dia());
+            stmt.setInt(1, diaDaSemana.getDia());
             stmt.setInt(2, funcionarioId);
             stmt.setInt(3, salaoId);
 

@@ -14,6 +14,9 @@
                 require: 'ngModel',
                 link: function (scope, element, attrs, ctrl) {
 
+                    element.css("text-align", "center");
+                    element.css("width", "70px");
+
                     function formatHour(time) {
                         time = time.replace(/[^0-9]+/g, "");
                         if(time.length === 1) {

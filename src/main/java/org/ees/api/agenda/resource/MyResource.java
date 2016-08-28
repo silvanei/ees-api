@@ -40,6 +40,7 @@ public class MyResource {
     public Response getIt() throws Exception {
         DiaDaSemana diaDaSemana = new DiaDaSemana(DiaDaSemana.DOMINGO);
         HorarioTrabalho horarioTrabalho = new HorarioTrabalho(
+            1,
             diaDaSemana,
             new Time(10, 51, 0),
             new Time(10, 51, 0),

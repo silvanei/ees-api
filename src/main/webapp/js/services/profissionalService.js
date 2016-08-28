@@ -40,6 +40,14 @@
                     return $http.delete(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+ profissional +'/servico/' + idServico);
                 }
 
+                function addHorarioTrabalho(funcionarioId, horarioTrabalho) {
+                    return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+ funcionarioId + '/horario-trabalho/' + horarioTrabalho.dia, horarioTrabalho);
+                }
+
+                function removerHorarioTrabalho(horario) {
+                    return $http.delete(horario.link.href)
+                }
+
                 return {
                     get: get,
                     getAll: getAll,
@@ -47,7 +55,9 @@
                     put: atualizar,
                     delete: excluir,
                     addService: adicionarServico,
-                    removeService: removerServico
+                    removeService: removerServico,
+                    addHorarioTrabalho: addHorarioTrabalho,
+                    removeHorarioTrabalho: removerHorarioTrabalho
                 }
             }
         ]

@@ -25,7 +25,7 @@ public class DiaDaSemana {
         this.dia = dia;
     }
 
-    public int dia() {
+    public int getDia() {
         return dia;
     }
 

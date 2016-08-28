@@ -13,7 +13,7 @@ public class DiaDaSemanaGson implements JsonDeserializer<DiaDaSemana>, JsonSeria
     @Override
     public JsonElement serialize(DiaDaSemana diaDaSemana, Type type, JsonSerializationContext jsonSerializationContext) {
 
-        return new JsonPrimitive(diaDaSemana.dia());
+        return new JsonPrimitive(diaDaSemana.getDia());
     }
 
     @Override

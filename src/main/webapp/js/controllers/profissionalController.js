@@ -19,6 +19,8 @@
                     $scope.itemsPerPage = config.paginacao.itensPorPagina;
                     $scope.maxSize = config.paginacao.maxSize;
 
+                    $scope.diasDaSemana = config.diasDaSemana;
+
                     carregarLista();
                 }
 
@@ -36,10 +38,29 @@
                     });
                 }
 
+                function carregarDiasDaSemana() {
+                    $scope.diasDaSemana = config.diasDaSemana.filter(function(dia) {
+                        var selecionado = true;
+                        $scope.profissional.horariosTrabalho.forEach(function(item) {
+                            if(dia.id === item.diaDaSemana){
+                                selecionado = false;
+                            }
+                        });
+
+                        return selecionado;
+                    });
+                }
+
                 $scope.adicionar = function () {
                     $('#modal-profissional').modal('show');
                     delete $scope.profissional;
                     $scope.dadosProfissionalForm.$setPristine();
+
+                    delete $scope.horarioTrabalho;
+                    $scope.horarioTrabalhoForm.$setPristine();
+
+                    $scope.diasDaSemana = config.diasDaSemana;
+
                     $('#modal-profissional a[href="#dados"]').tab('show');
                 };
 
@@ -49,8 +70,12 @@
                     profissionalService.post(profissional).success(function(data) {
                         //$('#modal-profissional').modal('hide');
                         delete $scope.profissional;
-                        $scope.profissional = data;
                         $scope.dadosProfissionalForm.$setPristine();
+
+                        delete $scope.horarioTrabalho;
+                        $scope.horarioTrabalhoForm.$setPristine();
+
+                        $scope.profissional = data;
                         carregarLista();
 
                         Notification.success('Profissional salvo com sucesso');
@@ -66,28 +91,12 @@
                     $scope.dadosProfissionalForm.$setPristine();
                     $scope.profissional = angular.copy(profissional);
 
-                    var horarioTrabalhoList = [];
-                    for(var i = 0; i < 7; i++) {
+                    delete $scope.horarioTrabalho;
+                    $scope.horarioTrabalhoForm.$setPristine();
 
-                        horarioTrabalhoList.push({
-                            diaDaSemana: i,
-                            entrada1: null,
-                            saida1: null,
-                            entrada2: null,
-                            saida2: null
-                        });
+                    carregarDiasDaSemana();
 
-                        $scope.profissional.horariosTrabalho.forEach(function(item) {
-                            if(item.diaDaSemana === i) {
-                                horarioTrabalhoList[i] = item;
-                            }
-                        });
-                    }
 
-                    $scope.horarioTrabalho = horarioTrabalhoList;
-                    console.log(horarioTrabalhoList);
-
-                    console.log($scope.profissional);
                     $('#modal-profissional').modal('show');
                 };
 
@@ -160,6 +169,43 @@
                     }).error(function(data, status) {
                         $log.error(data);
 
+                        Notification.error(data.errorMessage);
+                    });
+                };
+
+                $scope.removeHorario = function(horario) {
+                    profissionalService.removeHorarioTrabalho(horario).success(function() {
+
+                        profissionalService.get(horario.funcionarioId).success(function(data) {
+                            $scope.profissional = data;
+                            carregarDiasDaSemana();
+                        });
+
+                        carregarLista();
+
+                        Notification.success('Horario removido com sucesso');
+                    }).error(function(data, status) {
+                        $log.error(data);
+                        Notification.error(data.errorMessage);
+                    });
+                };
+
+                $scope.adicionarHorario = function(funcionarioId, horario) {
+                    profissionalService.addHorarioTrabalho(funcionarioId, horario).success(function(data) {
+
+                        delete $scope.horarioTrabalho;
+                        $scope.horarioTrabalhoForm.$setPristine();
+
+                        profissionalService.get(data.funcionarioId).success(function(data) {
+                            $scope.profissional = data;
+                            carregarDiasDaSemana();
+                        });
+
+                        carregarLista();
+
+                        Notification.success('Horario adicionado com sucesso');
+                    }).error(function(data, status) {
+                        $log.error(data);
                         Notification.error(data.errorMessage);
                     });
                 };
