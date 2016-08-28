@@ -19,11 +19,15 @@ public class DadosResource {
 	@Inject
 	private DadosSalaoService dadosSalaoService;
 
+	private Integer salaoId;
+
+	public DadosResource(Integer salaoId) {
+		this.salaoId = salaoId;
+	}
+
 	@GET
 	@RolesAllowed(Perfil.SALAO_ADMIN)
-	public Response dadosSalao(
-			@PathParam("salaoId") Integer salaoId
-	) {
+	public Response dadosSalao() {
 
 		Salao salao = dadosSalaoService.findById(salaoId);
 
@@ -32,13 +36,18 @@ public class DadosResource {
 
 	@PUT
 	@RolesAllowed(Perfil.SALAO_ADMIN)
-	public Response atualizaDadosSalao(
-			@PathParam("salaoId") Integer salaoId,
-			DadosSalao dadosSalao
-	) {
+	public Response atualizaDadosSalao(DadosSalao dadosSalao) {
 
 		Salao salao = dadosSalaoService.atualizaDadosSalao(salaoId, dadosSalao);
 
 		return Response.ok(salao).build();
+	}
+
+	public Integer getSalaoId() {
+		return salaoId;
+	}
+
+	public void setSalaoId(Integer salaoId) {
+		this.salaoId = salaoId;
 	}
 }

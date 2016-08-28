@@ -17,14 +17,18 @@ public class SalaoResource {
 	private ResourceContext rc;
 
 	@Path("/{salaoId}/dados")
-	public DadosResource dadosSalao() {
-		return rc.initResource(new DadosResource());
+	public DadosResource dadosSalao(
+			@PathParam("salaoId") Integer salaoId
+	) {
+		return rc.initResource(new DadosResource(salaoId));
 	}
 
 
 	@Path("/{salaoId}/servico")
-	public ServicoResource servicoSalao() {
-		return rc.initResource(new ServicoResource());
+	public ServicoResource servicoSalao(
+			@PathParam("salaoId") Integer salaoId
+	) {
+		return rc.initResource(new ServicoResource(salaoId));
 	}
 
 	@Path("/{salaoId}/funcionario")

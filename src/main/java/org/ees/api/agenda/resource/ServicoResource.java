@@ -17,20 +17,25 @@ public class ServicoResource {
     @Inject
     private ServicoService servicoService;
 
+    private Integer salaoId;
+
+    public ServicoResource(Integer salaoId) {
+        this.salaoId = salaoId;
+    }
+
     @GET
     @RolesAllowed(Perfil.SALAO_ADMIN)
     @Produces({MediaType.APPLICATION_JSON})
     public Response servicos(
-            @PathParam("salaoId") Integer idSalao,
             @QueryParam("offset") int offset,
             @QueryParam("limit") int limit
     ) {
         CollectionPaginated<Servico> servicos;
 
         if (0 == limit) {
-            servicos = servicoService.findByIdSalao(idSalao);
+            servicos = servicoService.findByIdSalao(salaoId);
         } else {
-            servicos = servicoService.findByIdSalao(idSalao, limit, offset);
+            servicos = servicoService.findByIdSalao(salaoId, limit, offset);
         }
 
         ServicoCollection servicoColection = new ServicoCollection(servicos);
@@ -42,7 +47,6 @@ public class ServicoResource {
     @Path("/{servicoId}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response servico(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("servicoId") Integer servicoId
     ) {
 
@@ -54,7 +58,6 @@ public class ServicoResource {
     @POST
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response createServico(
-            @PathParam("salaoId") Integer salaoId,
             Servico servico,
             @Context UriInfo uriInfo
     ) {
@@ -70,7 +73,6 @@ public class ServicoResource {
     @Path("/{servicoId}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response updateServico(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("servicoId") Integer servicoId,
             Servico servico
     ) {
@@ -84,12 +86,19 @@ public class ServicoResource {
     @Path("/{servicoId}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response deleteServico(
-            @PathParam("salaoId") Integer salaoId,
             @PathParam("servicoId") Integer servicoId
     ) {
 
         servicoService.delete(salaoId, servicoId);
 
         return Response.noContent().build();
+    }
+
+    public Integer getSalaoId() {
+        return salaoId;
+    }
+
+    public void setSalaoId(Integer salaoId) {
+        this.salaoId = salaoId;
     }
 }
