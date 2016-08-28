@@ -5,6 +5,7 @@ import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.Salao;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
+import org.ees.api.agenda.infra.exceptions.ConflictException;
 import org.ees.api.agenda.repository.AcessoRepository;
 import org.ees.api.agenda.repository.FuncionarioRepository;
 import org.ees.api.agenda.repository.SalaoRepository;
@@ -30,6 +31,10 @@ public class RegistrarSalaoServiceImpl implements RegistrarSalaoService {
 	@Override
 	// TODO Adicionar camada de serviço e não acessar diretamente o repositorio
 	public Salao registrarSalao(Salao salao, Funcionario administrador, Acesso acesso) {
+
+        if(null != acessoRepository.findByEmail(acesso.getEmail())) {
+            throw new ConflictException("E-mail já existente no sistema");
+        }
 
 		try {
 			DB.beginTransaction();
