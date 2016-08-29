@@ -34,4 +34,6 @@ public interface FuncionarioService {
     public DiaDaSemana deleteHorario(Integer salaoId, Integer funcionarioId, DiaDaSemana diaDaSemana);
 
     public Acesso addAcesso(Integer salaoId, Integer funcionarioId, Acesso acesso);
+
+    public CollectionPaginated<Funcionario> findByIdSalao(Integer salaoId);
 }

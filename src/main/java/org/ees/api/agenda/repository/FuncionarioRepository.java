@@ -26,4 +26,6 @@ public interface FuncionarioRepository {
     public Integer addAcesso(Integer salaoId, Integer funcionarioId, Integer acessoId);
 
     public Boolean hasAcesso(Integer salaoId, Integer funcionarioId);
+
+    public CollectionPaginated<Funcionario> findByIdSalao(Integer salaoId);
 }

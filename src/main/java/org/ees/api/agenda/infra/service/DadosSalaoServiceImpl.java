@@ -7,10 +7,7 @@ import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.SalaoRepository;
 import org.ees.api.agenda.resource.bean.DadosSalao;
-import org.ees.api.agenda.service.AcessoService;
-import org.ees.api.agenda.service.DadosSalaoService;
-import org.ees.api.agenda.service.EnderecoService;
-import org.ees.api.agenda.service.HorarioDeFuncionamentoService;
+import org.ees.api.agenda.service.*;
 
 import javax.inject.Inject;
 
@@ -19,22 +16,22 @@ import javax.inject.Inject;
  */
 public class DadosSalaoServiceImpl implements DadosSalaoService {
 
-    SalaoRepository salaoRepository;
-    EnderecoService enderecoService;
-    HorarioDeFuncionamentoService horarioDeFuncionamentoService;
-    AcessoService acessoService;
+    private SalaoRepository salaoRepository;
+    private EnderecoService enderecoService;
+    private HorarioDeFuncionamentoService horarioDeFuncionamentoService;
+    private FuncionarioService funcionarioService;
 
     @Inject
     public DadosSalaoServiceImpl(
             SalaoRepository salaoRepository,
             EnderecoService enderecoService,
             HorarioDeFuncionamentoService horarioDeFuncionamentoService,
-            AcessoService acessoService
+            FuncionarioService funcionarioService
     ) {
         this.salaoRepository = salaoRepository;
         this.enderecoService = enderecoService;
         this.horarioDeFuncionamentoService = horarioDeFuncionamentoService;
-        this.acessoService = acessoService;
+        this.funcionarioService = funcionarioService;
     }
 
     @Override
@@ -42,7 +39,6 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
         Salao salao = salaoRepository.findById(salaoId);
         salao.setHorarioDeFuncionamento(horarioDeFuncionamentoService.byIdSalao(salaoId));
         salao.setEndereco(enderecoService.byIdSalao(salaoId));
-        salao.setAcessos(acessoService.findByIdSalao(salaoId));
         return salao;
     }
 

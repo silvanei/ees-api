@@ -12,6 +12,7 @@
             return function(input) {
                 switch (input) {
                     case "SALAO_ADMIN" : return "Administrador";
+                    case "SALAO_PROFISSIONAL" : return "Profissional";
                     default: return "";
                 }
             }

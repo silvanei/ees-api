@@ -51,6 +51,12 @@
                     return $http.delete(horario.link.href)
                 }
 
+                function adicionarAcesso(funcionarioId, acesso) {
+                    var salaoId = authManagerService.identity().salaoId;
+                    acesso = angular.copy(acesso);
+                    return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+funcionarioId+'/acesso', acesso);
+                }
+
                 return {
                     get: get,
                     getAll: getAll,
@@ -60,7 +66,8 @@
                     addService: adicionarServico,
                     removeService: removerServico,
                     addHorarioTrabalho: addHorarioTrabalho,
-                    removeHorarioTrabalho: removerHorarioTrabalho
+                    removeHorarioTrabalho: removerHorarioTrabalho,
+                    addAcesso: adicionarAcesso
                 }
             }
         ]

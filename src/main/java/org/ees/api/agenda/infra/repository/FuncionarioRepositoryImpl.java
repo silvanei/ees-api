@@ -135,6 +135,40 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
     }
 
     @Override
+    public CollectionPaginated<Funcionario> findByIdSalao(Integer salaoId) {
+        String sql = "SELECT id, nome, apelido, telefone, celular " +
+                "FROM funcionario " +
+                "WHERE salao_id = ? AND deletado = 0 " +
+                "ORDER BY id ";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, salaoId);
+            ResultSet rs = stmt.executeQuery();
+
+            List<Funcionario> funcionarios = new ArrayList<>();
+
+            while (rs.next()) {
+                Funcionario funcionario = new Funcionario();
+                funcionario.setId(rs.getInt("id"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setApelido(rs.getString("apelido"));
+                funcionario.setTelefone(rs.getString("telefone"));
+                funcionario.setCelular(rs.getString("celular"));
+                funcionarios.add(funcionario);
+            }
+
+            int total = funcionarios.size();
+
+            return new CollectionPaginated<Funcionario>(funcionarios, total, 0, total);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao buscar funcionarios pelo idSalao");
+        }
+    }
+
+    @Override
     public Integer update(Integer salaoId, Integer funcionarioId, Funcionario funcionario) {
         String sql = "UPDATE funcionario SET  nome = ?, apelido = ?, telefone = ?, celular = ? WHERE salao_id = ? AND id = ?";
 

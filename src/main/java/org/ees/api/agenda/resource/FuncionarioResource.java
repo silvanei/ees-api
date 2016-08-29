@@ -34,11 +34,17 @@ public class FuncionarioResource {
     @GET
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response funcionarios(
-            @QueryParam("limit") @DefaultValue("5") int limit,
-            @QueryParam("offset") @DefaultValue("0") int offset
+            @QueryParam("limit") int limit,
+            @QueryParam("offset") int offset
     ) {
 
-        CollectionPaginated<Funcionario> funcionarios = funcionarioService.findByIdSalao(salaoId, limit, offset);
+        CollectionPaginated<Funcionario> funcionarios;
+
+        if (0 == limit) {
+            funcionarios = funcionarioService.findByIdSalao(salaoId);
+        } else {
+            funcionarios = funcionarioService.findByIdSalao(salaoId, limit, offset);
+        }
 
         FuncionarioCollection funcionarioColection = new FuncionarioCollection(funcionarios);
 
