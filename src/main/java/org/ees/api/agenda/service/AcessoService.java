@@ -17,5 +17,5 @@ public interface AcessoService {
 
     public List<Acesso> findByIdSalao(Integer salaoId);
 
-    public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Integer acessoId);
+    public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Acesso acesso);
 }

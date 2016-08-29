@@ -1,6 +1,7 @@
 package org.ees.api.agenda.infra.repository;
 
 import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
@@ -299,6 +300,29 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
             }
 
             return false;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Erro ao buscar um funcionario pelo id");
+        }
+    }
+
+    @Override
+    public Integer countAcessoAdmin(Integer salaoId) {
+        String sql = "SELECT count(1) as total FROM funcionario f INNER JOIN acesso a ON (a.id = f.acesso_id) WHERE salao_id = ? AND a.perfil = ?";
+        int total = 0;
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, salaoId);
+            stmt.setString(2, Perfil.SALAO_ADMIN);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                total = resultSet.getInt("total");
+
+            }
+
+            return total;
 
         } catch (SQLException ex) {
             Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);

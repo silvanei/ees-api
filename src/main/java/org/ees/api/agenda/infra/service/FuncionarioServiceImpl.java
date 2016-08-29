@@ -5,6 +5,7 @@ import org.ees.api.agenda.infra.auth.Digest;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.exceptions.ConflictException;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
+import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
 import org.ees.api.agenda.repository.FuncionarioRepository;
 import org.ees.api.agenda.service.AcessoService;
 import org.ees.api.agenda.service.FuncionarioService;
@@ -192,6 +193,12 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     @Override
     public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Acesso acesso) {
+        if(acesso.getPerfil().equals(Perfil.SALAO_ADMIN)) {
+            if (funcionarioRepository.countAcessoAdmin(salaoId) == 1) {
+                throw new UnAuthorizedException("Não é possível remover o único usuário administrador");
+            }
+        }
+
         return acessoService.removeAcesso(salaoId, funcionarioId, acesso);
     }
 }

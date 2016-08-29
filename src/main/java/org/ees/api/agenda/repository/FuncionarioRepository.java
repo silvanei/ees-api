@@ -27,5 +27,7 @@ public interface FuncionarioRepository {
 
     public Boolean hasAcesso(Integer salaoId, Integer funcionarioId);
 
+    public Integer countAcessoAdmin(Integer salaoId);
+
     public CollectionPaginated<Funcionario> findByIdSalao(Integer salaoId);
 }
