@@ -180,6 +180,19 @@ public class FuncionarioResource {
         return Response.created(builder.build()).entity(newAcesso).build();
     }
 
+    @DELETE
+    @Path("/{funcionarioId}/acesso")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
+    public Response removeAcesso(
+            @PathParam("funcionarioId") Integer funcionarioId,
+            Acesso acesso
+    ) {
+
+        funcionarioService.removeAcesso(salaoId, funcionarioId, acesso);
+
+        return Response.noContent().build();
+    }
+
 
     public Integer getSalaoId() {
         return salaoId;

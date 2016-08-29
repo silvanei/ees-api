@@ -320,8 +320,8 @@
                                 <td>{{acesso.perfil | perfilToLabel}}</td>
                                 <td>{{acesso.email}}</td>
                                 <td>
-                                    <a data-toggle="modal" data-target="#editar-usuario"><i class="fa fa-fw fa-edit"></i></a>
-                                    <a data-toggle="modal" data-target="#excluir-usuario"><i class="fa fa-fw fa-trash"></i></a>
+                                    <a ng-click="editar(acesso)"><i class="fa fa-fw fa-edit"></i></a>
+                                    <a ng-click="remover(acesso)"><i class="fa fa-fw fa-trash"></i></a>
                                 </td>
                             </tr>
                         </table>
@@ -335,6 +335,17 @@
                                     <div class="modal-body">
                                         {{acesso}}
                                         <form class="form-horizontal" name="acessoForm">
+                                            <div class="form-group" ng-hide="acesso.funcionarioId">
+                                                <div class="col-sm-3">
+                                                    <label class="control-label">Profissional</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control"  ng-model="funcionario.selecionado" ng-options="funcionario.id as funcionario.nome for funcionario in funcionarios">
+                                                        <option value="">Selecione um Profissional</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                             <div class="form-group">
                                                 <div class="col-sm-3">
                                                     <label class="control-label">Perfil</label>
@@ -344,16 +355,6 @@
                                                         <option value="">Selecione um Perfil</option>
                                                         <option value="SALAO_ADMIN">Administrador</option>
                                                         <option value="SALAO_PROFISSIONAL">Profissional</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-sm-3">
-                                                    <label class="control-label">Profissional</label>
-                                                </div>
-                                                <div class="col-sm-8">
-                                                    <select class="form-control"  ng-model="funcionario.selecionado" ng-options="funcionario.id as funcionario.nome for funcionario in funcionarios">
-                                                        <option value="">Selecione um Profissional</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -377,13 +378,15 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn btn-primary" ng-click="adicionar(funcionario.selecionado, acesso)">Salvar</button>
+                                        <button type="button" class="btn btn-primary" ng-hide="acesso.funcionarioId" ng-click="adicionar(funcionario.selecionado, acesso)">Salvar</button>
+                                        <button type="button" class="btn btn-primary" ng-show="acesso.funcionarioId" ng-click="atualizar(acesso)">Atualizar</button>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="fade modal" id="excluir-usuario">
+                        <div class="fade modal" id="modal-excluir-acesso">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -395,7 +398,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn btn-primary">Sim</button>
+                                        <button type="button" class="btn btn-primary" ng-click="excluir(acessoConfirm)">Sim</button>
                                     </div>
                                 </div>
                             </div>

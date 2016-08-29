@@ -8,6 +8,7 @@ public class Acesso {
 	private String senha;
 
     private Integer salaoId;
+    private Integer funcionarioId;
     private Integer clienteId;
 
 	public Acesso() {
@@ -59,6 +60,14 @@ public class Acesso {
 
     public void setSalaoId(Integer salaoId) {
         this.salaoId = salaoId;
+    }
+
+    public Integer getFuncionarioId() {
+        return funcionarioId;
+    }
+
+    public void setFuncionarioId(Integer funcionarioId) {
+        this.funcionarioId = funcionarioId;
     }
 
     public Integer getClienteId() {

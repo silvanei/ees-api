@@ -13,4 +13,6 @@ public interface AcessoRepository {
 	public Acesso findByEmail(String email);
 
 	public List<Acesso> findByIdSalao(Integer salaoId);
+
+    public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Integer acessoId);
 }

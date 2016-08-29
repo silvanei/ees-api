@@ -189,4 +189,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         return acessoService.findById(id);
     }
+
+    @Override
+    public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Acesso acesso) {
+        return acessoService.removeAcesso(salaoId, funcionarioId, acesso);
+    }
 }

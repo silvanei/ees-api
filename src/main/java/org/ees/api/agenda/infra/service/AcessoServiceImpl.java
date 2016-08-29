@@ -32,6 +32,11 @@ public class AcessoServiceImpl implements AcessoService {
     }
 
     @Override
+    public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Integer acessoId) {
+        return acessoRepository.removeAcesso(salaoId, funcionarioId, acessoId);
+    }
+
+    @Override
     public Acesso findById(Integer id) {
         return acessoRepository.findById(id);
     }

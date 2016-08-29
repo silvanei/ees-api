@@ -16,4 +16,6 @@ public interface AcessoService {
     public Acesso findByEmail(String email);
 
     public List<Acesso> findByIdSalao(Integer salaoId);
+
+    public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Integer acessoId);
 }

@@ -31,8 +31,8 @@
                 }
 
                 $scope.novoAcesso = function() {
-                    $('#novo-acesso').modal('show');
                     delete $scope.acesso;
+                    $('#novo-acesso').modal('show');
                     $scope.acessoForm.$setPristine();
                 };
 
@@ -52,6 +52,25 @@
                         $log.error(data);
                         Notification.error(data.errorMessage);
                     });
+                };
+
+                $scope.editar = function(acesso) {
+                    $log.log(acesso);
+                    $('#novo-acesso').modal('show');
+                    $scope.acessoForm.$setPristine();
+                    $scope.acesso = acesso;
+                };
+                $scope.atualizar = function(acesso) {
+                    console.log(acesso);
+                };
+
+                $scope.remover = function(acesso) {
+                    $scope.acessoConfirm = angular.copy(acesso);
+                    $("#modal-excluir-acesso").modal("show");
+                };
+                $scope.excluir = function(acesso) {
+                    console.log(acesso);
+                    $("#modal-excluir-acesso").modal("hide");
                 };
 
                 init();

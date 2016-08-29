@@ -35,5 +35,7 @@ public interface FuncionarioService {
 
     public Acesso addAcesso(Integer salaoId, Integer funcionarioId, Acesso acesso);
 
+    public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Acesso acesso);
+
     public CollectionPaginated<Funcionario> findByIdSalao(Integer salaoId);
 }

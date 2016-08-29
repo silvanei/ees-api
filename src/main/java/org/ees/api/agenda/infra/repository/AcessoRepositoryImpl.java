@@ -42,6 +42,11 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 	}
 
 	@Override
+	public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Integer acessoId) {
+		return null;
+	}
+
+	@Override
 	public Acesso findById(Integer id) {
 
 		String sql = "SELECT a.id, a.email, a.senha, a.perfil, f.salao_id " +
@@ -107,7 +112,7 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 
 	@Override
 	public List<Acesso> findByIdSalao(Integer salaoId) {
-		String sql = "SELECT a.id, a.email, a.senha, a.perfil, f.salao_id " +
+		String sql = "SELECT a.id, a.email, a.senha, a.perfil, f.salao_id, f.id as funcionarioId " +
 				"FROM acesso a " +
 				"LEFT JOIN funcionario f ON (f.acesso_id = a.id) " +
 				"WHERE f.salao_id = ? ";
@@ -123,9 +128,9 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 				Acesso acesso = new Acesso();
 				acesso.setId(resultSet.getInt("id"));
 				acesso.setEmail(resultSet.getString("email"));
-				//acesso.setSenha(resultSet.getString("senha"));
 				acesso.setPerfil(resultSet.getString("perfil"));
 				acesso.setSalaoId(resultSet.getInt("salao_id"));
+				acesso.setFuncionarioId(resultSet.getInt("funcionarioId"));
 				acessos.add(acesso);
 
 			}
