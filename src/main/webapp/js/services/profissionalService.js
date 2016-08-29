@@ -57,6 +57,12 @@
                     return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+funcionarioId+'/acesso', acesso);
                 }
 
+                function removeAcesso(acesso) {
+                    var salaoId = authManagerService.identity().salaoId;
+                    acesso = angular.copy(acesso);
+                    return $http.delete(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+acesso.funcionarioId+'/acesso');
+                }
+
                 return {
                     get: get,
                     getAll: getAll,
@@ -67,7 +73,8 @@
                     removeService: removerServico,
                     addHorarioTrabalho: addHorarioTrabalho,
                     removeHorarioTrabalho: removerHorarioTrabalho,
-                    addAcesso: adicionarAcesso
+                    addAcesso: adicionarAcesso,
+                    removeAcesso: removeAcesso
                 }
             }
         ]

@@ -284,6 +284,27 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
         }
     }
 
+    public Integer removeAcesso(Integer salaoId, Integer funcionarioId) {
+        String sql = "UPDATE funcionario SET  acesso_id = ? WHERE salao_id = ? AND id = ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setNull(1, java.sql.Types.INTEGER);
+            stmt.setInt(2, salaoId);
+            stmt.setInt(3, funcionarioId);
+
+            if (stmt.executeUpdate() > 0) {
+                return funcionarioId;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao adicionar acesso para o funcionario de um Salão");
+        }
+    }
+
     @Override
     public Boolean hasAcesso(Integer salaoId, Integer funcionarioId) {
         String sql = "SELECT count(acesso_id) as total FROM funcionario WHERE salao_id = ? AND id = ? AND deletado = 0";

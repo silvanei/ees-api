@@ -320,7 +320,6 @@
                                 <td>{{acesso.perfil | perfilToLabel}}</td>
                                 <td>{{acesso.email}}</td>
                                 <td>
-                                    <a ng-click="editar(acesso)"><i class="fa fa-fw fa-edit"></i></a>
                                     <a ng-click="remover(acesso)"><i class="fa fa-fw fa-trash"></i></a>
                                 </td>
                             </tr>
@@ -333,7 +332,6 @@
                                         <h4 class="modal-title" id="novo-acesso-title">Novo Acesso</h4>
                                     </div>
                                     <div class="modal-body">
-                                        {{acesso}}
                                         <form class="form-horizontal" name="acessoForm">
                                             <div class="form-group" ng-hide="acesso.funcionarioId">
                                                 <div class="col-sm-3">

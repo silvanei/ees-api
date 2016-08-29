@@ -25,6 +25,8 @@ public interface FuncionarioRepository {
 
     public Integer addAcesso(Integer salaoId, Integer funcionarioId, Integer acessoId);
 
+    public Integer removeAcesso(Integer salaoId, Integer funcionarioId);
+
     public Boolean hasAcesso(Integer salaoId, Integer funcionarioId);
 
     public Integer countAcessoAdmin(Integer salaoId);

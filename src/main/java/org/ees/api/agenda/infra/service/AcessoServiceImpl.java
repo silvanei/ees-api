@@ -32,8 +32,8 @@ public class AcessoServiceImpl implements AcessoService {
     }
 
     @Override
-    public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Acesso acesso) {
-        return acessoRepository.removeAcesso(salaoId, funcionarioId, acesso.getId());
+    public Integer removeAcesso(Integer acessoId) {
+        return acessoRepository.removeAcesso(acessoId);
     }
 
     @Override
@@ -45,6 +45,11 @@ public class AcessoServiceImpl implements AcessoService {
     public Acesso findByEmail(String email) {
 
         return acessoRepository.findByEmail(email);
+    }
+
+    @Override
+    public Acesso findByFuncionario(Integer funcionarioId) {
+        return acessoRepository.findByFuncionario(funcionarioId);
     }
 
     @Override

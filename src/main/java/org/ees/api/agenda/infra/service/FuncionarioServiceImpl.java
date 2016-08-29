@@ -3,9 +3,10 @@ package org.ees.api.agenda.infra.service;
 import org.ees.api.agenda.entity.*;
 import org.ees.api.agenda.infra.auth.Digest;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
+import org.ees.api.agenda.infra.db.DB;
+import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.infra.exceptions.ConflictException;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
-import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
 import org.ees.api.agenda.repository.FuncionarioRepository;
 import org.ees.api.agenda.service.AcessoService;
 import org.ees.api.agenda.service.FuncionarioService;
@@ -16,6 +17,8 @@ import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by silvanei on 12/08/2016.
@@ -184,21 +187,43 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             throw new ConflictException("Funcionário já possui um acesso");
         }
 
+        try {
+            DB.beginTransaction();
+            Integer id = acessoService.insert(acesso);
+            funcionarioRepository.addAcesso(salaoId, funcionarioId, id);
 
-        Integer id = acessoService.insert(acesso);
-        funcionarioRepository.addAcesso(salaoId, funcionarioId, id);
-
-        return acessoService.findById(id);
+            return acessoService.findById(id);
+        } catch (RuntimeException ex) {
+            Logger.getLogger(FuncionarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException(ex.getMessage());
+        }
     }
 
     @Override
-    public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Acesso acesso) {
+    public Integer removeAcesso(Integer salaoId, Integer funcionarioId) {
+
+        findById(salaoId, funcionarioId);
+
+        if(! funcionarioRepository.hasAcesso(salaoId, funcionarioId)) {
+            throw new BadRequestException("Funcionário já possui um acesso");
+        }
+
+        Acesso acesso = acessoService.findByFuncionario(funcionarioId);
+
         if(acesso.getPerfil().equals(Perfil.SALAO_ADMIN)) {
             if (funcionarioRepository.countAcessoAdmin(salaoId) == 1) {
-                throw new UnAuthorizedException("Não é possível remover o único usuário administrador");
+                throw new BadRequestException("Não é possível remover o único usuário administrador");
             }
         }
 
-        return acessoService.removeAcesso(salaoId, funcionarioId, acesso);
+        try {
+            DB.beginTransaction();
+            funcionarioRepository.removeAcesso(salaoId, funcionarioId);
+            Integer id = acessoService.removeAcesso(acesso.getId());
+            return id;
+        } catch (RuntimeException ex) {
+            Logger.getLogger(FuncionarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException(ex.getMessage());
+        }
     }
 }

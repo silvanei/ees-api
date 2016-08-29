@@ -42,8 +42,22 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 	}
 
 	@Override
-	public Integer removeAcesso(Integer salaoId, Integer funcionarioId, Integer acessoId) {
-		return null;
+	public Integer removeAcesso(Integer acessoId) {
+		String sql = "DELETE FROM acesso WHERE id = ?";
+
+		try {
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setInt(1, acessoId);
+
+			if(stmt.executeUpdate() > 0) {
+				return acessoId;
+			}
+
+			return null;
+		} catch (SQLException ex) {
+			Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Error ao excluir um acesso de um Funcionario");
+		}
 	}
 
 	@Override
@@ -75,6 +89,37 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 		} catch (SQLException ex) {
 			Logger.getLogger(AcessoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
 			throw new AcessoADadosException("Erro ao buscar um acesso pelo id");
+		}
+	}
+
+	@Override
+	public Acesso findByFuncionario(Integer funcionarioId) {
+		String sql = "SELECT a.id, a.email, a.senha, a.perfil, f.salao_id " +
+				"FROM acesso a " +
+				"INNER JOIN funcionario f ON (f.acesso_id = a.id) " +
+				"WHERE F.id = ?";
+
+		try {
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setInt(1, funcionarioId);
+			ResultSet resultSet = stmt.executeQuery();
+
+			if (resultSet.next()) {
+				Acesso acesso = new Acesso();
+				acesso.setId(resultSet.getInt("id"));
+				acesso.setEmail(resultSet.getString("email"));
+				acesso.setSenha(resultSet.getString("senha"));
+				acesso.setPerfil(resultSet.getString("perfil"));
+				acesso.setSalaoId(resultSet.getInt("salao_id"));
+
+				return acesso;
+			}
+
+			return null;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(AcessoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Erro ao buscar um acesso pelo id DO FUNCIONARIO");
 		}
 	}
 

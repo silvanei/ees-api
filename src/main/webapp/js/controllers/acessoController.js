@@ -44,7 +44,7 @@
                         delete $scope.acesso;
                         $scope.acessoForm.$setPristine();
 
-                        Notification.success('Profissional salvo com sucesso');
+                        Notification.success('Acesso salvo com sucesso');
 
                         $('#novo-acesso').modal('hide');
 
@@ -54,22 +54,23 @@
                     });
                 };
 
-                $scope.editar = function(acesso) {
-                    $log.log(acesso);
-                    $('#novo-acesso').modal('show');
-                    $scope.acessoForm.$setPristine();
-                    $scope.acesso = acesso;
-                };
-                $scope.atualizar = function(acesso) {
-                    console.log(acesso);
-                };
-
                 $scope.remover = function(acesso) {
                     $scope.acessoConfirm = angular.copy(acesso);
                     $("#modal-excluir-acesso").modal("show");
                 };
                 $scope.excluir = function(acesso) {
-                    console.log(acesso);
+                    profissionalService.removeAcesso(acesso).success(function(data) {
+                        init();
+                        delete $scope.acesso;
+                        $scope.acessoForm.$setPristine();
+                        Notification.success('Acesso removido com sucesso');
+
+                        $('#novo-acesso').modal('hide');
+
+                    }).error(function(data, status) {
+                        $log.error(data);
+                        Notification.error(data.errorMessage);
+                    });
                     $("#modal-excluir-acesso").modal("hide");
                 };
 

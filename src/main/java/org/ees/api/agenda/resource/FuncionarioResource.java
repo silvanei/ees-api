@@ -183,11 +183,10 @@ public class FuncionarioResource {
     @Path("/{funcionarioId}/acesso")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response removeAcesso(
-            @PathParam("funcionarioId") Integer funcionarioId,
-            Acesso acesso
+            @PathParam("funcionarioId") Integer funcionarioId
     ) {
 
-        funcionarioService.removeAcesso(salaoId, funcionarioId, acesso);
+        funcionarioService.removeAcesso(salaoId, funcionarioId);
 
         return Response.noContent().build();
     }
