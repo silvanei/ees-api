@@ -3,7 +3,6 @@ package org.ees.api.agenda.resource;
 import org.ees.api.agenda.entity.*;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.resource.collection.FuncionarioCollection;
-import org.ees.api.agenda.service.AcessoService;
 import org.ees.api.agenda.service.FuncionarioService;
 
 import javax.annotation.security.RolesAllowed;

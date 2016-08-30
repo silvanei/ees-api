@@ -47,6 +47,13 @@ public class SalaoResource {
 		return rc.initResource(new FuncionarioResource(salaoId));
 	}
 
+	@Path("/{salaoId}/cliente")
+	public ClienteSalaoResource clienteSalao(
+			@PathParam("salaoId") Integer salaoId
+	) {
+		return rc.initResource(new ClienteSalaoResource(salaoId));
+	}
+
     @GET
     @Path("/{salaoId}/acesso")
     @RolesAllowed(Perfil.SALAO_ADMIN)
