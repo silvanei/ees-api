@@ -56,7 +56,7 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
             endereco.setNumero(dadosSalao.getEndereco().getNumero());
             endereco.setCep(dadosSalao.getEndereco().getCep());
             if(null == endereco.getId()) {
-            	Integer idEndereco = enderecoService.inserirEndereco(salaoId, endereco);
+            	Integer idEndereco = enderecoService.inserirEndereco(endereco);
             	endereco.setId(idEndereco);
             } else {
             	enderecoService.atualizarEndereco(endereco);

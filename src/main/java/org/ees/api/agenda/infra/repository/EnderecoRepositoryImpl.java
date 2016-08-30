@@ -17,8 +17,8 @@ import org.ees.api.agenda.repository.EnderecoRepository;
 public class EnderecoRepositoryImpl implements EnderecoRepository{
 
     @Override
-    public Integer inserirEndereco(Integer salaoId, Endereco endereco) {
-        String sql = "INSERT INTO endereco(rua, numero, estado, cidade, bairro, cep, salao_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public Integer inserirEndereco(Endereco endereco) {
+        String sql = "INSERT INTO endereco(rua, numero, estado, cidade, bairro, cep) VALUES (?, ?, ?, ?, ?, ?)";
 
         try{
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -28,7 +28,6 @@ public class EnderecoRepositoryImpl implements EnderecoRepository{
             stmt.setInt(4, endereco.getCidade());
             stmt.setInt(5, endereco.getBairro());
             stmt.setString(6, endereco.getCep());
-            stmt.setInt(7, salaoId);
 
             if(stmt.executeUpdate()>0){
                 ResultSet rs = stmt.getGeneratedKeys();
@@ -47,7 +46,7 @@ public class EnderecoRepositoryImpl implements EnderecoRepository{
 
 	@Override
 	public Endereco byIdSalao(Integer idSalao) {
-		String sql = "SELECT id, rua, numero, estado, cidade, bairro, cep FROM endereco WHERE salao_id = ? ";
+		String sql = "SELECT e.id, e.rua, e.numero, e.estado, e.cidade, e.bairro, e.cep FROM endereco e INNER JOIN salao s ON (s.endereco_id = e.id) WHERE s.id = ? ";
 
 		try {	
 			

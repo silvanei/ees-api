@@ -3,6 +3,7 @@ package org.ees.api.agenda.infra.repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,7 +42,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 
 	@Override
 	public Integer update(Salao salao) {
-		String sql = "UPDATE salao SET nome = ?, visivel_no_app = ?, telefone = ?, celular = ? WHERE id = ?";
+		String sql = "UPDATE salao SET nome = ?, visivel_no_app = ?, telefone = ?, celular = ?, endereco_id = ? WHERE id = ?";
 
 		try{
 			PreparedStatement stmt = DB.preparedStatement(sql);
@@ -49,7 +50,12 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 			stmt.setBoolean(2, salao.isVisivelNoApp());
 			stmt.setString(3, salao.getTelefone());
 			stmt.setString(4, salao.getCelular());
-			stmt.setInt(5, salao.getId());
+			if(null == salao.getEndereco().getId()) {
+				stmt.setNull(5, Types.INTEGER);
+			} else {
+				stmt.setInt(5, salao.getEndereco().getId());
+			}
+			stmt.setInt(6, salao.getId());
 
 			if(stmt.executeUpdate()>0){
 				return salao.getId();
