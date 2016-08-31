@@ -1,7 +1,10 @@
 package org.ees.api.agenda.resource;
 
 import org.ees.api.agenda.entity.ClienteSalao;
+import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.Perfil;
+import org.ees.api.agenda.infra.db.CollectionPaginated;
+import org.ees.api.agenda.infra.resource.collection.ClienteSalaoCollection;
 import org.ees.api.agenda.service.ClienteSalaoService;
 
 import javax.annotation.security.RolesAllowed;
@@ -33,7 +36,17 @@ public class ClienteSalaoResource {
             @QueryParam("offset") int offset
     ) {
 
-        return Response.noContent().build();
+        CollectionPaginated<ClienteSalao> clientes;
+
+        if (0 == limit) {
+            clientes = clienteSalaoService.get(salaoId);
+        } else {
+            clientes = clienteSalaoService.get(salaoId, limit, offset);
+        }
+
+        ClienteSalaoCollection funcionarioColection = new ClienteSalaoCollection(clientes);
+
+        return Response.ok(funcionarioColection).build();
     }
 
     @GET
@@ -46,5 +59,13 @@ public class ClienteSalaoResource {
         ClienteSalao clienteSalao = clienteSalaoService.get(salaoId, clienteSalaoId);
 
         return Response.ok(clienteSalao).build();
+    }
+
+    public Integer getSalaoId() {
+        return salaoId;
+    }
+
+    public void setSalaoId(Integer salaoId) {
+        this.salaoId = salaoId;
     }
 }
