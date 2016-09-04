@@ -44,9 +44,9 @@ public class ClienteSalaoResource {
             clientes = clienteSalaoService.get(salaoId, limit, offset);
         }
 
-        ClienteSalaoCollection funcionarioColection = new ClienteSalaoCollection(clientes);
+        ClienteSalaoCollection clienteSalaoCollection = new ClienteSalaoCollection(clientes);
 
-        return Response.ok(funcionarioColection).build();
+        return Response.ok(clienteSalaoCollection).build();
     }
 
     @GET

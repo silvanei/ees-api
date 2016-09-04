@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
     @Override
     public ClienteSalao get(Integer salaoId, Integer clienteSalaoId) {
-        String sql = "SELECT c.id, c.nome, c.nome, c.email FROM cliente c INNER JOIN salao s ON (s.id = c.salao_id) WHERE s.id = ? AND c.id = ? AND c.deletado = 0";
+        String sql = "SELECT c.id, c.nome, c.telefone, c.email FROM cliente c INNER JOIN salao s ON (s.id = c.salao_id) WHERE s.id = ? AND c.id = ? AND c.deletado = 0";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -32,6 +32,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
                 ClienteSalao clienteSalao = new ClienteSalao();
                 clienteSalao.setId(resultSet.getInt("id"));
                 clienteSalao.setNome(resultSet.getString("nome"));
+                clienteSalao.setTelefone(resultSet.getString("telefone"));
                 clienteSalao.setEmail(resultSet.getString("email"));
 
                 return clienteSalao;
@@ -47,7 +48,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
 
     @Override
     public CollectionPaginated<ClienteSalao> get(Integer salaoId) {
-        String sql = "SELECT c.id, c.nome, c.nome, c.email FROM cliente c INNER JOIN salao s ON (s.id = c.salao_id) WHERE s.id = ? AND c.deletado = 0";
+        String sql = "SELECT c.id, c.nome, c.telefone, c.email FROM cliente c INNER JOIN salao s ON (s.id = c.salao_id) WHERE s.id = ? AND c.deletado = 0";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -60,6 +61,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
                 ClienteSalao clienteSalao = new ClienteSalao();
                 clienteSalao.setId(resultSet.getInt("id"));
                 clienteSalao.setNome(resultSet.getString("nome"));
+                clienteSalao.setTelefone(resultSet.getString("telefone"));
                 clienteSalao.setEmail(resultSet.getString("email"));
                 funcionarios.add(clienteSalao);
             }
@@ -76,7 +78,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
 
     @Override
     public CollectionPaginated<ClienteSalao> get(Integer salaoId, int limit, int offset) {
-        String sql = "SELECT SQL_CALC_FOUND_ROWS c.id, c.nome, c.nome, c.email FROM cliente c INNER JOIN salao s ON (s.id = c.salao_id) WHERE s.id = ? AND c.deletado = 0 LIMIT ? OFFSET ?";
+        String sql = "SELECT SQL_CALC_FOUND_ROWS c.id, c.nome, c.telefone, c.email FROM cliente c INNER JOIN salao s ON (s.id = c.salao_id) WHERE s.id = ? AND c.deletado = 0 LIMIT ? OFFSET ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -91,6 +93,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
                 ClienteSalao clienteSalao = new ClienteSalao();
                 clienteSalao.setId(resultSet.getInt("id"));
                 clienteSalao.setNome(resultSet.getString("nome"));
+                clienteSalao.setTelefone(resultSet.getString("telefone"));
                 clienteSalao.setEmail(resultSet.getString("email"));
                 funcionarios.add(clienteSalao);
             }

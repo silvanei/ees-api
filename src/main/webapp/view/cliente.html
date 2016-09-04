@@ -26,54 +26,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Cliente 1</td>
-                                <td>(41) 3663-1727</td>
-                                <td>email@gmail.com</td>
+                            <tr ng-repeat="cliente in clientes">
+                                <td>{{cliente.nome}}</td>
+                                <td>{{cliente.telefone}}</td>
+                                <td>{{cliente.email}}</td>
                                 <td>
                                     <a data-toggle="modal" data-target="#novo-cliente"><i class="fa fa-fw fa-edit"></i></a>
                                     <a data-toggle="modal" ><i class="fa fa-fw fa-trash"></i></a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Cliente 2</td>
-                                <td>(41) 3663-1727</td>
-                                <td>email@gmail.com</td>
-                                <td>
-                                    <a data-toggle="modal" data-target="#novo-cliente"><i class="fa fa-fw fa-edit"></i></a>
-                                    <a data-toggle="modal" ><i class="fa fa-fw fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Cliente 3</td>
-                                <td>(41) 3663-1727</td>
-                                <td>email@gmail.com</td>
-                                <td>
-                                    <a data-toggle="modal" data-target="#novo-cliente"><i class="fa fa-fw fa-edit"></i></a>
-                                    <a data-toggle="modal" ><i class="fa fa-fw fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Cliente 4</td>
-                                <td>(41) 3663-1727</td>
-                                <td>email@gmail.com</td>
-                                <td>
-                                    <a data-toggle="modal" data-target="#novo-cliente"><i class="fa fa-fw fa-edit"></i></a>
-                                    <a data-toggle="modal" ><i class="fa fa-fw fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Cliente 5</td>
-                                <td>(41) 3663-1727</td>
-                                <td>email@gmail.com</td>
-                                <td>
-                                    <a data-toggle="modal" data-target="#novo-cliente"><i class="fa fa-fw fa-edit"></i></a>
-                                    <a data-toggle="modal" ><i class="fa fa-fw fa-trash"></i></a>
-                                </td>
-                            </tr>
-
                         </tbody>
                     </table>
+
+                    <div ng-show="clientes.length > 0">
+                        <ul uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" max-size="maxSize" ng-change="pageChanged()"></ul>
+                    </div>
                 </div><!-- /.box-body -->
             </div><!-- /.box -->
         </div><!-- /.col -->
@@ -93,117 +60,110 @@
                     <div class="nav-tabs-custom" style="margin-bottom: 0;">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
-                            <li><a href="#endereco" data-toggle="tab">Endereço</a></li>
                         </ul>
                         <div class="tab-content">
-
                             <div class="active tab-pane" id="dados">
                                 <div class="row">
                                     <div class="col-md-12">
+                                        {{cliente}}
+                                        <form name="clienteForm" class="form-horizontal">
+                                            <div class="form-group">
+                                                <label for="nome" class="col-sm-3 control-label">Nome</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do cliente" ng-model="cliente.nome" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="telefone" class="col-sm-3 control-label" >Telefone</label>
+                                                <div class="col-sm-8">
+                                                    <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="Telefone do cliente" ng-model="cliente.telefone">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email" class="col-sm-3 control-label" >E-mail</label>
+                                                <div class="col-sm-8">
+                                                    <input type="email" class="form-control" id="email" name="email" placeholder="E-mail do cliente" ng-model="cliente.email">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="nascimento" class="col-sm-3 control-label">Data de Nascimento</label>
+                                                <div class="col-sm-8">
+                                                    <input type="date" class="form-control" id="nascimento" name="nascimento" placeholder="Data de Nascimento do cliente" ng-model="cliente.nascimento">
+                                                </div>
+                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="input-nome" class="col-sm-3 control-label">Nome</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="input-nome" placeholder="Nome do cliente" >
+                                            <div class="form-group">
+                                                <label for="input-endereco" class="col-sm-3 control-label">Endereço</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="input-endereco" placeholder="Endereço">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="input-tel-fixo" class="col-sm-3 control-label" >Telefone</label>
-                                            <div class="col-sm-8">
-                                                <input type="tel" class="form-control" id="input-tel-fixo" placeholder="Telefone do cliente">
+                                            <div class="form-group">
+                                                <label for="input-numero" class="col-sm-3 control-label">Número</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="input-numero" placeholder="Número">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="input-tel-fixo" class="col-sm-3 control-label" >E-mail</label>
-                                            <div class="col-sm-8">
-                                                <input type="email" class="form-control" id="input-tel-fixo" placeholder="E-mail do cliente">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="input-apelido" class="col-sm-3 control-label">Data de Nascimento</label>
-                                            <div class="col-sm-8">
-                                                <input type="date" class="form-control" id="input-apelido" placeholder="Data de Nascimento do cliente" >
-                                            </div>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="input-estado" class="col-sm-3 control-label">Estado</label>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control" id="input-estado">
+                                                        <option value="">Selecione</option>
+                                                        <option value="AC">Acre</option>
+                                                        <option value="AL">Alagoas</option>
+                                                        <option value="AP">Amapá</option>
+                                                        <option value="AM">Amazonas</option>
+                                                        <option value="BA">Bahia</option>
+                                                        <option value="CE">Ceará</option>
+                                                        <option value="DF">Distrito Federal</option>
+                                                        <option value="ES">Espirito Santo</option>
+                                                        <option value="GO">Goiás</option>
+                                                        <option value="MA">Maranhão</option>
+                                                        <option value="MS">Mato Grosso do Sul</option>
+                                                        <option value="MT">Mato Grosso</option>
+                                                        <option value="MG">Minas Gerais</option>
+                                                        <option value="PA">Pará</option>
+                                                        <option value="PB">Paraíba</option>
+                                                        <option value="PR">Paraná</option>
+                                                        <option value="PE">Pernambuco</option>
+                                                        <option value="PI">Piauí</option>
+                                                        <option value="RJ">Rio de Janeiro</option>
+                                                        <option value="RN">Rio Grande do Norte</option>
+                                                        <option value="RS">Rio Grande do Sul</option>
+                                                        <option value="RO">Rondônia</option>
+                                                        <option value="RR">Roraima</option>
+                                                        <option value="SC">Santa Catarina</option>
+                                                        <option value="SP">São Paulo</option>
+                                                        <option value="SE">Sergipe</option>
+                                                        <option value="TO">Tocantins</option>
+                                                    </select>
+                                                </div>
 
+                                                <label for="input-cidade" class="col-sm-1 control-label">Cidade</label>
+                                                <div class="col-sm-4">
+                                                    <select class="form-control" id="input-cidade">
+                                                        <option value="">Selecione</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input-bairro" class="col-sm-3 control-label">Bairro</label>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control" id="input-bairro">
+                                                        <option value="">Selecione</option>
+                                                    </select>
+                                                </div>
+
+                                                <label for="input-cep" class="col-sm-1 control-label">CEP</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="input-cep" placeholder="CEP">
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div><!-- /.col -->
                                 </div>
 
                             </div>
-
-                            <div class="tab-pane" id="endereco">
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <label for="input-endereco" class="col-sm-3 control-label">Endereço</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="input-endereco" placeholder="Endereço">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="input-numero" class="col-sm-3 control-label">Número</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="input-numero" placeholder="Número">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="input-estado" class="col-sm-3 control-label">Estado</label>
-                                        <div class="col-sm-3">
-                                            <select class="form-control" id="input-estado">
-                                                <option value="">Selecione</option>
-                                                <option value="AC">Acre</option>
-                                                <option value="AL">Alagoas</option>
-                                                <option value="AP">Amapá</option>
-                                                <option value="AM">Amazonas</option>
-                                                <option value="BA">Bahia</option>
-                                                <option value="CE">Ceará</option>
-                                                <option value="DF">Distrito Federal</option>
-                                                <option value="ES">Espirito Santo</option>
-                                                <option value="GO">Goiás</option>
-                                                <option value="MA">Maranhão</option>
-                                                <option value="MS">Mato Grosso do Sul</option>
-                                                <option value="MT">Mato Grosso</option>
-                                                <option value="MG">Minas Gerais</option>
-                                                <option value="PA">Pará</option>
-                                                <option value="PB">Paraíba</option>
-                                                <option value="PR">Paraná</option>
-                                                <option value="PE">Pernambuco</option>
-                                                <option value="PI">Piauí</option>
-                                                <option value="RJ">Rio de Janeiro</option>
-                                                <option value="RN">Rio Grande do Norte</option>
-                                                <option value="RS">Rio Grande do Sul</option>
-                                                <option value="RO">Rondônia</option>
-                                                <option value="RR">Roraima</option>
-                                                <option value="SC">Santa Catarina</option>
-                                                <option value="SP">São Paulo</option>
-                                                <option value="SE">Sergipe</option>
-                                                <option value="TO">Tocantins</option>
-                                            </select>
-                                        </div>
-
-                                        <label for="input-cidade" class="col-sm-1 control-label">Cidade</label>
-                                        <div class="col-sm-4">
-                                            <select class="form-control" id="input-cidade">
-                                                <option value="">Selecione</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="input-bairro" class="col-sm-3 control-label">Bairro</label>
-                                        <div class="col-sm-3">
-                                            <select class="form-control" id="input-bairro">
-                                                <option value="">Selecione</option>
-                                            </select>
-                                        </div>
-
-                                        <label for="input-cep" class="col-sm-1 control-label">CEP</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="input-cep" placeholder="CEP">
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
-
                         </div><!-- /.tab-content -->
                     </div><!-- /.nav-tabs-custom -->
                 </div>

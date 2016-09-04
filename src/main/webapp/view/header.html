@@ -9,18 +9,18 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="navbar-collapse">
+            <div class="collapse navbar-collapse" id="navbar-collapse" ng-controller="menuController">
                 <ul class="nav navbar-nav">
-                    <li class="">
+                    <li ng-class="{ active: isActive('/') }">
                         <a ui-sref="agenda"><i class="fa fa-calendar margin-r-5"></i> Agenda</a>
                     </li>
-                    <li class="">
+                    <li ng-class="{ active: isActive('/salao') }">
                         <a ui-sref="salao"><i class="fa fa-cogs margin-r-5"></i> Salão</a>
                     </li>
-                    <li class="">
+                    <li ng-class="{ active: isActive('/profissional') }">
                         <a ui-sref="profissional"><i class="fa fa-user margin-r-5"></i> Profissional</a>
                     </li>
-                    <li class="">
+                    <li ng-class="{ active: isActive('/cliente') }">
                         <a ui-sref="cliente"><i class="fa fa-users margin-r-5"></i> Clientes</a>
                     </li>
                 </ul>
