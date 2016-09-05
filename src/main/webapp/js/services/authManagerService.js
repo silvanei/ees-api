@@ -23,7 +23,6 @@
 
                 function checkAuthOnRefresh() {
                     $rootScope.$on('$locationChangeStart', function (event, next, current) {
-                        console.log('$locationChangeStart');
                         if (next.substr(next.length - 8) == 'registro') {
                             return;
                         }
@@ -33,7 +32,6 @@
                         }
 
                         var token = authenticationService.getToken();
-                        console.log(token);
 
                         if (!token || jwtHelperService.isTokenExpired(token)) {
                             unauthenticate();
@@ -50,11 +48,6 @@
 
                     var token = authenticationService.getToken();
                     var decodeToken = jwtHelperService.decodeToken(token);
-
-                    console.log({
-                        salaoId: decodeToken.sla,
-                        perfil: decodeToken.per
-                    });
 
                     return {
                         salaoId: decodeToken.sla,
