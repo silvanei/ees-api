@@ -24,7 +24,7 @@
                     carregarLista();
                 }
 
-                function carregarLista(callback) {
+                function carregarLista() {
                     var limit = config.paginacao.itensPorPagina;
                     var offset = (config.paginacao.itensPorPagina * $scope.currentPage) - config.paginacao.itensPorPagina;
 
@@ -32,9 +32,7 @@
                         $scope.totalItems = data.count;
                         $scope.profissionais = data.items;
                     }).error(function(data, status) {
-                        console.log(data);
-                        console.log(status);
-                        $scope.error = data.errorMessage;
+                        Notification.error(data.errorMessage);
                     });
                 }
 

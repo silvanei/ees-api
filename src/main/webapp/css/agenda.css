@@ -17,3 +17,7 @@
 }
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+#loading-bar .bar {
+    background: #444!important;
+}

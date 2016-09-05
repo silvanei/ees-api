@@ -6,8 +6,8 @@
 
     angular
         .module('agenda')
-        .controller('clienteController', ['$scope', 'config', 'clienteService',
-            function ($scope, config, clienteService) {
+        .controller('clienteController', ['$scope', 'config', 'Notification', 'clienteService',
+            function ($scope, config, Notification, clienteService) {
 
                 function init() {
                     $scope.currentPage = 1;
@@ -26,9 +26,7 @@
                         $scope.clientes = data.items;
                         console.log(data.items);
                     }).error(function(data, status) {
-                        console.log(data);
-                        console.log(status);
-                        $scope.error = data.errorMessage;
+                        Notification.error(data.errorMessage);
                     });
                 }
 
