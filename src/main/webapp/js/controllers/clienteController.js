@@ -35,6 +35,50 @@
                     carregarLista();
                 };
 
+                $scope.adicionar = function () {
+                    $('#modal-cliente').modal('show');
+                    delete $scope.cliente;
+                    $scope.dadosClienteForm.$setPristine();
+                };
+
+                $scope.salvar = function (cliente) {
+
+                    clienteService.post(cliente).success(function(data) {
+                        delete $scope.cliente;
+                        $scope.dadosClienteForm.$setPristine();
+
+                        carregarLista();
+                        $('#modal-cliente').modal('hide');
+
+                        Notification.success('Cliente salvo com sucesso');
+
+                    }).error(function(data, status) {
+                        Notification.error(data.errorMessage);
+                    });
+                };
+
+                $scope.atualizar = function(cliente) {
+                    clienteService.put(cliente).success(function(data) {
+                        delete $scope.cliente;
+                        $scope.dadosClienteForm.$setPristine();
+
+                        carregarLista();
+                        $('#modal-cliente').modal('hide');
+
+                        Notification.success('Cliente atualizado com sucesso');
+
+                    }).error(function(data, status) {
+                        Notification.error(data.errorMessage);
+                    });
+                };
+
+                $scope.editar = function (cliente) {
+                    $scope.dadosClienteForm.$setPristine();
+                    $scope.cliente = angular.copy(cliente);
+
+                    $('#modal-cliente').modal('show');
+                };
+
                 init();
             }
         ])

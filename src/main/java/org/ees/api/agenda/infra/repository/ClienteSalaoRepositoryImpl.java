@@ -107,4 +107,30 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
             throw new AcessoADadosException("Error ao buscar clientes paginado pelo idSalao");
         }
     }
+
+    @Override
+    public Integer create(Integer salaoId, ClienteSalao clienteSalao) {
+        String sql = "INSERT INTO cliente (nome, telefone, email, salao_id) VALUES (?, ?, ?, ?) ";
+
+        try{
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setString(1, clienteSalao.getNome());
+            stmt.setString(2, clienteSalao.getTelefone());
+            stmt.setString(3, clienteSalao.getEmail());
+            stmt.setInt(4, salaoId);
+
+            if(stmt.executeUpdate()>0){
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()){
+                    return rs.getInt(1);
+                }
+            }
+
+            return null;
+
+        }catch (SQLException ex){
+            Logger.getLogger(ClienteSalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao inserir um cliente de um Salão");
+        }
+    }
 }

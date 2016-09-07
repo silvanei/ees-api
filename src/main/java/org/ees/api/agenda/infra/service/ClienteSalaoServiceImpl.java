@@ -35,4 +35,11 @@ public class ClienteSalaoServiceImpl implements ClienteSalaoService {
 
         return clienteSalao;
     }
+
+    @Override
+    public ClienteSalao create(Integer salaoId, ClienteSalao clienteSalao) {
+        Integer clienteId = clienteSalaoRepository.create(salaoId, clienteSalao);
+
+        return get(salaoId, clienteId);
+    }
 }

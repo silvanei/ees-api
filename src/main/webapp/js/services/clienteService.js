@@ -14,8 +14,14 @@
                     return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/cliente?limit='+ limit + '&offset=' + offset);
                 }
 
+                function post(clienteSalao) {
+                    var salaoId = authManagerService.identity().salaoId;
+                    return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/cliente', clienteSalao);
+                }
+
                 return {
-                    getAll: getAll
+                    getAll: getAll,
+                    post: post
                 }
             }
         ])

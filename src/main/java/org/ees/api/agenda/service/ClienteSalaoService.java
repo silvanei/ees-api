@@ -13,4 +13,6 @@ public interface ClienteSalaoService {
     public CollectionPaginated<ClienteSalao> get(Integer salaoId);
 
     public CollectionPaginated<ClienteSalao> get(Integer salaoId, int limit, int offset);
+
+    public ClienteSalao create(Integer salaoId, ClienteSalao clienteSalao);
 }

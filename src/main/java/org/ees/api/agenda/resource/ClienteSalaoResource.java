@@ -9,11 +9,11 @@ import org.ees.api.agenda.service.ClienteSalaoService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * Created by silvanei on 29/08/16.
@@ -24,6 +24,9 @@ public class ClienteSalaoResource {
 
     @Inject
     private ClienteSalaoService clienteSalaoService;
+
+    @Context
+    private UriInfo uriInfo;
 
     public ClienteSalaoResource(Integer salaoId) {
         this.salaoId = salaoId;
@@ -59,6 +62,17 @@ public class ClienteSalaoResource {
         ClienteSalao clienteSalao = clienteSalaoService.get(salaoId, clienteSalaoId);
 
         return Response.ok(clienteSalao).build();
+    }
+
+    @POST
+    @RolesAllowed(Perfil.SALAO_ADMIN)
+    public Response create(ClienteSalao data) {
+
+        ClienteSalao clienteSalao = clienteSalaoService.create(salaoId, data);
+
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(Integer.toString(clienteSalao.getId()));
+        return Response.created(builder.build()).entity(clienteSalao).build();
     }
 
     public Integer getSalaoId() {
