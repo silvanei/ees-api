@@ -49,7 +49,7 @@
                 <div class="box-body no-padding">
                     <div style="padding: 10px">
                         <a class="btn btn-primary" data-toggle="modal" data-target="#novo-agendamento"><i class="fa fa-fw fa-plus-circle"></i>Novo Agendamento</a>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#novo-cliente"><i class="fa fa-fw fa-plus-circle"></i>Novo Cliente</a>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#modal-novo-cliente"><i class="fa fa-fw fa-plus-circle"></i>Novo Cliente</a>
                     </div>
                     <!-- THE CALENDAR -->
                     <!--<div id="calendar"></div>-->
@@ -150,7 +150,8 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="reserva">
+
+<div class="fade modal" id="reserva">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -246,41 +247,64 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="novo-cliente">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Novo Cliente</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label for="input-nome" class="col-sm-2 control-label">Nome</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="input-nome" placeholder="Nome do cliente" >
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="input-tel-fixo" class="col-sm-2 control-label" >Telefone</label>
-                        <div class="col-sm-9">
-                            <input type="tel" class="form-control" id="input-tel-fixo" placeholder="Telefone cliente">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="input-apelido" class="col-sm-2 control-label">E-mail</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="input-apelido" placeholder="E-mail do cliente" >
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
-                <a class="btn btn-primary">Salvar</a>
 
+<div class="fade modal" id="modal-novo-cliente">
+    <div class="modal-dialog">
+        <form class="form-horizontal" role="form" name="novoClienteForm" ng-controller="novoClienteController">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Novo Cliente</h4>
+                </div>
+                <div class="modal-body">
+
+                        <div class="form-group" ng-class="{'has-error': (novoClienteForm.nome.$invalid && novoClienteForm.nome.$dirty)}">
+                            <label for="nome" class="col-sm-3 control-label">Nome</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do cliente" ng-model="cliente.nome" ng-required="true" ng-minlength="5" ng-maxlength="255">
+                                <div ng-messages="novoClienteForm.nome.$error" ng-show="novoClienteForm.nome.$dirty">
+                                    <div ng-message="required" class="help-block">
+                                        Por favor, preencher o campo nome
+                                    </div>
+                                    <div ng-message="minlength" class="help-block">
+                                        O campo descrição deve ter no mínimo 5 caracteres
+                                    </div>
+                                    <div ng-message="maxlength" class="help-block">
+                                        O campo descrição de ter no máximo 255 caracteres
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{'has-error': (novoClienteForm.telefone.$invalid && novoClienteForm.telefone.$dirty)}">
+                            <label for="telefone" class="col-sm-3 control-label" >Telefone</label>
+                            <div class="col-sm-8">
+                                <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="Telefone do cliente" ng-model="cliente.telefone" mask='(99) 9?9999-9999' mask-restrict='reject' mask-clean='true'>
+                                <div ng-messages="novoClienteForm.telefone.$error" ng-show="novoClienteForm.telefone.$dirty">
+                                    <div ng-message="mask" class="help-block">
+                                        Por favor, informe um telefone válido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{'has-error': (novoClienteForm.email.$invalid && novoClienteForm.email.$dirty)}">
+                            <label for="email" class="col-sm-3 control-label" >E-mail</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail do cliente" ng-model="cliente.email">
+                                <div ng-messages="novoClienteForm.email.$error" ng-show="novoClienteForm.email.$dirty">
+                                    <div ng-message="email" class="help-block">
+                                        Por favor, informe um e-mail válido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                    <button type="button" class="btn btn-primary" ng-click="salvar(cliente)" ng-disabled="novoClienteForm.$invalid" >Salvar</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 

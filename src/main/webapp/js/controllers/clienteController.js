@@ -9,6 +9,8 @@
         .controller('clienteController', ['$scope', 'config', 'Notification', 'clienteService',
             function ($scope, config, Notification, clienteService) {
 
+                var modalCliente = $('#modal-cliente');
+
                 function init() {
                     $scope.currentPage = 1;
                     $scope.itemsPerPage = config.paginacao.itensPorPagina;
@@ -36,7 +38,7 @@
                 };
 
                 $scope.adicionar = function () {
-                    $('#modal-cliente').modal('show');
+                    modalCliente.modal('show');
                     delete $scope.cliente;
                     $scope.dadosClienteForm.$setPristine();
                 };
@@ -48,7 +50,7 @@
                         $scope.dadosClienteForm.$setPristine();
 
                         carregarLista();
-                        $('#modal-cliente').modal('hide');
+                        modalCliente.modal('hide');
 
                         Notification.success('Cliente salvo com sucesso');
 
@@ -63,7 +65,7 @@
                         $scope.dadosClienteForm.$setPristine();
 
                         carregarLista();
-                        $('#modal-cliente').modal('hide');
+                        modalCliente.modal('hide');
 
                         Notification.success('Cliente atualizado com sucesso');
 
@@ -76,7 +78,7 @@
                     $scope.dadosClienteForm.$setPristine();
                     $scope.cliente = angular.copy(cliente);
 
-                    $('#modal-cliente').modal('show');
+                    modalCliente.modal('show');
                 };
 
                 $scope.confirmExcluir = function(cliente) {
