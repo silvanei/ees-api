@@ -26,14 +26,12 @@
                     clienteService.getAll(limit, offset).success(function(data) {
                         $scope.totalItems = data.count;
                         $scope.clientes = data.items;
-                        console.log(data.items);
                     }).error(function(data, status) {
                         Notification.error(data.errorMessage);
                     });
                 }
 
                 $scope.pageChanged = function() {
-                    console.log('Page changed to: ' + $scope.currentPage);
                     carregarLista();
                 };
 

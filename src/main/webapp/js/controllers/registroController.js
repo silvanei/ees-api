@@ -10,7 +10,6 @@
             function ($scope, registroService, Notification, $rootScope, $location, $log) {
 
                 $scope.registrar = function(registro) {
-                    console.log(registro);
 
                     registroService.post(registro).success(function(data) {
                         $scope.registroForm.$setPristine();

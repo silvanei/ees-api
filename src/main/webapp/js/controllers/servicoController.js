@@ -29,8 +29,6 @@
                             return servico;
                         });
                     }).error(function(data, status) {
-                        console.log(data);
-                        console.log(status);
                         $scope.error = data.errorMessage;
                     });
                 }
