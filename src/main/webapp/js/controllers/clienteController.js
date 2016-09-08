@@ -79,6 +79,26 @@
                     $('#modal-cliente').modal('show');
                 };
 
+                $scope.confirmExcluir = function(cliente) {
+                    $scope.cliente = angular.copy(cliente);
+                    $('#excluir-cliente').modal('show');
+
+                };
+
+                $scope.excluir = function(cliente) {
+                    clienteService.delete(cliente).success(function() {
+                        $('#excluir-cliente').modal('hide');
+                        delete $scope.cliente;
+                        $scope.dadosClienteForm.$setPristine();
+                        carregarLista();
+
+                        Notification.success('Cliente excluido com sucesso');
+                    }).error(function(data, status) {
+                        Notification.error(data.errorMessage);
+                    });
+
+                };
+
                 init();
             }
         ])

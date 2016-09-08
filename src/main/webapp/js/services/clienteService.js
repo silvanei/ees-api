@@ -9,19 +9,31 @@
         .factory('clienteService', ['$http', 'config', 'authManagerService',
             function($http, config, authManagerService) {
 
+                var salaoId = authManagerService.identity().salaoId;
+                var resourceUrl = config.baseUrl + '/v1/salao/'+salaoId+'/cliente';
+
                 function getAll(limit, offset) {
-                    var salaoId = authManagerService.identity().salaoId;
-                    return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/cliente?limit='+ limit + '&offset=' + offset);
+                    return $http.get(resourceUrl + '?limit='+ limit + '&offset=' + offset);
                 }
 
                 function post(clienteSalao) {
-                    var salaoId = authManagerService.identity().salaoId;
-                    return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/cliente', clienteSalao);
+                    return $http.post(resourceUrl, clienteSalao);
+                }
+
+                function put(cliente){
+                    cliente = angular.copy(cliente);
+                    return $http.put(cliente.link.href, cliente)
+                }
+
+                function excluir(cliente) {
+                    return $http.delete(cliente.link.href);
                 }
 
                 return {
                     getAll: getAll,
-                    post: post
+                    post: post,
+                    put: put,
+                    delete: excluir
                 }
             }
         ])

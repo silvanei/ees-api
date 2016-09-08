@@ -15,4 +15,8 @@ public interface ClienteSalaoRepository {
     public CollectionPaginated<ClienteSalao> get(Integer salaoId, int limit, int offset);
 
     public Integer create(Integer salaoId, ClienteSalao clienteSalao);
+
+    public Integer update(Integer salaoId, Integer clienteSalaoId, ClienteSalao data);
+
+    public Integer delete(Integer salaoId, Integer clienteSalaoId);
 }

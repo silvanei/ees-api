@@ -47,6 +47,23 @@
     </div><!-- /.row -->
 </section><!-- /.content -->
 
+<div class="fade modal" id="excluir-cliente">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="excluir-profissional-title">Excluir Profissional</h4>
+            </div>
+            <div class="modal-body">
+                <p>Deseja excluir este cliente ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" ng-click="excluir(cliente)">Sim</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="fade modal" id="modal-cliente">
     <div class="modal-dialog modal-lg">
@@ -65,7 +82,6 @@
                             <div class="active tab-pane" id="dados">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        {{dadosClienteForm.$error}}
                                         <div class="form-group" ng-class="{'has-error': (dadosClienteForm.nome.$invalid && dadosClienteForm.nome.$dirty)}">
                                             <label for="nome" class="col-sm-3 control-label">Nome</label>
                                             <div class="col-sm-8">

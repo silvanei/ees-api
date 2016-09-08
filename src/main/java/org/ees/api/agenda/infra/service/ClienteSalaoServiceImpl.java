@@ -27,7 +27,7 @@ public class ClienteSalaoServiceImpl implements ClienteSalaoService {
     }
 
     @Override
-    public ClienteSalao get(Integer salaoId, Integer clienteSalaoId) {
+    public ClienteSalao findById(Integer salaoId, Integer clienteSalaoId) {
         ClienteSalao clienteSalao = clienteSalaoRepository.get(salaoId, clienteSalaoId);
         if (null == clienteSalao) {
             throw new DataNotFoundException("Cliente não encontrado");
@@ -40,6 +40,22 @@ public class ClienteSalaoServiceImpl implements ClienteSalaoService {
     public ClienteSalao create(Integer salaoId, ClienteSalao clienteSalao) {
         Integer clienteId = clienteSalaoRepository.create(salaoId, clienteSalao);
 
-        return get(salaoId, clienteId);
+        return findById(salaoId, clienteId);
+    }
+
+    @Override
+    public ClienteSalao update(Integer salaoId, Integer clienteSalaoId, ClienteSalao data) {
+        findById(salaoId, clienteSalaoId);
+
+        clienteSalaoRepository.update(salaoId, clienteSalaoId, data);
+
+        return findById(salaoId, clienteSalaoId);
+    }
+
+    @Override
+    public Integer delete(Integer salaoId, Integer clienteSalaoId) {
+        findById(salaoId, clienteSalaoId);
+
+        return clienteSalaoRepository.delete(salaoId, clienteSalaoId);
     }
 }

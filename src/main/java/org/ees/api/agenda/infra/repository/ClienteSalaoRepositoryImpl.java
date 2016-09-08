@@ -133,4 +133,50 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
             throw new AcessoADadosException("Error ao inserir um cliente de um Salão");
         }
     }
+
+    @Override
+    public Integer update(Integer salaoId, Integer clienteSalaoId, ClienteSalao clienteSalao) {
+        String sql = "UPDATE cliente SET nome = ?, telefone = ?, email = ? WHERE salao_id = ? AND id = ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setString(1, clienteSalao.getNome());
+            stmt.setString(2, clienteSalao.getTelefone());
+            stmt.setString(3, clienteSalao.getEmail());
+            stmt.setInt(4,salaoId);
+            stmt.setInt(5,clienteSalaoId);
+
+            if (stmt.executeUpdate() > 0) {
+                return clienteSalaoId;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteSalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao atualizar o cliente de um Salão");
+        }
+    }
+
+    @Override
+    public Integer delete(Integer salaoId, Integer clienteSalaoId) {
+        String sql = "UPDATE cliente SET  deletado = ? WHERE salao_id = ? AND id = ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, salaoId);
+            stmt.setInt(3, clienteSalaoId);
+
+            if (stmt.executeUpdate() > 0) {
+                return clienteSalaoId;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteSalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao deletar o cliente de um Salão");
+        }
+    }
 }

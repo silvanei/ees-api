@@ -59,7 +59,7 @@ public class ClienteSalaoResource {
             @PathParam("clienteSalaoId") Integer clienteSalaoId
     ) {
 
-        ClienteSalao clienteSalao = clienteSalaoService.get(salaoId, clienteSalaoId);
+        ClienteSalao clienteSalao = clienteSalaoService.findById(salaoId, clienteSalaoId);
 
         return Response.ok(clienteSalao).build();
     }
@@ -73,6 +73,31 @@ public class ClienteSalaoResource {
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
         builder.path(Integer.toString(clienteSalao.getId()));
         return Response.created(builder.build()).entity(clienteSalao).build();
+    }
+
+    @PUT
+    @Path("/{clienteSalaoId}")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
+    public Response update(
+            ClienteSalao data,
+            @PathParam("clienteSalaoId") Integer clienteSalaoId
+    ) {
+
+        ClienteSalao clienteSalao = clienteSalaoService.update(salaoId, clienteSalaoId, data);
+
+        return Response.ok().entity(clienteSalao).build();
+    }
+
+    @DELETE
+    @Path("/{clienteSalaoId}")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
+    public Response delete(
+            @PathParam("clienteSalaoId") Integer clienteSalaoId
+    ) {
+
+        clienteSalaoService.delete(salaoId, clienteSalaoId);
+
+        return Response.noContent().build();
     }
 
     public Integer getSalaoId() {
