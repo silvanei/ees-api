@@ -9,18 +9,21 @@
         .factory('profissionalService', ['$http', 'config', 'authManagerService',
             function($http, config, authManagerService) {
 
+                var salaoId = authManagerService.identity().salaoId;
+
                 function get(id) {
-                    var salaoId = authManagerService.identity().salaoId;
                     return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/' + id);
                 }
 
                 function getAll(limit, offset) {
-                    var salaoId = authManagerService.identity().salaoId;
-                    return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario?limit='+ limit + '&offset=' + offset);
+                    if(limit > 0) {
+                        return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario?limit='+ limit + '&offset=' + offset);
+                    }
+
+                    return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario');
                 }
 
                 function criar(profissional) {
-                    var salaoId = authManagerService.identity().salaoId;
                     return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario', profissional);
                 }
 
@@ -38,12 +41,10 @@
                 }
 
                 function removerServico(profissional, idServico) {
-                    var salaoId = authManagerService.identity().salaoId;
                     return $http.delete(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+ profissional +'/servico/' + idServico);
                 }
 
                 function addHorarioTrabalho(funcionarioId, horarioTrabalho) {
-                    var salaoId = authManagerService.identity().salaoId;
                     return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+ funcionarioId + '/horario-trabalho/' + horarioTrabalho.dia, horarioTrabalho);
                 }
 
@@ -52,13 +53,11 @@
                 }
 
                 function adicionarAcesso(funcionarioId, acesso) {
-                    var salaoId = authManagerService.identity().salaoId;
                     acesso = angular.copy(acesso);
                     return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+funcionarioId+'/acesso', acesso);
                 }
 
                 function removeAcesso(acesso) {
-                    var salaoId = authManagerService.identity().salaoId;
                     acesso = angular.copy(acesso);
                     return $http.delete(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+acesso.funcionarioId+'/acesso');
                 }

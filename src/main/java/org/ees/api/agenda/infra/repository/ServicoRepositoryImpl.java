@@ -189,7 +189,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
     public List<Servico> findByIdFuncionario(Integer salaoId, Integer funcionarioId) {
         String sql = "SELECT s.id, s.descricao, s.duracao, s.valor_minimo, s.valor_maximo " +
                 "FROM servico s " +
-                "INNER JOIN funcionario_presta_servico ps ON (ps.servico_id = s.id AND ps.funcionario_salao_id = s.salao_id) " +
+                "INNER JOIN funcionario_presta_servico ps ON (ps.servico_id = s.id AND ps.salao_id = s.salao_id) " +
                 "WHERE s.salao_id = ? AND ps.funcionario_id = ? AND s.deletado = 0 ";
 
         try {
@@ -223,7 +223,7 @@ public class ServicoRepositoryImpl implements ServicoRepository {
 		String sql = "SELECT s.id, s.descricao, s.duracao, s.valor_minimo, s.valor_maximo " +
 				"FROM servico s " +
 				"WHERE s.salao_id = ? AND s.deletado = 0 AND " +
-				"s.id NOT IN (SELECT ps.servico_id FROM funcionario_presta_servico ps WHERE ps.funcionario_id = ? AND s.salao_id = ps.funcionario_salao_id)";
+				"s.id NOT IN (SELECT ps.servico_id FROM funcionario_presta_servico ps WHERE ps.funcionario_id = ? AND s.salao_id = ps.salao_id)";
 
 		try {
 			PreparedStatement stmt = DB.preparedStatement(sql);

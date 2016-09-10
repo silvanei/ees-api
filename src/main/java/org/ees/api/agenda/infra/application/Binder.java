@@ -37,6 +37,9 @@ public class Binder extends AbstractBinder {
 
 		bind(ClienteSalaoRepositoryImpl.class).to(ClienteSalaoRepository.class);
 		bind(ClienteSalaoServiceImpl.class).to(ClienteSalaoService.class);
+
+		bind(AgendaRepositoryImpl.class).to(AgendaRepository.class);
+		bind(AgendaServiceImpl.class).to(AgendaService.class);
 	}
 
 }

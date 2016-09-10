@@ -21,7 +21,7 @@ public class HorarioTrabalhoRepositoryImpl implements HorarioTrabalhoRepository 
 
     @Override
     public HorarioTrabalho findById(Integer salaoId, Integer funcionarioId, DiaDaSemana diaDaSemana) {
-        String sql = "SELECT funcionario_id, funcionario_salao_id, dia_da_semana, entrada1, saida1, entrada2, saida2 FROM horario_trabalho  WHERE funcionario_id = ? AND funcionario_salao_id = ? AND dia_da_semana = ?";
+        String sql = "SELECT funcionario_id, salao_id, dia_da_semana, entrada1, saida1, entrada2, saida2 FROM horario_trabalho  WHERE funcionario_id = ? AND salao_id = ? AND dia_da_semana = ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -91,7 +91,7 @@ public class HorarioTrabalhoRepositoryImpl implements HorarioTrabalhoRepository 
 
     @Override
     public DiaDaSemana addHorario(Integer salaoId, Integer funcionarioId, DiaDaSemana diaDaSemana, HorarioTrabalho horario) {
-        String sql = "INSERT INTO horario_trabalho (funcionario_id, funcionario_salao_id, dia_da_semana, entrada1, saida1, entrada2, saida2) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO horario_trabalho (funcionario_id, salao_id, dia_da_semana, entrada1, saida1, entrada2, saida2) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
 
@@ -120,7 +120,7 @@ public class HorarioTrabalhoRepositoryImpl implements HorarioTrabalhoRepository 
 
     @Override
     public DiaDaSemana update(Integer salaoId, Integer funcionarioId, DiaDaSemana diaDaSemana, HorarioTrabalho horario) {
-        String sql = "UPDATE horario_trabalho SET entrada1 = ?, saida1 = ?, entrada2 = ?, saida2 = ? WHERE dia_da_semana = ? AND funcionario_id = ? AND funcionario_salao_id = ?";
+        String sql = "UPDATE horario_trabalho SET entrada1 = ?, saida1 = ?, entrada2 = ?, saida2 = ? WHERE dia_da_semana = ? AND funcionario_id = ? AND salao_id = ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -149,7 +149,7 @@ public class HorarioTrabalhoRepositoryImpl implements HorarioTrabalhoRepository 
 
     @Override
     public DiaDaSemana deleteHorario(Integer salaoId, Integer funcionarioId, DiaDaSemana diaDaSemana) {
-        String sql = "DELETE FROM horario_trabalho  WHERE dia_da_semana = ? AND funcionario_id = ? AND funcionario_salao_id = ?";
+        String sql = "DELETE FROM horario_trabalho  WHERE dia_da_semana = ? AND funcionario_id = ? AND salao_id = ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);

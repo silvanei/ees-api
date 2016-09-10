@@ -65,4 +65,11 @@ public class SalaoResource {
 
         return Response.ok(acessos).build();
     }
+
+	@Path("/{salaoId}/agenda")
+	public AgendaResource agenda(
+			@PathParam("salaoId") Integer salaoId
+	) {
+		return rc.initResource(new AgendaResource(salaoId));
+	}
 }

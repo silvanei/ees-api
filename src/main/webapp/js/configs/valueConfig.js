@@ -22,7 +22,26 @@
                 {id: 4, label: "Quinta feira" },
                 {id: 5, label: "Sexta feira" },
                 {id: 6, label: "Sábado" }
-            ]
+            ],
+
+            calendar: {
+                schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+                lang: 'pt-BR',
+                defaultView: 'agendaDay',
+                slotDuration: '00:30:00', // Intervalo entr as linhas
+                slotLabelFormat: 'H:mm',
+                minTime: '08:00:00',
+                maxTime: '20:00:00',
+                header: {
+                    left: 'prev,next today title',
+                    center: '',
+                    right: 'agendaDay,agendaWeek,month'
+                    //right: ''
+                },
+                resources: [],
+                events: [],
+                groupByResource: true
+            }
         })
     ;
 

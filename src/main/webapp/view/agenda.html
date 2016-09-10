@@ -19,10 +19,7 @@
                 </div>
                 <div class="box-body no-padding">
                     <ul class="nav nav-stacked teste-menu" >
-                        <li><a href="javascript:void(true)"><i class="fa fa-user margin-r-5"></i> Profissional 1</a></li>
-                        <li><a href="javascript:void(true)"><i class="fa fa-user margin-r-5"></i> Profissional 2</a></li>
-                        <li><a href="javascript:void(true)"><i class="fa fa-user margin-r-5"></i> Profissional 3</a></li>
-                        <li><a href="javascript:void(true)"><i class="fa fa-user margin-r-5"></i> Profissional 4</a></li>
+                        <li ng-repeat="resource in resources"><a href="javascript:void(true)"><i class="fa fa-user margin-r-5"></i> {{resource.title}} </a></li>
                     </ul>
                 </div><!-- /.box-body -->
             </div><!-- /. box -->
@@ -53,7 +50,7 @@
                     </div>
                     <!-- THE CALENDAR -->
                     <!--<div id="calendar"></div>-->
-                    <div ui-calendar="uiConfig.calendar" ng-model="eventSources"> </div>
+                    <div id="calendar-aqui" ui-calendar="uiConfig.calendar" ng-model="eventSources"> </div>
                 </div><!-- /.box-body -->
             </div><!-- /. box -->
         </div><!-- /.col -->

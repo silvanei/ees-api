@@ -218,7 +218,7 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
 
     @Override
     public Integer addServico(Integer salaoId, Integer funcionarioId, Integer servicoId) {
-        String sql = "INSERT INTO funcionario_presta_servico (funcionario_id, funcionario_salao_id, servico_id) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO funcionario_presta_servico (funcionario_id, salao_id, servico_id) VALUES (?, ?, ?)";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -243,7 +243,7 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
 
     @Override
     public Integer removeServico(Integer salaoId, Integer funcionarioId, Integer servicoId) {
-        String sql = "DELETE FROM funcionario_presta_servico WHERE funcionario_id = ? AND funcionario_salao_id = ? AND servico_id = ?";
+        String sql = "DELETE FROM funcionario_presta_servico WHERE funcionario_id = ? AND salao_id = ? AND servico_id = ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
