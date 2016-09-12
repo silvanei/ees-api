@@ -12,7 +12,7 @@
 
                 function get(limit, offset) {
                     if(limit) {
-                        url +=  '?limit='+ limit + '&offset=' + offset;
+                        return $http.get(url + '?limit='+ limit + '&offset=' + offset);
                     }
 
                     return $http.get(url);
@@ -34,12 +34,16 @@
                     return $http.delete(servico.link.href);
                 }
 
+                function funcionario(servidoId) {
+                    return $http.get(url + '/' + servidoId + '/funcionario');
+                }
 
                 return {
                     get: get,
                     put: atualizar,
                     post: criar,
-                    delete: excluir
+                    delete: excluir,
+                    funcionario: funcionario
                 }
 
             }]

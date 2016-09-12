@@ -98,7 +98,7 @@
                             <label class="control-label">Serviço</label>
                         </div>
                         <div class="col-sm-10">
-                            <ui-select ng-model="servico.selected" on-select="onSelectCallback($item)" theme="bootstrap">
+                            <ui-select ng-model="servico.selected" on-select="onSelectServico($item)" theme="bootstrap">
                                 <ui-select-match placeholder="Selecione um serviço">{{$select.selected.descricao}}</ui-select-match>
                                 <ui-select-choices repeat="item in servicos | filter: $select.search">
                                     <div ng-bind-html="item.descricao | highlight: $select.search"></div>
@@ -111,32 +111,26 @@
                             <label class="control-label">Profissional</label>
                         </div>
                         <div class="col-sm-10">
-                            <select class="form-control">
-                                <option>Selecione</option>
-                                <option>Profissional 1</option>
-                                <option>Profissional 2</option>
-                                <option>Profissional 3</option>
-                            </select>
+                            <ui-select ng-model="funcionario.selected" on-select="onSelectFuncionario($item)" theme="bootstrap">
+                                <ui-select-match placeholder="Selecione um profissional">{{$select.selected.apelido}}</ui-select-match>
+                                <ui-select-choices repeat="item in funcionarios | filter: $select.search">
+                                    <div ng-bind-html="item.apelido | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-2">
                             <label class="control-label">Hora</label>
                         </div>
-                        <div class="col-sm-3">
-                            <select class="form-control">
-                                <option>Selecione</option>
-                                <option>08:00</option>
-                                <option>09:00</option>
-                                <option>10:00</option>
-                                <option>11:00</option>
-                                <option>12:00</option>
-                                <option>13:00</option>
-                                <option>14:00</option>
-                                <option>15:00</option>
-                                <option>16:00</option>
-                                <option>17:00</option>
-                            </select>
+                        <div class="col-sm-4">
+                            {{hora}}
+                            <ui-select ng-model="hora.selected" theme="bootstrap">
+                                <ui-select-match placeholder="Selecione um horário">{{$select.selected.horario}}</ui-select-match>
+                                <ui-select-choices repeat="item in horarios | filter: $select.search">
+                                    <div ng-bind-html="item.horario | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>
                     <div class="form-group">

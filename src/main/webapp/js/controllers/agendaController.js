@@ -6,8 +6,8 @@
 
     angular
         .module('agenda')
-        .controller('agendaController', ['$scope', 'config','Notification', 'salaoService', 'agendaService', 'servicoService',
-            function ($scope, config, Notification, salaoService, agendaService, servicoService) {
+        .controller('agendaController', ['$scope', 'config','Notification', 'salaoService', 'agendaService', 'servicoService', 'horarioDisponivelService',
+            function ($scope, config, Notification, salaoService, agendaService, servicoService, horarioDisponivelService) {
 
                 function init() {
                     salaoService.get().success(function(data) {
@@ -72,12 +72,35 @@
 
 
                 $scope.cliente = {};
+                $scope.hora = {};
 
-                $scope.onSelectCallback = function (item){
-                    $scope.eventResult = {item: item};
-                    console.log($scope.eventResult);
+                $scope.onSelectServico = function (item){
+                    servicoService.funcionario(item.id)
+                        .success(function(data) {
+                            $scope.funcionarios = data;
+                        })
+                        .error(function(data, status) {
+                            Notification.error(data.errorMessage);
+                            delete $scope.funcionarios;
+                        })
+                    ;
                 };
 
+                $scope.onSelectFuncionario = function (item){
+                    horarioDisponivelService.get(1, item.id)
+                        .success(function(data) {
+                            data.forEach(function(item) {
+                               item.horario = moment(item.horario).format('HH:mm');
+                            });
+
+                            $scope.horarios = data;
+                        })
+                        .error(function(data, status) {
+                            Notification.error(data.errorMessage);
+                            delete $scope.horarios;
+                        })
+                    ;
+                };
 
 
                 init();

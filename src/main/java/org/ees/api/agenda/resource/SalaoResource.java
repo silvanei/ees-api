@@ -72,4 +72,13 @@ public class SalaoResource {
 	) {
 		return rc.initResource(new AgendaResource(salaoId));
 	}
+
+	@Path("/{salaoId}/horario-disponivel")
+	public HorarioDisponivelResource horarioDisponivel(
+			@PathParam("salaoId") Integer salaoId
+	) {
+		return rc.initResource(new HorarioDisponivelResource(salaoId));
+	}
+
+
 }
