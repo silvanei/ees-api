@@ -32,4 +32,6 @@ public interface FuncionarioRepository {
     public Integer countAcessoAdmin(Integer salaoId);
 
     public CollectionPaginated<Funcionario> findByIdSalao(Integer salaoId);
+
+    public List<Funcionario> findByServicoId(Integer salaoId, Integer servicoId);
 }

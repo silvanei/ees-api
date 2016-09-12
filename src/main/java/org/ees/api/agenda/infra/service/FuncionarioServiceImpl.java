@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -225,5 +226,19 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             Logger.getLogger(FuncionarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new AcessoADadosException(ex.getMessage());
         }
+    }
+
+    @Override
+    public List<Funcionario> findByServicoId(Integer salaoId, Integer servicoId) {
+
+        servicoService.findById(salaoId, servicoId);
+
+        List<Funcionario> funcionarios = funcionarioRepository.findByServicoId(salaoId, servicoId);
+
+        if (funcionarios.size() == 0) {
+            throw new DataNotFoundException("Não existe funcionário para o serviço selecinado");
+        }
+
+        return funcionarios;
     }
 }

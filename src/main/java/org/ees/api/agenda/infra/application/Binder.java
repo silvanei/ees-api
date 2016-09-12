@@ -11,7 +11,6 @@ public class Binder extends AbstractBinder {
 
 	@Override
 	protected void configure() {
-		//bindFactory(ServicoServiceFactory.class).to(ServicoService.class);
 		bind(DadosSalaoServiceImpl.class).to(DadosSalaoService.class);
 
 		bind(RegistrarSalaoServiceImpl.class).to(RegistrarSalaoService.class);

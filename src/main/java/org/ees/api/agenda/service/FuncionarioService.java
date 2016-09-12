@@ -38,4 +38,6 @@ public interface FuncionarioService {
     public Integer removeAcesso(Integer salaoId, Integer funcionarioId);
 
     public CollectionPaginated<Funcionario> findByIdSalao(Integer salaoId);
+
+    public List<Funcionario> findByServicoId(Integer salaoId, Integer servicoId);
 }

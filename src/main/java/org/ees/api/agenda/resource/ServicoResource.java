@@ -1,9 +1,11 @@
 package org.ees.api.agenda.resource;
 
+import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.resource.collection.ServicoCollection;
+import org.ees.api.agenda.service.FuncionarioService;
 import org.ees.api.agenda.service.ServicoService;
 
 import javax.annotation.security.RolesAllowed;
@@ -11,11 +13,15 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServicoResource {
 
     @Inject
     private ServicoService servicoService;
+
+    @Inject
+    private FuncionarioService funcionarioService;
 
     private Integer salaoId;
 
@@ -92,6 +98,18 @@ public class ServicoResource {
         servicoService.delete(salaoId, servicoId);
 
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/{servicoId}/funcionario")
+    @RolesAllowed(Perfil.SALAO_ADMIN)
+    public Response funcinarios(
+            @PathParam("servicoId") Integer servicoId
+    ) {
+
+        List<Funcionario> funcionarios = funcionarioService.findByServicoId(salaoId, servicoId);
+
+        return Response.ok(funcionarios).build();
     }
 
     public Integer getSalaoId() {

@@ -350,4 +350,37 @@ public class FuncionarioRepositoryImpl implements FuncionarioRepository {
             throw new AcessoADadosException("Erro ao buscar um funcionario pelo id");
         }
     }
+
+    @Override
+    public List<Funcionario> findByServicoId(Integer salaoId, Integer servicoId) {
+        String sql = "SELECT f.id, f.nome, f.apelido, f.telefone, f.celular " +
+                "FROM funcionario f " +
+                "INNER JOIN funcionario_presta_servico fps ON (fps.funcionario_id = f.id) " +
+                "WHERE fps.salao_id = ? and fps.servico_id = ? and f.deletado = 0 ";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, salaoId);
+            stmt.setInt(2, servicoId);
+            ResultSet rs = stmt.executeQuery();
+
+            List<Funcionario> funcionarios = new ArrayList<>();
+
+            while (rs.next()) {
+                Funcionario funcionario = new Funcionario();
+                funcionario.setId(rs.getInt("id"));
+                funcionario.setNome(rs.getString("nome"));
+                funcionario.setApelido(rs.getString("apelido"));
+                funcionario.setTelefone(rs.getString("telefone"));
+                funcionario.setCelular(rs.getString("celular"));
+                funcionarios.add(funcionario);
+            }
+
+            return funcionarios;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao buscar funcionarios pelo servicoId");
+        }
+    }
 }
