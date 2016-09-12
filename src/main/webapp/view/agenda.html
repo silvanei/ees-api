@@ -50,7 +50,7 @@
                     </div>
                     <!-- THE CALENDAR -->
                     <!--<div id="calendar"></div>-->
-                    <div id="calendar-aqui" ui-calendar="uiConfig.calendar" ng-model="eventSources"> </div>
+                    <div id="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"> </div>
                 </div><!-- /.box-body -->
             </div><!-- /. box -->
         </div><!-- /.col -->
@@ -76,25 +76,34 @@
                             <span class="fa form-control-feedback fa-calendar"></span>
                         </div>
                     </div>
+
                     <div class="form-group has-feedback">
                         <div class="col-sm-2">
                             <label for="inputPassword3" class="control-label">Cliente</label>
                         </div>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputPassword3" placeholder="Informe o nome do cliente">
+                            <ui-select ng-model="cliente.selected" theme="bootstrap">
+                                <ui-select-match placeholder="Selecione um cliente">{{$select.selected.nome}}</ui-select-match>
+                                <ui-select-choices repeat="item in clientes | filter: $select.search">
+                                    <div ng-bind-html="item.nome | highlight: $select.search"></div>
+                                    <small ng-bind-html="item.telefone | highlight: $select.search"></small>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>
+
+
                     <div class="form-group">
                         <div class="col-sm-2">
                             <label class="control-label">Serviço</label>
                         </div>
                         <div class="col-sm-10">
-                            <select class="form-control">
-                                <option>Selecione</option>
-                                <option>Serviço 1</option>
-                                <option>Serviço 2</option>
-                                <option>Serviço 3</option>
-                            </select>
+                            <ui-select ng-model="servico.selected" on-select="onSelectCallback($item)" theme="bootstrap">
+                                <ui-select-match placeholder="Selecione um serviço">{{$select.selected.descricao}}</ui-select-match>
+                                <ui-select-choices repeat="item in servicos | filter: $select.search">
+                                    <div ng-bind-html="item.descricao | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>
                     <div class="form-group">

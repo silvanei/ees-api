@@ -11,7 +11,9 @@
             'ng-currency',
             'ngMask',
             'ui-notification',
-            'angular-loading-bar'
+            'angular-loading-bar',
+            'ngSanitize',
+            'ui.select'
         ]).run(function (authManagerService) {
             authManagerService.checkAuthOnRefresh();
         })

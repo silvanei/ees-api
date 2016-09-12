@@ -30,8 +30,6 @@
                 defaultView: 'agendaDay',
                 slotDuration: '00:30:00', // Intervalo entr as linhas
                 slotLabelFormat: 'H:mm',
-                minTime: '08:00:00',
-                maxTime: '20:00:00',
                 header: {
                     left: 'prev,next today title',
                     center: '',

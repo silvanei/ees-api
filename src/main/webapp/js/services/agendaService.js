@@ -14,8 +14,6 @@
                 var resourceUrl = config.baseUrl + '/v1/salao/'+salaoId+'/agenda';
 
                 function get(start, end) {
-                    console.log(start.format('YYYY-MM-DD'));
-                    console.log(end.format('YYYY-MM-DD'));
                     return $http.get(resourceUrl + '/' + start.format('YYYY-MM-DD')+ '/' + end.format('YYYY-MM-DD'));
                 }
 
