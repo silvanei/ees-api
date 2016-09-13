@@ -22,11 +22,24 @@ public class AgendaServiceImpl implements AgendaService {
     public Calendar getDay(Integer salaoId, DateTime start, DateTime end) {
 
         Calendar calendar = new Calendar();
-        List<Resource> resources = agendaRepository.findyResource(salaoId, start, end);
+        List<Resource> resources = agendaRepository.findResource(salaoId, start, end);
 
         calendar.setResources(resources);
 
-        List<Event> events = agendaRepository.findyEvents(salaoId, start, end);
+        List<Event> events = agendaRepository.findEvents(salaoId, start, end);
+        calendar.setEvents(events);
+
+        return calendar;
+    }
+
+    @Override
+    public Calendar getDay(Integer salaoId, Integer funcionarioId, DateTime start, DateTime end) {
+        Calendar calendar = new Calendar();
+        List<Resource> resources = agendaRepository.findResourceByFuncionarioId(salaoId, funcionarioId, start, end);
+
+        calendar.setResources(resources);
+
+        List<Event> events = agendaRepository.findEventsByFuncionarioId(salaoId, funcionarioId, start, end);
         calendar.setEvents(events);
 
         return calendar;

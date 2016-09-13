@@ -11,4 +11,6 @@ import javax.inject.Inject;
 public interface AgendaService {
 
     public Calendar getDay(Integer salaoId, DateTime start, DateTime end);
+
+    public Calendar getDay(Integer salaoId, Integer funcionarioId, DateTime start, DateTime end);
 }

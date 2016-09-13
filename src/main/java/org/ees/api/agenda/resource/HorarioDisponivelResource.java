@@ -3,6 +3,7 @@ package org.ees.api.agenda.resource;
 import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.HorarioDisponivel;
 import org.ees.api.agenda.entity.Perfil;
+import org.ees.api.agenda.resource.bean.DateParam;
 import org.ees.api.agenda.service.HorarioDisponivelService;
 
 import javax.annotation.security.RolesAllowed;
@@ -28,14 +29,15 @@ public class HorarioDisponivelResource {
     }
 
     @GET
-    @Path("/servico/{servicoId}/funcionario/{funcionarioId}")
+    @Path("/servico/{servicoId}/funcionario/{funcionarioId}/dia/{dia}")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response funcinarios(
             @PathParam("servicoId") Integer servicoId,
-            @PathParam("funcionarioId") Integer funcionarioId
+            @PathParam("funcionarioId") Integer funcionarioId,
+            @PathParam("dia") DateParam dia
     ) {
 
-        List<HorarioDisponivel> horariosDisponiveis = horarioDisponivelService.findBy(salaoId, servicoId, funcionarioId);
+        List<HorarioDisponivel> horariosDisponiveis = horarioDisponivelService.findBy(salaoId, servicoId, funcionarioId, dia.getDate());
 
         return Response.ok(horariosDisponiveis).build();
     }

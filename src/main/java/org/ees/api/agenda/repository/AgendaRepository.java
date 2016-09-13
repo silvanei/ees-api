@@ -10,7 +10,11 @@ import java.util.List;
  * Created by silvanei on 10/09/16.
  */
 public interface AgendaRepository {
-    public List<Resource> findyResource(Integer salaoId, DateTime start, DateTime end);
+    public List<Resource> findResource(Integer salaoId, DateTime start, DateTime end);
 
-    public List<Event> findyEvents(Integer salaoId, DateTime start, DateTime end);
+    public List<Event> findEvents(Integer salaoId, DateTime start, DateTime end);
+
+    public List<Resource> findResourceByFuncionarioId(Integer salaoId, Integer funcionarioId, DateTime start, DateTime end);
+
+    public List<Event> findEventsByFuncionarioId(Integer salaoId, Integer funcionarioId, DateTime start, DateTime end);
 }
