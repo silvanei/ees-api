@@ -45,7 +45,7 @@
             <div class="box box-primary">
                 <div class="box-body no-padding">
                     <div style="padding: 10px">
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#novo-agendamento"><i class="fa fa-fw fa-plus-circle"></i>Novo Agendamento</a>
+                        <a class="btn btn-primary" ng-click="novoAgendamento()" ><i class="fa fa-fw fa-plus-circle"></i>Novo Agendamento</a>
                         <a class="btn btn-primary" data-toggle="modal" data-target="#modal-novo-cliente"><i class="fa fa-fw fa-plus-circle"></i>Novo Cliente</a>
                     </div>
                     <!-- THE CALENDAR -->
@@ -58,7 +58,7 @@
 </section><!-- /.content -->
 
 
-<div class="fade modal" id="novo-agendamento">
+<div class="fade modal" id="modal-agendamento">
     <div class="modal-dialog">
         <form class="form-horizontal" role="form" name="agendamentoForm">
             <div class="modal-content">
@@ -186,8 +186,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" ng-hide="!cliente.id" ng-click="atualizar(cliente)" ng-disabled="agendamentoForm.$invalid" >Atualizar</button>
-                    <button type="button" class="btn btn-primary" ng-hide="cliente.id" ng-click="salvar(cliente)" ng-disabled="agendamentoForm.$invalid" >Salvar</button>
+                    <button type="button" class="btn btn-primary" ng-hide="!cliente.id" ng-click="atualizar(agendamento)" ng-disabled="agendamentoForm.$invalid" >Atualizar</button>
+                    <button type="button" class="btn btn-primary" ng-hide="cliente.id" ng-click="salvar(agendamento)" ng-disabled="agendamentoForm.$invalid" >Salvar</button>
                 </div>
             </div>
 

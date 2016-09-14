@@ -3,6 +3,7 @@ package org.ees.api.agenda.service;
 import org.ees.api.agenda.entity.HorarioDisponivel;
 import org.ees.api.agenda.resource.bean.DateParam;
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 import java.util.List;
 

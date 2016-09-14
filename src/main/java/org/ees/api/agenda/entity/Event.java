@@ -7,7 +7,12 @@ import org.joda.time.DateTime;
  */
 public class Event {
 
-    private Integer resourceId;
+    private Integer id;
+    private Integer clienteId;
+    private Integer servicoId;
+    private Integer funcionarioId;
+    private String observacao;
+    private Integer status = 1;
     private String title;
     private DateTime start;
     private DateTime end;
@@ -15,19 +20,64 @@ public class Event {
     public Event() {
     }
 
-    public Event(Integer resourceId, String title, DateTime start, DateTime end) {
-        setResourceId(resourceId);
+    public Event(Integer funcionarioId, String title, DateTime start, DateTime end) {
+        setFuncionarioId(funcionarioId);
         setTitle(title);
         setStart(start);
         setEnd(end);
     }
 
-    public Integer getResourceId() {
-        return resourceId;
+    public Event(Integer id, Integer resourceId, String title, DateTime start, DateTime end) {
+        this(resourceId, title, start, end);
+        setId(id);
     }
 
-    public void setResourceId(Integer resourceId) {
-        this.resourceId = resourceId;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Integer clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public Integer getServicoId() {
+        return servicoId;
+    }
+
+    public void setServicoId(Integer servicoId) {
+        this.servicoId = servicoId;
+    }
+
+    public Integer getFuncionarioId() {
+        return funcionarioId;
+    }
+
+    public void setFuncionarioId(Integer funcionarioId) {
+        this.funcionarioId = funcionarioId;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getTitle() {

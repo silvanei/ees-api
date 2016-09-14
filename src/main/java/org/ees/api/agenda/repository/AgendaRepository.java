@@ -17,4 +17,6 @@ public interface AgendaRepository {
     public List<Resource> findResourceByFuncionarioId(Integer salaoId, Integer funcionarioId, DateTime start, DateTime end);
 
     public List<Event> findEventsByFuncionarioId(Integer salaoId, Integer funcionarioId, DateTime start, DateTime end);
+
+    public Integer add(Integer salaoId, Integer clienteId, Integer servicoId, Integer funcionarioId, DateTime dateTime, String observacao);
 }

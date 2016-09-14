@@ -16,6 +16,7 @@
 
                     element.css("text-align", "center");
                     element.css("width", "70px");
+                    element.attr('autocomplete','off');
 
                     function formatHour(time) {
                         time = time.replace(/[^0-9]+/g, "");

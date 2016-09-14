@@ -17,8 +17,15 @@
                     return $http.get(resourceUrl + '/' + start.format('YYYY-MM-DD')+ '/' + end.format('YYYY-MM-DD'));
                 }
 
+                function post(agendamento) {
+                    var dia = moment(agendamento.data).format('YYYY-MM-DD');
+                    delete agendamento.data;
+                    return $http.post(resourceUrl + '/' + dia, agendamento);
+                }
+
                 return {
-                    get: get
+                    get: get,
+                    post: post
                 }
             }
         ])

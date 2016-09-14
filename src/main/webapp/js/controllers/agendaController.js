@@ -9,11 +9,9 @@
         .controller('agendaController', ['$scope', 'config','Notification', 'salaoService', 'agendaService', 'servicoService',
             function ($scope, config, Notification, salaoService, agendaService, servicoService) {
 
-                function init() {
+                var modalAgendamento = $("#modal-agendamento");
 
-                    $scope.agendamento = {
-                        data: new Date()
-                    };
+                function init() {
 
                     $scope.currentDate = moment().format('YYYY-MM-DD');
 
@@ -55,6 +53,7 @@
                         data.events.forEach(function(item) {
                             item.start = new Date(item.start);
                             item.end = new Date(item.end);
+                            item.resourceId = item.funcionarioId;
                         });
 
 
@@ -83,6 +82,9 @@
                     modal.find('.modal-title').text('Horário - ' + event.title);
                     modal.show();
 
+                    console.log(event);
+                    //event.resourceId = 3;
+
                     //$('#calendar').fullCalendar('updateEvent', event);
                 };
 
@@ -103,6 +105,36 @@
                             })
                         ;
                     }
+                };
+
+                $scope.novoAgendamento = function() {
+                    modalAgendamento.modal('show');
+                    delete $scope.agendamento;
+                    delete $scope.funcionarios;
+
+                    $scope.agendamento = {
+                        data: new Date()
+                    };
+
+                    $scope.agendamentoForm.$setPristine();
+                };
+
+                $scope.salvar = function(agendamento) {
+                    agendaService.post(agendamento)
+                        .success(function(data) {
+                            $('#calendar').fullCalendar( 'refetchEvents' );
+
+                            modalAgendamento.modal('hide');
+                            delete $scope.agendamento;
+                            delete $scope.funcionarios;
+
+                            Notification.success('Horaio agendado com sucesso');
+                        })
+                        .error(function(data, status) {
+                            $scope.agendamento.data = new Date();
+                            Notification.error(data.errorMessage);
+                        })
+                    ;
                 };
 
                 init();

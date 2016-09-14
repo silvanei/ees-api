@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class HorarioDisponivelServiceImpl implements HorarioDisponivelService {
 
-    private FuncionarioService funcionarioService;
     private ServicoService servicoService;
     private AgendaService agendaService;
     private HorarioTrabalhoService horarioTrabalhoService;
@@ -23,12 +22,10 @@ public class HorarioDisponivelServiceImpl implements HorarioDisponivelService {
 
     @Inject
     public HorarioDisponivelServiceImpl(
-            FuncionarioService funcionarioService,
             ServicoService servicoService,
             AgendaService agendaService,
             HorarioTrabalhoService horarioTrabalhoService
     ) {
-        this.funcionarioService = funcionarioService;
         this.servicoService = servicoService;
         this.agendaService = agendaService;
         this.horarioTrabalhoService = horarioTrabalhoService;
