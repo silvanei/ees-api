@@ -6,11 +6,21 @@
 
     angular
         .module('agenda')
-        .controller('agendaController', ['$scope', 'config','Notification', 'salaoService', 'agendaService', 'servicoService', 'horarioDisponivelService',
-            function ($scope, config, Notification, salaoService, agendaService, servicoService, horarioDisponivelService) {
+        .controller('agendaController', ['$scope', 'config','Notification', 'salaoService', 'agendaService', 'servicoService',
+            function ($scope, config, Notification, salaoService, agendaService, servicoService) {
 
                 function init() {
+
+                    $scope.agendamento = {
+                        data: new Date()
+                    };
+
+                    $scope.currentDate = moment().format('YYYY-MM-DD');
+
                     salaoService.get().success(function(data) {
+
+                        $scope.minTime = moment(data.horarioDeFuncionamento.horarioInicio).format('HH:mm');
+                        $scope.maxTime = moment(data.horarioDeFuncionamento.horarioFinal).format('HH:mm');
 
                         $scope.uiConfig = {
                             calendar: angular.extend({
@@ -29,6 +39,12 @@
 
                     servicoService.get().success(function(data) {
                         $scope.servicos = data.items;
+                    });
+
+                    $('li', '.teste-menu').on('click', function() {
+                        $(this).toggleClass(function(){
+                            return 'active';
+                        });
                     });
                 }
 
@@ -70,38 +86,24 @@
                     //$('#calendar').fullCalendar('updateEvent', event);
                 };
 
-
-                $scope.cliente = {};
-                $scope.hora = {};
-
                 $scope.onSelectServico = function (item){
-                    servicoService.funcionario(item.id)
-                        .success(function(data) {
-                            $scope.funcionarios = data;
-                        })
-                        .error(function(data, status) {
-                            Notification.error(data.errorMessage);
-                            delete $scope.funcionarios;
-                        })
-                    ;
+
+                    delete $scope.funcionarios;
+                    delete $scope.agendamento.funcionario;
+
+                    if(item) {
+                        servicoService.funcionario(item.id)
+                            .success(function(data) {
+                                $scope.funcionarios = data;
+                            })
+                            .error(function(data, status) {
+                                Notification.error(data.errorMessage);
+                                delete $scope.funcionarios;
+                                delete $scope.agendamento.funcionario;
+                            })
+                        ;
+                    }
                 };
-
-                $scope.onSelectFuncionario = function (item){
-                    horarioDisponivelService.get(1, item.id)
-                        .success(function(data) {
-                            data.forEach(function(item) {
-                               item.horario = moment(item.horario).format('HH:mm');
-                            });
-
-                            $scope.horarios = data;
-                        })
-                        .error(function(data, status) {
-                            Notification.error(data.errorMessage);
-                            delete $scope.horarios;
-                        })
-                    ;
-                };
-
 
                 init();
             }

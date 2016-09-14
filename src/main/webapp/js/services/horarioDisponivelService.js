@@ -14,8 +14,8 @@
                 var salaoId = authManagerService.identity().salaoId;
                 var url = config.baseUrl + '/v1/salao/' + salaoId + '/horario-disponivel';
 
-                function get(servicoId, funcionarioId) {
-                    return $http.get(url + '/servico/'+ servicoId +'/funcionario/' + funcionarioId);
+                function get(servicoId, funcionarioId, dia) {
+                    return $http.get(url + '/servico/'+ servicoId +'/funcionario/' + funcionarioId + '/dia/' + dia);
                 }
 
                 return {

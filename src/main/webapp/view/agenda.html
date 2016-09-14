@@ -60,94 +60,140 @@
 
 <div class="fade modal" id="novo-agendamento">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">Novo Agendamento</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group has-feedback">
+        <form class="form-horizontal" role="form" name="agendamentoForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Novo Agendamento</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" ng-class="{'has-error': (agendamentoForm.data.$invalid && agendamentoForm.data.$dirty)}">
                         <div class="col-sm-2">
-                            <label for="inputEmail3" class="control-label">Data</label>
+                            <label for="data" class="control-label">Data</label>
                         </div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" value="15/01/2016">
-                            <span class="fa form-control-feedback fa-calendar"></span>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" name="data" id="data" ng-model="agendamento.data" ng-required="true" min="{{currentDate}}" >
+                            <div ng-messages="agendamentoForm.data.$error" ng-show="agendamentoForm.data.$dirty">
+                                <div ng-message="required" class="help-block">
+                                    Por favor, preencher o campo data
+                                </div>
+                                <div ng-message="date" class="help-block">
+                                    Data inválida
+                                </div>
+                                <div ng-message="min" class="help-block">
+                                    Não é possível agendar para uma data menor que hoje
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group has-feedback">
+                    <div class="form-group" ng-class="{'has-error': (agendamentoForm.cliente.$invalid && agendamentoForm.cliente.$dirty)}">
                         <div class="col-sm-2">
-                            <label for="inputPassword3" class="control-label">Cliente</label>
+                            <label for="cliente" class="control-label">Cliente</label>
                         </div>
                         <div class="col-sm-10">
-                            <ui-select ng-model="cliente.selected" theme="bootstrap">
-                                <ui-select-match placeholder="Selecione um cliente">{{$select.selected.nome}}</ui-select-match>
-                                <ui-select-choices repeat="item in clientes | filter: $select.search">
+                            <ui-select name="cliente" id="cliente" ng-model="agendamento.clienteId" ng-required="true" skip-focusser="true">
+                                <ui-select-match placeholder="Selecione um cliente" allow-clear="true">{{$select.selected.nome}}</ui-select-match>
+                                <ui-select-choices repeat="item.id as item in clientes | filter: $select.search">
                                     <div ng-bind-html="item.nome | highlight: $select.search"></div>
                                     <small ng-bind-html="item.telefone | highlight: $select.search"></small>
                                 </ui-select-choices>
+                                <ui-select-no-choice>
+                                    Não foi possível encontrar o cliente...
+                                </ui-select-no-choice>
                             </ui-select>
+                            <div ng-messages="agendamentoForm.cliente.$error" ng-show="agendamentoForm.cliente.$dirty">
+                                <div ng-message="required" class="help-block">
+                                    Por favor, preencher o campo cliente
+                                </div>
+                            </div>
                         </div>
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{'has-error': (agendamentoForm.servico.$invalid && agendamentoForm.servico.$dirty)}">
                         <div class="col-sm-2">
-                            <label class="control-label">Serviço</label>
+                            <label for="servico" class="control-label">Serviço</label>
                         </div>
                         <div class="col-sm-10">
-                            <ui-select ng-model="servico.selected" on-select="onSelectServico($item)" theme="bootstrap">
-                                <ui-select-match placeholder="Selecione um serviço">{{$select.selected.descricao}}</ui-select-match>
-                                <ui-select-choices repeat="item in servicos | filter: $select.search">
+                            <ui-select name="servico" id="servico" ng-model="agendamento.servicoId" on-select="onSelectServico($item)" ng-required="true" skip-focusser="true">
+                                <ui-select-match placeholder="Selecione um serviço" allow-clear="true">{{$select.selected.descricao}}</ui-select-match>
+                                <ui-select-choices repeat="item.id as item in servicos | filter: $select.search">
                                     <div ng-bind-html="item.descricao | highlight: $select.search"></div>
                                 </ui-select-choices>
+                                <ui-select-no-choice>
+                                    Não foi possível encontrar o serviço...
+                                </ui-select-no-choice>
                             </ui-select>
+                            <div ng-messages="agendamentoForm.servico.$error" ng-show="agendamentoForm.servico.$dirty">
+                                <div ng-message="required" class="help-block">
+                                    Por favor, preencher o campo serviço
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{'has-error': (agendamentoForm.funcionario.$invalid && agendamentoForm.funcionario.$dirty)}">
                         <div class="col-sm-2">
-                            <label class="control-label">Profissional</label>
+                            <label for="funcionario" class="control-label">Profissional</label>
                         </div>
                         <div class="col-sm-10">
-                            <ui-select ng-model="funcionario.selected" on-select="onSelectFuncionario($item)" theme="bootstrap">
-                                <ui-select-match placeholder="Selecione um profissional">{{$select.selected.apelido}}</ui-select-match>
-                                <ui-select-choices repeat="item in funcionarios | filter: $select.search">
+                            <ui-select name="funcionario" id="funcionario" ng-model="agendamento.funcionarioId" ng-required="true" skip-focusser="true">
+                                <ui-select-match placeholder="Selecione um profissional" allow-clear="true">{{$select.selected.apelido}}</ui-select-match>
+                                <ui-select-choices repeat="item.id as item in funcionarios | filter: $select.search">
                                     <div ng-bind-html="item.apelido | highlight: $select.search"></div>
                                 </ui-select-choices>
+                                <ui-select-no-choice>
+                                    Não foi possível encontrar o profissional...
+                                </ui-select-no-choice>
                             </ui-select>
+                            <div ng-messages="agendamentoForm.funcionario.$error" ng-show="agendamentoForm.funcionario.$dirty">
+                                <div ng-message="required" class="help-block">
+                                    Por favor, preencher o campo profissional
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{'has-error': (agendamentoForm.hora.$invalid && agendamentoForm.hora.$dirty)}">
                         <div class="col-sm-2">
-                            <label class="control-label">Hora</label>
-                        </div>
-                        <div class="col-sm-4">
-                            {{hora}}
-                            <ui-select ng-model="hora.selected" theme="bootstrap">
-                                <ui-select-match placeholder="Selecione um horário">{{$select.selected.horario}}</ui-select-match>
-                                <ui-select-choices repeat="item in horarios | filter: $select.search">
-                                    <div ng-bind-html="item.horario | highlight: $select.search"></div>
-                                </ui-select-choices>
-                            </ui-select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-2">
-                            <label class="control-label">Observação</label>
+                            <label for="hora" class="control-label">Hora</label>
                         </div>
                         <div class="col-sm-10">
-                            <textarea class="form-control"></textarea>
+                            <input type="text" class="form-control" name="hora" id="hora" time-input time-min="{{minTime}}" time-max="{{maxTime}}" ng-model="agendamento.hora" ng-required="true">
+                            <div ng-messages="agendamentoForm.hora.$error" ng-show="agendamentoForm.hora.$dirty">
+                                <div ng-message="required" class="help-block">
+                                    Por favor, preencher o campo hora
+                                </div>
+                                <div ng-message="parse" class="help-block">
+                                    Por favor, informe um horario válido
+                                </div>
+                                <div ng-message="timeMin" class="help-block">
+                                    Não é possível agendar para uma hora menor que {{minTime}}
+                                </div>
+                                <div ng-message="timeMax" class="help-block">
+                                    Não é possível agendar para uma data maior que {{maxTime}}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </form>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="observacao" class="control-label">Observação</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <textarea id="observacao" name="observacao" class="form-control" ng-model="agendamento.observacao"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" ng-hide="!cliente.id" ng-click="atualizar(cliente)" ng-disabled="agendamentoForm.$invalid" >Atualizar</button>
+                    <button type="button" class="btn btn-primary" ng-hide="cliente.id" ng-click="salvar(cliente)" ng-disabled="agendamentoForm.$invalid" >Salvar</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Salvar</button>
-            </div>
-        </div>
+
+            <pre>{{agendamento | json}}</pre>
+
+        </form>
     </div>
 </div>
 
@@ -307,15 +353,3 @@
         </form>
     </div>
 </div>
-
-<script>
-    (function () {
-        'use strict';
-
-        $('li', '.teste-menu').on('click', function() {
-            $(this).toggleClass(function(){
-                return 'active';
-            });
-        });
-    })();
-</script>
