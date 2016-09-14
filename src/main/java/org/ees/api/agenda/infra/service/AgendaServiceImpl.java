@@ -4,6 +4,7 @@ import org.ees.api.agenda.entity.*;
 import org.ees.api.agenda.infra.exceptions.ConflictException;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.repository.AgendaRepository;
+import org.ees.api.agenda.resource.bean.Agendamento;
 import org.ees.api.agenda.service.*;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
@@ -41,6 +42,17 @@ public class AgendaServiceImpl implements AgendaService {
         calendar.setEvents(events);
 
         return calendar;
+    }
+
+    @Override
+    public Event getDay(Integer salaoId, DateTime dia, Integer eventId) {
+        Event event = agendaRepository.findEvent(salaoId, dia, eventId);
+
+        if (null == event) {
+            throw new DataNotFoundException("Agendamento não encontrado");
+        }
+
+        return event;
     }
 
     @Override
@@ -138,6 +150,10 @@ public class AgendaServiceImpl implements AgendaService {
             if(data.isBefore(fim) ) {
                 return true;
             }
+        } else {
+            if(proximo.isAfter(fim)) {
+                return true;
+            }
         }
 
         if(proximo.isAfter(inicio) ) {
@@ -147,5 +163,14 @@ public class AgendaServiceImpl implements AgendaService {
         }
 
         return false;
+    }
+
+    @Override
+    public Event update(Integer salaoId, Integer eventId, DateTime date, Agendamento agendamento) {
+        getDay(salaoId, date, eventId);
+
+        Integer eventUpdatesId = agendaRepository.update(salaoId, eventId, date, agendamento);
+
+        return getDay(salaoId, agendamento.getData(), eventUpdatesId);
     }
 }

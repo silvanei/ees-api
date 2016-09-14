@@ -24,6 +24,14 @@
                 {id: 6, label: "Sábado" }
             ],
 
+            statusAgendamento: [
+                {id: 1, label: "Reservado" },
+                {id: 2, label: "Em Atendimento" },
+                {id: 3, label: "Finalizado" },
+                {id: 4, label: "Cancelado" },
+                {id: 5, label: "Não Compareceu" }
+            ],
+
             calendar: {
                 schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
                 lang: 'pt-BR',

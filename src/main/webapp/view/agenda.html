@@ -87,7 +87,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group" ng-class="{'has-error': (agendamentoForm.cliente.$invalid && agendamentoForm.cliente.$dirty)}">
+                    <div class="form-group" ng-class="{'has-error': (agendamentoForm.cliente.$invalid && agendamentoForm.cliente.$dirty)}" ng-hide="agendamento.id">
                         <div class="col-sm-2">
                             <label for="cliente" class="control-label">Cliente</label>
                         </div>
@@ -175,6 +175,23 @@
                             </div>
                         </div>
                     </div>
+                    <div ng-if="agendamento.id">
+                        <div class="form-group" ng-class="{'has-error': (agendamentoForm.status.$invalid && agendamentoForm.status.$dirty)}">
+                            <div class="col-sm-2">
+                                <label for="status" class="control-label">Status</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="status" id="status" ng-model="agendamento.status" ng-options="status.id as status.label for status in statusAgendamento" ng-required="true">
+                                    <option value="">Selecione um status</option>
+                                </select>
+                                <div ng-messages="agendamentoForm.status.$error" ng-show="agendamentoForm.status.$dirty">
+                                    <div ng-message="required" class="help-block">
+                                        Por favor, preencher o campo status
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-sm-2">
                             <label for="observacao" class="control-label">Observação</label>
@@ -186,111 +203,18 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" ng-hide="!cliente.id" ng-click="atualizar(agendamento)" ng-disabled="agendamentoForm.$invalid" >Atualizar</button>
-                    <button type="button" class="btn btn-primary" ng-hide="cliente.id" ng-click="salvar(agendamento)" ng-disabled="agendamentoForm.$invalid" >Salvar</button>
+                    <span ng-if="agendamento.id" >
+                        <button type="button" class="btn btn-primary" ng-click="atualizar(agendamento)" ng-disabled="agendamentoForm.$invalid" >Atualizar</button>
+                    </span>
+                    <span ng-if="!agendamento.id">
+                        <button type="button" class="btn btn-primary" ng-hide="agendamento.id" ng-click="salvar(agendamento)" ng-disabled="agendamentoForm.$invalid" >Salvar</button>
+                    </span>
                 </div>
             </div>
 
             <pre>{{agendamento | json}}</pre>
 
         </form>
-    </div>
-</div>
-
-<div class="fade modal" id="reserva">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Horario - Amarilis</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" role="form">
-                    <div class="form-group has-feedback">
-                        <div class="col-sm-2">
-                            <label for="inputEmail3" class="control-label">Data</label>
-                        </div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" value="15/01/2016">
-                            <span class="fa form-control-feedback fa-calendar"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-2">
-                            <label class="control-label">Serviço</label>
-                        </div>
-                        <div class="col-sm-10">
-                            <select class="form-control">
-                                <option>Selecione</option>
-                                <option>Serviço 1</option>
-                                <option>Serviço 2</option>
-                                <option>Serviço 3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-2">
-                            <label class="control-label">Profissional</label>
-                        </div>
-                        <div class="col-sm-10">
-                            <select class="form-control">
-                                <option>Selecione</option>
-                                <option>Profissional 1</option>
-                                <option>Profissional 2</option>
-                                <option>Profissional 3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-2">
-                            <label class="control-label">Status</label>
-                        </div>
-                        <div class="col-sm-10">
-                            <select class="form-control">
-                                <option>Reservado</option>
-                                <option>Em Atendimento</option>
-                                <option>Finalizado</option>
-                                <option>Não Compareceu</option>
-                                <option>Cancelado</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-2">
-                            <label class="control-label">Hora</label>
-                        </div>
-                        <div class="col-sm-3">
-                            <select class="form-control">
-                                <option>Selecione</option>
-                                <option>08:00</option>
-                                <option>09:00</option>
-                                <option>10:00</option>
-                                <option>11:00</option>
-                                <option>12:00</option>
-                                <option>13:00</option>
-                                <option>14:00</option>
-                                <option>15:00</option>
-                                <option>16:00</option>
-                                <option>17:00</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-2">
-                            <label class="control-label">Observação</label>
-                        </div>
-                        <div class="col-sm-10">
-                            <textarea class="form-control"></textarea>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
-                <a class="btn btn-primary">Salvar</a>
-
-            </div>
-        </div>
     </div>
 </div>
 

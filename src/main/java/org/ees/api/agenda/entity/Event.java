@@ -1,6 +1,14 @@
 package org.ees.api.agenda.entity;
 
+import org.ees.api.agenda.resource.AgendaResource;
+import org.ees.api.agenda.resource.DadosResource;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import javax.ws.rs.core.Link;
 
 /**
  * Created by silvanei on 10/09/16.
@@ -16,6 +24,19 @@ public class Event {
     private String title;
     private DateTime start;
     private DateTime end;
+
+    @InjectLink(
+            resource = AgendaResource.class,
+            method = "evento",
+            style = InjectLink.Style.ABSOLUTE,
+            bindings = {
+                    @Binding(name = "salaoId", value = "${resource.salaoId}"),
+                    @Binding(name = "dia", value = "${instance.dia}"),
+                    @Binding(name = "eventId", value = "${instance.id}")
+            },
+            rel = "self"
+    )
+    private Link link;
 
     public Event() {
     }
@@ -102,5 +123,10 @@ public class Event {
 
     public void setEnd(DateTime end) {
         this.end = end;
+    }
+
+    public String getDia() {
+        DateTimeFormatter dtfPadrao = DateTimeFormat.forPattern("yyyy-MM-dd");
+        return start.toString(dtfPadrao);
     }
 }

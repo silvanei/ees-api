@@ -20,12 +20,30 @@
                 function post(agendamento) {
                     var dia = moment(agendamento.data).format('YYYY-MM-DD');
                     delete agendamento.data;
-                    return $http.post(resourceUrl + '/' + dia, agendamento);
+                    return $http.post(resourceUrl + '/' + dia + '/event', agendamento);
+                }
+
+                function put(agendamento) {
+                    agendamento = angular.copy(agendamento);
+
+                    var hora = moment(agendamento.hora).format('HH');
+                    var minuto = moment(agendamento.hora).format('mm');
+                    var dia = moment(agendamento.data)
+                        .hour(hora)
+                        .minute(minuto)
+                    ;
+
+                    agendamento.data = dia.valueOf();
+                    console.log(agendamento);
+
+                    delete agendamento.hora;
+                    return $http.put(agendamento.link.href, agendamento);
                 }
 
                 return {
                     get: get,
-                    post: post
+                    post: post,
+                    put: put
                 }
             }
         ])

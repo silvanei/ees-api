@@ -1,5 +1,7 @@
 package org.ees.api.agenda.resource.bean;
 
+import org.joda.time.DateTime;
+
 import java.sql.Time;
 
 /**
@@ -13,6 +15,7 @@ public class Agendamento {
     private Integer funcionarioId;
     private String observacao;
     private Integer status = 1;
+    private DateTime data;
 
     public Time getHora() {
         return hora;
@@ -60,5 +63,13 @@ public class Agendamento {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public DateTime getData() {
+        return data;
+    }
+
+    public void setData(DateTime data) {
+        this.data = data;
     }
 }

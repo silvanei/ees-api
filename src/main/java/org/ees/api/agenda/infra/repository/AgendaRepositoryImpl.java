@@ -5,6 +5,7 @@ import org.ees.api.agenda.entity.Resource;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.AgendaRepository;
+import org.ees.api.agenda.resource.bean.Agendamento;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -96,6 +97,47 @@ public class AgendaRepositoryImpl implements AgendaRepository {
             }
 
             return events;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao buscar eventos pelo idSalao");
+        }
+    }
+
+    @Override
+    public Event findEvent(Integer salaoId, DateTime dia, Integer eventId) {
+        String sql = "SELECT a.id, f.id AS funcionarioId, c.nome AS title, a.data AS start, (a.data + INTERVAL s.duracao MINUTE) AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status " +
+                "FROM agenda a " +
+                "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
+                "INNER JOIN servico s ON (s.id = a.servico_id) " +
+                "INNER JOIN cliente c ON (c.id = a.cliente_id) " +
+                "WHERE a.salao_id = ? AND DATE(a.data) = ? AND a.id = ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, salaoId);
+            stmt.setString(2, dia.toString(dtfPadrao));
+            stmt.setInt(3, eventId);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                Event event = new Event(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("funcionarioId"),
+                        resultSet.getString("title"),
+                        new DateTime(resultSet.getTimestamp("start")),
+                        new DateTime(resultSet.getTimestamp("end"))
+                );
+
+                event.setClienteId(resultSet.getInt("clienteId"));
+                event.setServicoId(resultSet.getInt("servicoId"));
+                event.setObservacao(resultSet.getString("observacao"));
+                event.setStatus(resultSet.getInt("status"));
+
+                return event;
+            }
+
+            return null;
 
         } catch (SQLException ex) {
             Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -198,6 +240,33 @@ public class AgendaRepositoryImpl implements AgendaRepository {
         }catch (SQLException ex){
             Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new AcessoADadosException("Error ao inserir um agendamento de um Salão");
+        }
+    }
+
+    @Override
+    public Integer update(Integer salaoId, Integer eventId, DateTime date, Agendamento agendamento) {
+        String sql = "UPDATE agenda SET servico_id = ?, funcionario_id = ?, data = ?, observacao = ?, status = ? WHERE salao_id = ? AND id = ? AND DATE(data) = ? ";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, agendamento.getServicoId());
+            stmt.setInt(2, agendamento.getFuncionarioId());
+            stmt.setString(3, agendamento.getData().toString(dtfTimeStamp));
+            stmt.setString(4, agendamento.getObservacao());
+            stmt.setInt(5, agendamento.getStatus());
+            stmt.setInt(6, salaoId);
+            stmt.setInt(7, eventId);
+            stmt.setString(8, date.toString(dtfPadrao));
+
+            if (stmt.executeUpdate() > 0) {
+                return eventId;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao atualizar um evento");
         }
     }
 }
