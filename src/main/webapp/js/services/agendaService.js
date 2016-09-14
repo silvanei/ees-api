@@ -34,7 +34,6 @@
                     ;
 
                     agendamento.data = dia.valueOf();
-                    console.log(agendamento);
 
                     delete agendamento.hora;
                     return $http.put(agendamento.link.href, agendamento);

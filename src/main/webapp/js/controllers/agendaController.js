@@ -108,8 +108,6 @@
                     var modal = modalAgendamento.modal();
                     modal.find('.modal-title').text('Horário - ' + event.title);
                     modal.show();
-
-                    console.log(event);
                 };
 
                 $scope.onSelectServico = function (item){
@@ -166,7 +164,6 @@
 
                     agendaService.put(agendamento)
                         .success(function(data) {
-                            console.log(data);
                             $('#calendar').fullCalendar( 'refetchEvents' );
 
                             modalAgendamento.modal('hide');
