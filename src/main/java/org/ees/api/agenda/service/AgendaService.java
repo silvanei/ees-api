@@ -22,4 +22,11 @@ public interface AgendaService {
     public Integer add(Integer salaoId, Integer clienteId, Integer servicoId, Integer funcionarioId, DateTime date, Time hora, String observacao);
 
     public Event update(Integer salaoId, Integer eventId, DateTime date, Agendamento agendamento);
+
+    public Event findById(Integer salaoId, Integer agendaId);
+
+    // Refactory
+    public Event add(Integer salaoId, Agendamento agendamento);
+
+    public Event update(Integer salaoId, Integer agendaId, Agendamento agendamento);
 }

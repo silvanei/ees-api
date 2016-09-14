@@ -9,21 +9,12 @@ import java.sql.Time;
  */
 public class Agendamento {
 
-    private Time hora;
     private Integer clienteId;
     private Integer servicoId;
     private Integer funcionarioId;
     private String observacao;
     private Integer status = 1;
     private DateTime data;
-
-    public Time getHora() {
-        return hora;
-    }
-
-    public void setHora(Time hora) {
-        this.hora = hora;
-    }
 
     public Integer getClienteId() {
         return clienteId;

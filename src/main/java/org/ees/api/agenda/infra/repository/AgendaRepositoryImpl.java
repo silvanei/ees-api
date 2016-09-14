@@ -32,7 +32,7 @@ public class AgendaRepositoryImpl implements AgendaRepository {
         String sql = "SELECT f.id, f.apelido " +
                 "FROM agenda a  " +
                 "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
-                "WHERE a.salao_id = ? AND DATE(a.data)  between ? AND ?  " +
+                "WHERE a.salao_id = ? AND DATE(a.inicio)  between ? AND ?  " +
                 "GROUP BY f.id , f.apelido";
 
         try {
@@ -62,12 +62,12 @@ public class AgendaRepositoryImpl implements AgendaRepository {
     @Override
     public List<Event> findEvents(Integer salaoId, DateTime start, DateTime end) {
 
-        String sql = "SELECT a.id, f.id AS funcionarioId, c.nome AS title, a.data AS start, (a.data + INTERVAL s.duracao MINUTE) AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status " +
+        String sql = "SELECT a.id, f.id AS funcionarioId, c.nome AS title, a.inicio AS start, a.fim AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status " +
                 "FROM agenda a " +
                 "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
                 "INNER JOIN servico s ON (s.id = a.servico_id) " +
                 "INNER JOIN cliente c ON (c.id = a.cliente_id) " +
-                "WHERE a.salao_id = ? AND DATE(a.data) between ? AND ?";
+                "WHERE a.salao_id = ? AND DATE(a.inicio) between ? AND ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -106,12 +106,12 @@ public class AgendaRepositoryImpl implements AgendaRepository {
 
     @Override
     public Event findEvent(Integer salaoId, DateTime dia, Integer eventId) {
-        String sql = "SELECT a.id, f.id AS funcionarioId, c.nome AS title, a.data AS start, (a.data + INTERVAL s.duracao MINUTE) AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status " +
+        String sql = "SELECT a.id, f.id AS funcionarioId, c.nome AS title, a.inicio AS start, a.fim AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status " +
                 "FROM agenda a " +
                 "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
                 "INNER JOIN servico s ON (s.id = a.servico_id) " +
                 "INNER JOIN cliente c ON (c.id = a.cliente_id) " +
-                "WHERE a.salao_id = ? AND DATE(a.data) = ? AND a.id = ?";
+                "WHERE a.salao_id = ? AND DATE(a.inicio) = ? AND a.id = ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -150,7 +150,7 @@ public class AgendaRepositoryImpl implements AgendaRepository {
         String sql = "SELECT f.id, f.apelido " +
                 "FROM agenda a  " +
                 "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
-                "WHERE a.salao_id = ? AND DATE(a.data)  between ? AND ? AND f.id = ? " +
+                "WHERE a.salao_id = ? AND DATE(a.inicio)  between ? AND ? AND f.id = ? " +
                 "GROUP BY f.id , f.apelido";
 
         try {
@@ -180,12 +180,12 @@ public class AgendaRepositoryImpl implements AgendaRepository {
 
     @Override
     public List<Event> findEventsByFuncionarioId(Integer salaoId, Integer funcionarioId, DateTime start, DateTime end) {
-        String sql = "SELECT a.id, f.id AS resourceId, c.nome AS title, a.data AS start, (a.data + INTERVAL s.duracao MINUTE) AS end " +
+        String sql = "SELECT a.id, f.id AS resourceId, c.nome AS title, a.inicio AS start, a.fim AS end " +
                 "FROM agenda a " +
                 "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
                 "INNER JOIN servico s ON (s.id = a.servico_id) " +
                 "INNER JOIN cliente c ON (c.id = a.cliente_id) " +
-                "WHERE a.salao_id = ? AND DATE(a.data) between ? AND ? AND f.id = ? ";
+                "WHERE a.salao_id = ? AND DATE(a.inicio) between ? AND ? AND f.id = ? ";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -217,7 +217,7 @@ public class AgendaRepositoryImpl implements AgendaRepository {
 
     @Override
     public Integer add(Integer salaoId, Integer clienteId, Integer servicoId, Integer funcionarioId, DateTime dateTime, String observacao) {
-        String sql = "INSERT INTO agenda (salao_id, cliente_id, servico_id, funcionario_id, data, observacao) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO agenda (salao_id, cliente_id, servico_id, funcionario_id, inicio, observacao) VALUES (?, ?, ?, ?, ?, ?)";
 
         try{
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -245,7 +245,7 @@ public class AgendaRepositoryImpl implements AgendaRepository {
 
     @Override
     public Integer update(Integer salaoId, Integer eventId, DateTime date, Agendamento agendamento) {
-        String sql = "UPDATE agenda SET servico_id = ?, funcionario_id = ?, data = ?, observacao = ?, status = ? WHERE salao_id = ? AND id = ? AND DATE(data) = ? ";
+        String sql = "UPDATE agenda SET servico_id = ?, funcionario_id = ?, inicio = ?, observacao = ?, status = ? WHERE salao_id = ? AND id = ? AND DATE(inicio) = ? ";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -260,6 +260,105 @@ public class AgendaRepositoryImpl implements AgendaRepository {
 
             if (stmt.executeUpdate() > 0) {
                 return eventId;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao atualizar um evento");
+        }
+    }
+
+
+    //Refactory
+
+    @Override
+    public Event findById(Integer salaoId, Integer agendaId) {
+        String sql = "SELECT a.id, f.id AS funcionarioId, c.nome AS title, a.inicio AS start, a.fim AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status " +
+                "FROM agenda a " +
+                "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
+                "INNER JOIN servico s ON (s.id = a.servico_id) " +
+                "INNER JOIN cliente c ON (c.id = a.cliente_id) " +
+                "WHERE a.salao_id = ? AND a.id = ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, salaoId);
+            stmt.setInt(2, agendaId);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                Event event = new Event(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("funcionarioId"),
+                        resultSet.getString("title"),
+                        new DateTime(resultSet.getTimestamp("start")),
+                        new DateTime(resultSet.getTimestamp("end"))
+                );
+
+                event.setClienteId(resultSet.getInt("clienteId"));
+                event.setServicoId(resultSet.getInt("servicoId"));
+                event.setObservacao(resultSet.getString("observacao"));
+                event.setStatus(resultSet.getInt("status"));
+
+                return event;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao buscar eventos pelo idSalao");
+        }
+    }
+
+    @Override
+    public Integer add(Integer salaoId, Event event) {
+        String sql = "INSERT INTO agenda (salao_id, cliente_id, servico_id, funcionario_id, inicio, fim, observacao) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try{
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, salaoId);
+            stmt.setInt(2, event.getClienteId());
+            stmt.setInt(3, event.getServicoId());
+            stmt.setInt(4, event.getFuncionarioId());
+            stmt.setString(5, event.getStart().toString(dtfTimeStamp));
+            stmt.setString(6, event.getEnd().toString(dtfTimeStamp));
+            stmt.setString(7, event.getObservacao());
+
+            if(stmt.executeUpdate()>0){
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()){
+                    return rs.getInt(1);
+                }
+            }
+
+            return null;
+
+        }catch (SQLException ex){
+            Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao inserir um agendamento de um Salão");
+        }
+    }
+
+    @Override
+    public Integer update(Integer salaoId, Integer agendaId, Event event) {
+        String sql = "UPDATE agenda SET servico_id = ?, funcionario_id = ?, inicio = ?, fim = ?, observacao = ?, status = ? WHERE salao_id = ? AND id = ? ";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, event.getServicoId());
+            stmt.setInt(2, event.getFuncionarioId());
+            stmt.setString(3, event.getStart().toString(dtfTimeStamp));
+            stmt.setString(4, event.getEnd().toString(dtfTimeStamp));
+            stmt.setString(5, event.getObservacao());
+            stmt.setInt(6, event.getStatus());
+            stmt.setInt(7, salaoId);
+            stmt.setInt(8, agendaId);
+
+            if (stmt.executeUpdate() > 0) {
+                return agendaId;
             }
 
             return null;

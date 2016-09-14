@@ -24,4 +24,11 @@ public interface AgendaRepository {
     public Event findEvent(Integer salaoId, DateTime dia, Integer eventId);
 
     public Integer update(Integer salaoId, Integer eventId, DateTime date, Agendamento agendamento);
+
+    //Refactory
+    public Event findById(Integer salaoId, Integer agendaId);
+
+    public Integer add(Integer salaoId, Event event);
+
+    public Integer update(Integer salaoId, Integer agendaId, Event event);
 }

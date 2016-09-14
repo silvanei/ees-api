@@ -7,6 +7,8 @@ import org.ees.api.agenda.resource.bean.Agendamento;
 import org.ees.api.agenda.resource.bean.DateParam;
 import org.ees.api.agenda.service.AgendaService;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -23,6 +25,8 @@ public class AgendaResource {
 
     private Integer salaoId;
 
+    private DateTimeFormatter dtfPadrao = DateTimeFormat.forPattern("yyyy-MM-dd");
+
     @Inject
     private AgendaService agendaService;
 
@@ -34,78 +38,57 @@ public class AgendaResource {
     }
 
     @GET
-    @Path("/{start}/{end}")
-    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
-    public Response eventoPeriodo(
-            @PathParam("start") DateParam start,
-            @PathParam("end") DateParam end
-    ) {
-
-        Calendar calendar = agendaService.getDay(salaoId, start.getDate(), end.getDate());
-
-        return Response.ok(calendar).build();
-    }
-
-    @GET
-    @Path("/{dia}")
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response eventos(
-            @PathParam("dia") DateParam dia
+            @QueryParam("inicio") DateParam inicio,
+            @QueryParam("fim") DateParam fim
     ) {
 
-        Calendar calendar = agendaService.getDay(salaoId, dia.getDate(), dia.getDate());
+        if(null == inicio) {
+            inicio = new DateParam(new DateTime().toString(dtfPadrao));
+        }
+
+        if (null == fim) {
+            fim = inicio;
+        }
+
+        Calendar calendar = agendaService.getDay(salaoId, inicio.getDate(), fim.getDate());
 
         return Response.ok(calendar).build();
     }
 
     @GET
-    @Path("/{dia}/event/{eventId}")
+    @Path("/{agendaId}")
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response evento(
-            @PathParam("dia") DateParam dia,
-            @PathParam("eventId") Integer eventId
+            @PathParam("agendaId") Integer agendaId
     ) {
 
-        Event event = agendaService.getDay(salaoId, dia.getDate(), eventId);
+        Event event = agendaService.findById(salaoId, agendaId);
 
         return Response.ok(event).build();
     }
 
     @POST
-    @Path("/{dia}/event")
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
-    public Response agendar(
-            @PathParam("dia") DateParam dia,
-            Agendamento agendamento
-    ) {
+    public Response agendar(Agendamento agendamento) {
 
-        Integer eventId = agendaService.add(
-                salaoId,
-                agendamento.getClienteId(),
-                agendamento.getServicoId(),
-                agendamento.getFuncionarioId(),
-                dia.getDate(),
-                agendamento.getHora(),
-                agendamento.getObservacao()
-        );
-
-        Event event = agendaService.getDay(salaoId, dia.getDate(), eventId);
+        Event event = agendaService.add(salaoId, agendamento);
 
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        builder.path( "/event/" + Integer.toString(event.getId()));
+        builder.path(Integer.toString(event.getId()));
         return Response.created(builder.build()).entity(event).build();
     }
 
     @PUT
-    @Path("/{dia}/event/{eventId}")
+    @Path("/{agendaId}")
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response agendar(
-            @PathParam("dia") DateParam dia,
-            @PathParam("eventId") Integer eventId,
+            @PathParam("agendaId") Integer agendaId,
             Agendamento agendamento
     ) {
 
-        Event event = agendaService.update(salaoId, eventId, dia.getDate(), agendamento);
+        Event event = agendaService.update(salaoId, agendaId, agendamento);
 
         return Response.ok().entity(event).build();
     }
