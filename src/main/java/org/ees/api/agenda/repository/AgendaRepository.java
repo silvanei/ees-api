@@ -19,11 +19,7 @@ public interface AgendaRepository {
 
     public List<Event> findEventsByFuncionarioId(Integer salaoId, Integer funcionarioId, DateTime start, DateTime end);
 
-    public Integer add(Integer salaoId, Integer clienteId, Integer servicoId, Integer funcionarioId, DateTime dateTime, String observacao);
-
     public Event findEvent(Integer salaoId, DateTime dia, Integer eventId);
-
-    public Integer update(Integer salaoId, Integer eventId, DateTime date, Agendamento agendamento);
 
     //Refactory
     public Event findById(Integer salaoId, Integer agendaId);

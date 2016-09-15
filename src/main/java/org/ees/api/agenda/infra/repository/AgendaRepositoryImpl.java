@@ -216,64 +216,6 @@ public class AgendaRepositoryImpl implements AgendaRepository {
     }
 
     @Override
-    public Integer add(Integer salaoId, Integer clienteId, Integer servicoId, Integer funcionarioId, DateTime dateTime, String observacao) {
-        String sql = "INSERT INTO agenda (salao_id, cliente_id, servico_id, funcionario_id, inicio, observacao) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try{
-            PreparedStatement stmt = DB.preparedStatement(sql);
-            stmt.setInt(1, salaoId);
-            stmt.setInt(2, clienteId);
-            stmt.setInt(3, servicoId);
-            stmt.setInt(4, funcionarioId);
-            stmt.setString(5, dateTime.toString(dtfTimeStamp));
-            stmt.setString(6, observacao);
-
-            if(stmt.executeUpdate()>0){
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.next()){
-                    return rs.getInt(1);
-                }
-            }
-
-            return null;
-
-        }catch (SQLException ex){
-            Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new AcessoADadosException("Error ao inserir um agendamento de um Salão");
-        }
-    }
-
-    @Override
-    public Integer update(Integer salaoId, Integer eventId, DateTime date, Agendamento agendamento) {
-        String sql = "UPDATE agenda SET servico_id = ?, funcionario_id = ?, inicio = ?, observacao = ?, status = ? WHERE salao_id = ? AND id = ? AND DATE(inicio) = ? ";
-
-        try {
-            PreparedStatement stmt = DB.preparedStatement(sql);
-            stmt.setInt(1, agendamento.getServicoId());
-            stmt.setInt(2, agendamento.getFuncionarioId());
-            stmt.setString(3, agendamento.getData().toString(dtfTimeStamp));
-            stmt.setString(4, agendamento.getObservacao());
-            stmt.setInt(5, agendamento.getStatus());
-            stmt.setInt(6, salaoId);
-            stmt.setInt(7, eventId);
-            stmt.setString(8, date.toString(dtfPadrao));
-
-            if (stmt.executeUpdate() > 0) {
-                return eventId;
-            }
-
-            return null;
-
-        } catch (SQLException ex) {
-            Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new AcessoADadosException("Error ao atualizar um evento");
-        }
-    }
-
-
-    //Refactory
-
-    @Override
     public Event findById(Integer salaoId, Integer agendaId) {
         String sql = "SELECT a.id, f.id AS funcionarioId, c.nome AS title, a.inicio AS start, a.fim AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status " +
                 "FROM agenda a " +
