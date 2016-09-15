@@ -26,8 +26,7 @@
                             calendar: angular.extend({
                                 minTime: moment(data.horarioDeFuncionamento.horarioInicio).format('HH:mm:ss'),
                                 maxTime: moment(data.horarioDeFuncionamento.horarioFinal).format('HH:mm:ss'),
-                                eventClick: $scope.eventClick,
-                                viewRender: $scope.viewRender
+                                eventClick: $scope.eventClick
                             }, config.calendar)
                         };
 
@@ -79,7 +78,7 @@
 
                     delete $scope.agendamento;
                     $scope.agendamento = {
-                        id: 1,
+                        id: event.id,
                         data: event.start.toDate(),
                         clienteId: event.clienteId,
                         servicoId: event.servicoId,
@@ -160,7 +159,6 @@
                 };
 
                 $scope.atualizar = function(agendamento) {
-
 
                     agendaService.put(agendamento)
                         .success(function(data) {

@@ -14,13 +14,24 @@
                 var resourceUrl = config.baseUrl + '/v1/salao/'+salaoId+'/agenda';
 
                 function get(start, end) {
-                    return $http.get(resourceUrl + '/' + start.format('YYYY-MM-DD')+ '/' + end.format('YYYY-MM-DD'));
+                    return $http.get(resourceUrl + '?inicio=' + start.format('YYYY-MM-DD')+ '&fim=' + end.format('YYYY-MM-DD'));
                 }
 
                 function post(agendamento) {
-                    var dia = moment(agendamento.data).format('YYYY-MM-DD');
-                    delete agendamento.data;
-                    return $http.post(resourceUrl + '/' + dia + '/event', agendamento);
+                    agendamento = angular.copy(agendamento);
+
+                    var hora = moment(agendamento.hora).format('HH');
+                    var minuto = moment(agendamento.hora).format('mm');
+                    var dia = moment(agendamento.data)
+                            .hour(hora)
+                            .minute(minuto)
+                        ;
+
+                    agendamento.data = dia.valueOf();
+
+                    delete agendamento.hora;
+
+                    return $http.post(resourceUrl, agendamento);
                 }
 
                 function put(agendamento) {
@@ -34,6 +45,8 @@
                     ;
 
                     agendamento.data = dia.valueOf();
+
+                    delete agendamento.hora;
 
                     delete agendamento.hora;
                     return $http.put(agendamento.link.href, agendamento);
