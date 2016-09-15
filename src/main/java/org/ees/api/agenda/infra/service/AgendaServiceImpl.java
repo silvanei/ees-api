@@ -181,7 +181,7 @@ public class AgendaServiceImpl implements AgendaService {
     public Event update(Integer salaoId, Integer agendaId, Agendamento agendamento) {
         DateTime dateTime = agendamento.getData();
 
-        if(dateTime.isBefore(new DateTime())) {
+        if(dateTime.toLocalDate().isBefore(new DateTime().toLocalDate())) {
             throw new ConflictException("Não é possível agendar para uma data anterior a data atual");
         }
 

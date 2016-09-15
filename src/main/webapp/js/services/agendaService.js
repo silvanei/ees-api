@@ -45,9 +45,8 @@
                             .hour(hora)
                             .minute(minuto)
                             .second(0)
-                        ;
-
-                    return dia.valueOf();
+                    ;
+                    return dia.format('x');
                 }
 
                 return {

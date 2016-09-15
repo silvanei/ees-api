@@ -35,6 +35,7 @@
             calendar: {
                 schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
                 lang: 'pt-BR',
+                timezone: 'local',
                 defaultView: 'agendaDay',
                 slotDuration: '00:30:00', // Intervalo entr as linhas
                 slotLabelFormat: 'H:mm',
@@ -46,7 +47,15 @@
                 },
                 resources: [],
                 events: [],
-                groupByResource: true
+                groupByResource: true,
+                allDaySlot: false,
+                eventOverlap: function(stillEvent, movingEvent) {
+                    return stillEvent.allDay && movingEvent.allDay;
+                },
+                editable: true,
+                eventResize: function(event, delta, revertFunc) {
+                    revertFunc();
+                }
             }
         })
     ;

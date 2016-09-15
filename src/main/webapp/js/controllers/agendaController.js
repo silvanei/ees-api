@@ -26,7 +26,8 @@
                             calendar: angular.extend({
                                 minTime: moment(data.horarioDeFuncionamento.horarioInicio).format('HH:mm:ss'),
                                 maxTime: moment(data.horarioDeFuncionamento.horarioFinal).format('HH:mm:ss'),
-                                eventClick: $scope.eventClick
+                                eventClick: $scope.eventClick,
+                                eventDrop: $scope.eventDrop
                             }, config.calendar)
                         };
 
@@ -39,12 +40,6 @@
                     servicoService.get().success(function(data) {
                         $scope.servicos = data.items;
                     });
-
-                    $('li', '.teste-menu').on('click', function() {
-                        $(this).toggleClass(function(){
-                            return 'active';
-                        });
-                    });
                 }
 
                 $scope.eventSources = [function (start, end, timezone, callback) {
@@ -52,9 +47,11 @@
                     agendaService.get(start, end.subtract(1, 'days')).success(function(data) {
                         // Converte timestamp para Date
                         data.events.forEach(function(item) {
-                            item.start = new Date(item.start);
-                            item.end = new Date(item.end);
                             item.resourceId = item.funcionarioId;
+                            item.durationEditable = false;
+                            //item.className = ['btn', 'btn-danger']
+                            //item.color = 'yellow'; // an option!
+                            //item.textColor = 'black'; // an option!
                         });
 
 
@@ -75,6 +72,7 @@
                 }];
 
                 $scope.eventClick = function (event) {
+                    console.log(event);
 
                     delete $scope.agendamento;
                     $scope.agendamento = {
@@ -108,6 +106,37 @@
                     modal.find('.modal-title').text('Horário - ' + event.title);
                     modal.show();
                 };
+                $scope.eventDrop = function(event, delta, revertFunc) {
+                    console.log(event.start);
+                    var agendamento = {
+                        id: event.id,
+                        data: event.start.toDate(),
+                        hora: event.start.valueOf(),
+                        clienteId: event.clienteId,
+                        servicoId: event.servicoId,
+                        funcionarioId: event.resourceId,
+                        observacao: event.observacao,
+                        status: event.status,
+                        link: event.link
+                    };
+
+
+                    agendaService.put(agendamento)
+                        .success(function(data) {
+                            $('#calendar').fullCalendar( 'refetchEvents' );
+
+                            modalAgendamento.modal('hide');
+                            delete $scope.agendamento;
+                            delete $scope.funcionarios;
+
+                            Notification.success('Horario atualizado com sucesso');
+                        })
+                        .error(function(data, status) {
+                            revertFunc();
+                            Notification.error(data.errorMessage);
+                        })
+                    ;
+                };
 
                 $scope.onSelectServico = function (item){
 
@@ -133,8 +162,9 @@
                     delete $scope.agendamento;
                     delete $scope.funcionarios;
 
+                    var moment = $('#calendar').fullCalendar('getDate');
                     $scope.agendamento = {
-                        data: new Date()
+                        data:  moment.toDate()
                     };
 
                     $scope.agendamentoForm.$setPristine();
@@ -152,7 +182,8 @@
                             Notification.success('Horario agendado com sucesso');
                         })
                         .error(function(data, status) {
-                            $scope.agendamento.data = new Date();
+                            var moment = $('#calendar').fullCalendar('getDate');
+                            $scope.agendamento.data = moment.toDate();
                             Notification.error(data.errorMessage);
                         })
                     ;
@@ -171,7 +202,8 @@
                             Notification.success('Horario atualizado com sucesso');
                         })
                         .error(function(data, status) {
-                            $scope.agendamento.data = new Date();
+                            var moment = $('#calendar').fullCalendar('getDate');
+                            $scope.agendamento.data = moment.toDate();
                             Notification.error(data.errorMessage);
                         })
                     ;

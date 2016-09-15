@@ -60,9 +60,7 @@ public class AgendaResource {
     @GET
     @Path("/{agendaId}")
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
-    public Response evento(
-            @PathParam("agendaId") Integer agendaId
-    ) {
+    public Response evento(@PathParam("agendaId") Integer agendaId) {
 
         Event event = agendaService.findById(salaoId, agendaId);
 
