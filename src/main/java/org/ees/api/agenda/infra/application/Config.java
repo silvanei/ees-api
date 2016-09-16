@@ -3,6 +3,7 @@ package org.ees.api.agenda.infra.application;
 import javax.ws.rs.ApplicationPath;
 
 import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
@@ -17,6 +18,7 @@ public class Config extends ResourceConfig{
         register(new Binder());
         register(RolesAllowedDynamicFeature.class);
         register(DeclarativeLinkingFeature.class);
+        register(MultiPartFeature.class);
         packages(true, "org.ees.api.agenda");
     }
 }

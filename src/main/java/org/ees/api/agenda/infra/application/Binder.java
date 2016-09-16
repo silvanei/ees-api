@@ -41,6 +41,8 @@ public class Binder extends AbstractBinder {
 		bind(AgendaServiceImpl.class).to(AgendaService.class);
 
 		bind(HorarioDisponivelServiceImpl.class).to(HorarioDisponivelService.class);
+
+		bind(ImageFileServiceImpl.class).to(ImageFileService.class);
 	}
 
 }

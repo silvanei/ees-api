@@ -63,8 +63,6 @@
                 };
 
                 $scope.salvar = function (profissional) {
-                    $log.log(profissional);
-
                     profissionalService.post(profissional).success(function(data) {
                         //$('#modal-profissional').modal('hide');
                         delete $scope.profissional;

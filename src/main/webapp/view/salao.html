@@ -14,16 +14,10 @@
                 <div class="box-body box-profile">
                     <div class="row">
                         <div class="col-md-12">
-                            <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
-                            <br />
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-offset-4 col-sm-8">
-                                        <button type="submit" class="btn btn-primary">Enviar</button>
-                                        <button type="submit" class="btn">Excluir</button>
-                                    </div>
-                                </div>
-                            </form>
+                            <img class="profile-user-img img-responsive img-circle" ng-src="{{img}}" alt="User profile picture">
+                            <br/>
+                            <br/>
+                            <button type="submit" ng-click="excluirImg()" class="btn btn-primary btn-block">Excluir</button>
                         </div><!-- /.col -->
 
                     </div>
@@ -43,6 +37,14 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <form class="form-horizontal" name="dadosForm">
+
+                                    <div class="form-group">
+                                        <label for="input-nome" class="col-sm-2 control-label">Imagen</label>
+                                        <div class="col-sm-9">
+                                            <input type="file" onchange="angular.element(this).scope().uploadFile(this.files)" class="btn btn-file" />
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label for="input-nome" class="col-sm-2 control-label">Nome</label>
                                         <div class="col-sm-9">

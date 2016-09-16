@@ -12,7 +12,6 @@
                 function init() {
 
                     salaoService.acesso().success(function(data) {
-                        $log.log(data);
                         $scope.acessos = data;
 
                     }).error(function(data, status) {
@@ -21,7 +20,6 @@
                     });
 
                     salaoService.funcionario().success(function(data) {
-                        $log.log(data);
                         $scope.funcionarios = data.items;
 
                     }).error(function(data, status) {

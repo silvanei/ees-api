@@ -80,5 +80,8 @@ public class SalaoResource {
 		return rc.initResource(new HorarioDisponivelResource(salaoId));
 	}
 
-
+	@Path("/{salaoId}/image")
+	public ImageFileResource image(@PathParam("salaoId") Integer salaoId) {
+		return rc.initResource(new ImageFileResource(salaoId));
+	}
 }

@@ -22,7 +22,6 @@
                     var offset = (config.paginacao.itensPorPagina * $scope.currentPage) - config.paginacao.itensPorPagina;
 
                     servicoService.get(limit, offset).success(function(data) {
-                        $log.log(data);
                         $scope.totalItems = data.count;
 
                         $scope.servicos = data.items.map(function(servico) {
@@ -46,7 +45,6 @@
                 };
 
                 $scope.salvar = function (servico) {
-                    $log.log(servico);
 
                     servicoService.post(servico)
                         .success(function() {

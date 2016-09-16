@@ -72,7 +72,6 @@
                 }];
 
                 $scope.eventClick = function (event) {
-                    console.log(event);
 
                     delete $scope.agendamento;
                     $scope.agendamento = {
@@ -107,7 +106,6 @@
                     modal.show();
                 };
                 $scope.eventDrop = function(event, delta, revertFunc) {
-                    console.log(event.start);
                     var agendamento = {
                         id: event.id,
                         data: event.start.toDate(),
