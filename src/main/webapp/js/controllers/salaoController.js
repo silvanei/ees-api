@@ -27,7 +27,6 @@
                         $scope.img = 'data:image/jpeg;base64,' + data.encodedImage;
 
                     }).error(function(data, status, headers){
-                        console.log(headers());
                         Notification.error(data.errorMessage);
                     });
                 }
@@ -38,7 +37,6 @@
                         $scope.img = 'data:image/jpeg;base64,' + data.encodedImage;
                         Notification.success('Imagen enviada com sucesso');
                     }).error(function(data, status, headers){
-                        console.log(headers());
                         Notification.error(data.errorMessage);
                     });
                 };
@@ -52,7 +50,6 @@
 
                         Notification.success('Imagen excluida com sucesso');
                     }).error(function(data, status, headers){
-                        console.log(headers());
                         Notification.error(data.errorMessage);
                     });
                 };

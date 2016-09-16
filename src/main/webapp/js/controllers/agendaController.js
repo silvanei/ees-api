@@ -18,13 +18,19 @@
 
                     salaoService.get().success(function(data) {
 
+                        if(data.horarioDeFuncionamento.horarioInicio) {
+                            config.calendar.minTime = moment(data.horarioDeFuncionamento.horarioInicio).format('HH:mm:ss');
+
+                        }
+                        if(data.horarioDeFuncionamento.horarioFinal) {
+                            config.calendar.maxTime = moment(data.horarioDeFuncionamento.horarioFinal).format('HH:mm:ss');
+                        }
+
                         $scope.minTime = moment(data.horarioDeFuncionamento.horarioInicio).format('HH:mm');
                         $scope.maxTime = moment(data.horarioDeFuncionamento.horarioFinal).format('HH:mm');
 
                         $scope.uiConfig = {
                             calendar: angular.extend({
-                                minTime: moment(data.horarioDeFuncionamento.horarioInicio).format('HH:mm:ss'),
-                                maxTime: moment(data.horarioDeFuncionamento.horarioFinal).format('HH:mm:ss'),
                                 eventClick: $scope.eventClick,
                                 eventDrop: $scope.eventDrop
                             }, config.calendar)
