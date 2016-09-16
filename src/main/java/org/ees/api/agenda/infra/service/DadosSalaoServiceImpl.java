@@ -55,12 +55,12 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
             endereco.setBairro(dadosSalao.getEndereco().getBairro());
             endereco.setNumero(dadosSalao.getEndereco().getNumero());
             endereco.setCep(dadosSalao.getEndereco().getCep());
-            if(null == endereco.getId()) {
-            	Integer idEndereco = enderecoService.inserirEndereco(endereco);
-            	endereco.setId(idEndereco);
-            } else {
-            	enderecoService.atualizarEndereco(endereco);
-            }
+//            if(null == endereco.getId()) {
+//            	Integer idEndereco = enderecoService.inserirEndereco(endereco);
+//            	endereco.setId(idEndereco);
+//            } else {
+//            	enderecoService.atualizarEndereco(endereco);
+//            }
             
             HorarioDeFuncionamento horarioDeFuncionamento = horarioDeFuncionamentoService.byIdSalao(salaoId);
             horarioDeFuncionamento.setHorarioInicio(dadosSalao.getHorarioDeFuncionamento().getHorarioInicio());

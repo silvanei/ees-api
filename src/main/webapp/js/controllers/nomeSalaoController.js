@@ -13,7 +13,6 @@
                 function init() {
                     if(!$rootScope.nomeSalao) {
                         salaoService.get().success(function(data) {
-                            console.log(data);
                             $rootScope.nomeSalao = data.nome;
                         });
                     }

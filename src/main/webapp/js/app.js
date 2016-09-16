@@ -13,7 +13,8 @@
             'ui-notification',
             'angular-loading-bar',
             'ngSanitize',
-            'ui.select'
+            'ui.select',
+            'angular-jwt'
         ]).run(function (authManagerService) {
             authManagerService.checkAuthOnRefresh();
         })

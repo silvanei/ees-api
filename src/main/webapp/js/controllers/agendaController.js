@@ -14,7 +14,6 @@
                 function init() {
 
                     $scope.currentDate = moment().format('YYYY-MM-DD');
-
                     $scope.statusAgendamento = config.statusAgendamento;
 
                     salaoService.get().success(function(data) {
