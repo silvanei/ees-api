@@ -32,10 +32,10 @@ import java.text.ParseException;
 @Priority(Priorities.AUTHENTICATION)
 public class SecurityFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
-	private static final String EXPIRE_ERROR_MSG = "Token has expired";
-	private static final String FORBIDDEN_ERROR_MSG = "Access denied";
-	private static final String JWT_ERROR_MSG = "Unable to parse JWT";
-	private static final String JWT_INVALID_MSG = "Invalid JWT token";
+    public static final String EXPIRE_ERROR_MSG = "Token has expired";
+	public static final String FORBIDDEN_ERROR_MSG = "Access denied";
+    public static final String JWT_ERROR_MSG = "Unable to parse JWT";
+    public static final String JWT_INVALID_MSG = "Invalid JWT token";
 
 	private AcessoService acessoService;
 
@@ -52,46 +52,53 @@ public class SecurityFilter implements ContainerRequestFilter, ContainerResponse
 		if (authHeader == null || authHeader.isEmpty() || authHeader.split(" ").length != 2) {
 			Authorizer authorizer = new Authorizer("", "", originalContext.isSecure());
 			requestContext.setSecurityContext(authorizer);
-		} else {
-			JWTClaimsSet claimSet;
-			try {
-				claimSet = (JWTClaimsSet) TokenUtil.decodeToken(authHeader);
-			} catch (ParseException e) {
-				throw new UnAuthorizedException(JWT_ERROR_MSG);
-			} catch (JOSEException e) {
-				throw new UnAuthorizedException(JWT_INVALID_MSG);
+			return;
+		}
+
+		JWTClaimsSet claimSet;
+		try {
+			claimSet = (JWTClaimsSet) TokenUtil.decodeToken(authHeader);
+		} catch (ParseException e) {
+			throw new UnAuthorizedException(JWT_ERROR_MSG);
+		} catch (JOSEException e) {
+			throw new UnAuthorizedException(JWT_INVALID_MSG);
+		}
+
+		// ensure that the token is not expired
+		if (new DateTime(claimSet.getExpirationTime()).isBefore(DateTime.now())) {
+
+			if(requestContext.getUriInfo().getPath().equals("v1/token")) {
+				Authorizer authorizer = new Authorizer("", "", originalContext.isSecure());
+				requestContext.setSecurityContext(authorizer);
+				return;
 			}
 
-			// ensure that the token is not expired
-			if (new DateTime(claimSet.getExpirationTime()).isBefore(DateTime.now())) {
-				throw new UnAuthorizedException(EXPIRE_ERROR_MSG);
-			} else {
+			throw new UnAuthorizedException(EXPIRE_ERROR_MSG);
+		}
 
-				MultivaluedMap<String, String> pathParameters = requestContext.getUriInfo().getPathParameters();
+		MultivaluedMap<String, String> pathParameters = requestContext.getUriInfo().getPathParameters();
 
-                if (pathParameters.get(Parameters.SALAO_ID.toString()) != null) {
-                    int salaoId = Integer.parseInt(pathParameters.get(Parameters.SALAO_ID.toString()).get(0));
-                    int sla = Integer.parseInt(claimSet.getCustomClaim(Parameters.SLA.toString()).toString());
-                    if(salaoId != sla) {
-                        throw new ForbiddenException(FORBIDDEN_ERROR_MSG);
-                    }
-                }
-
-                if (pathParameters.get(Parameters.CLIENTE_ID.toString()) != null) {
-                    int clienteId = Integer.parseInt(pathParameters.get(Parameters.CLIENTE_ID.toString()).get(0));
-                    int cli = Integer.parseInt(claimSet.getCustomClaim(Parameters.CLI.toString()).toString());
-                    if(clienteId != cli) {
-                        throw new ForbiddenException(FORBIDDEN_ERROR_MSG);
-                    }
-                }
-
-
-				Acesso acesso = acessoService.findById(Integer.parseInt(claimSet.getSubject()));
-				Authorizer authorizer = new Authorizer(acesso.getPerfil(), acesso.getEmail(),
-						originalContext.isSecure());
-				requestContext.setSecurityContext(authorizer);
+		if (pathParameters.get(Parameters.SALAO_ID.toString()) != null) {
+			int salaoId = Integer.parseInt(pathParameters.get(Parameters.SALAO_ID.toString()).get(0));
+			int sla = Integer.parseInt(claimSet.getCustomClaim(Parameters.SLA.toString()).toString());
+			if(salaoId != sla) {
+				throw new ForbiddenException(FORBIDDEN_ERROR_MSG);
 			}
 		}
+
+		if (pathParameters.get(Parameters.CLIENTE_ID.toString()) != null) {
+			int clienteId = Integer.parseInt(pathParameters.get(Parameters.CLIENTE_ID.toString()).get(0));
+			int cli = Integer.parseInt(claimSet.getCustomClaim(Parameters.CLI.toString()).toString());
+			if(clienteId != cli) {
+				throw new ForbiddenException(FORBIDDEN_ERROR_MSG);
+			}
+		}
+
+
+		Acesso acesso = acessoService.findById(Integer.parseInt(claimSet.getSubject()));
+		Authorizer authorizer = new Authorizer(acesso.getPerfil(), acesso.getEmail(),
+				originalContext.isSecure());
+		requestContext.setSecurityContext(authorizer);
 
 	}
 

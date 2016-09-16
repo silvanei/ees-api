@@ -1,21 +1,21 @@
 package org.ees.api.agenda.resource;
 
 import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.infra.auth.Token;
 import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.infra.exceptions.UnAuthorizedException;
+import org.ees.api.agenda.infra.filter.SecurityFilter;
 import org.ees.api.agenda.resource.bean.UserBean;
 import org.ees.api.agenda.service.AcessoService;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.ParseException;
 
 /**
  * Created by silvanei on 24/07/16.
@@ -51,5 +51,23 @@ public class TokenResource {
 
         throw new UnAuthorizedException("Usuário não autorizado");
 
+    }
+
+    @GET
+    public Response refreshToken(@HeaderParam("Authorization") String authString) throws JOSEException, ParseException {
+
+        if (null == authString) {
+            throw new ForbiddenException(SecurityFilter.FORBIDDEN_ERROR_MSG);
+        }
+
+        String subject = TokenUtil.getSubject(authString);
+
+        Acesso foundAcesso = acessoService.findById(Integer.valueOf(subject));
+        Token token = TokenUtil.createToken(foundAcesso);
+
+        return Response
+                .status(Response.Status.CREATED)
+                .entity(token)
+                .build();
     }
 }

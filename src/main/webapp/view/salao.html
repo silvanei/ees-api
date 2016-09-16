@@ -17,7 +17,7 @@
                             <img class="profile-user-img img-responsive img-circle" ng-src="{{img}}" alt="User profile picture">
                             <br/>
                             <br/>
-                            <button type="submit" ng-click="excluirImg()" class="btn btn-primary btn-block">Excluir</button>
+                            <button ng-click="excluirImg()" class="btn btn-primary btn-block">Excluir</button>
                         </div><!-- /.col -->
 
                     </div>
@@ -41,7 +41,7 @@
                                     <div class="form-group">
                                         <label for="input-nome" class="col-sm-2 control-label">Imagen</label>
                                         <div class="col-sm-9">
-                                            <input type="file" onchange="angular.element(this).scope().uploadFile(this.files)" class="btn btn-file" />
+                                            <input type="file" onchange="angular.element(this).scope().uploadFile(this.files)" class="file" />
                                         </div>
                                     </div>
 
