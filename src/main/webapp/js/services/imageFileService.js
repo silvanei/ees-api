@@ -9,31 +9,34 @@
         .module('agenda')
         .factory('imageFileService', ['$http', 'config', 'authManagerService', 'Notification',
             function($http, config, authManagerService, Notification) {
-                var salaoId = authManagerService.identity().salaoId;
-                var resourceUrl = config.baseUrl + '/v1/salao/'+salaoId+'/image';
+                function url() {
+                    var salaoId = authManagerService.identity().salaoId;
+                    var resourceUrl = config.baseUrl + '/v1/salao/'+salaoId+'/image';
+                    return resourceUrl;
+                }
 
                 function post(fileModel) {
                     var fd = new FormData();
                     fd.append('file', fileModel);
 
-                    return $http.post(resourceUrl, fd, {
+                    return $http.post(url(), fd, {
                         transformRequest: angular.identity,
                         headers: {'Content-Type': undefined}
                     });
                 }
 
                 function get() {
-                    return $http.get(resourceUrl);
+                    return $http.get(url());
                 }
 
                 function excluir() {
-                    return $http.delete(resourceUrl);
+                    return $http.delete(url());
                 }
 
                 return {
                     post: post,
                     get: get,
-                    resourceUrl: resourceUrl,
+                    resourceUrl: url,
                     delete: excluir
                 }
 

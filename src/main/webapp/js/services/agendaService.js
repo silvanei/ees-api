@@ -10,11 +10,14 @@
         .factory('agendaService', ['$http', 'config', 'authManagerService',
             function($http, config, authManagerService) {
 
-                var salaoId = authManagerService.identity().salaoId;
-                var resourceUrl = config.baseUrl + '/v1/salao/'+salaoId+'/agenda';
+                function url() {
+                    var salaoId = authManagerService.identity().salaoId;
+                    var resourceUrl = config.baseUrl + '/v1/salao/'+salaoId+'/agenda';
+                    return resourceUrl;
+                }
 
                 function get(start, end) {
-                    return $http.get(resourceUrl + '?inicio=' + start.format('YYYY-MM-DD')+ '&fim=' + end.format('YYYY-MM-DD'));
+                    return $http.get(url() + '?inicio=' + start.format('YYYY-MM-DD')+ '&fim=' + end.format('YYYY-MM-DD'));
                 }
 
                 function post(agendamento) {
@@ -24,7 +27,7 @@
 
                     delete agendamento.hora;
 
-                    return $http.post(resourceUrl, agendamento);
+                    return $http.post(url(), agendamento);
                 }
 
                 function put(agendamento) {

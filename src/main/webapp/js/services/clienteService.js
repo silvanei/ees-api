@@ -9,15 +9,18 @@
         .factory('clienteService', ['$http', 'config', 'authManagerService',
             function($http, config, authManagerService) {
 
-                var salaoId = authManagerService.identity().salaoId;
-                var resourceUrl = config.baseUrl + '/v1/salao/'+salaoId+'/cliente';
+                function url() {
+                    var salaoId = authManagerService.identity().salaoId;
+                    var resourceUrl = config.baseUrl + '/v1/salao/'+salaoId+'/cliente';
+                    return resourceUrl;
+                }
 
                 function getAll(limit, offset) {
-                    return $http.get(resourceUrl + '?limit='+ limit + '&offset=' + offset);
+                    return $http.get(url() + '?limit='+ limit + '&offset=' + offset);
                 }
 
                 function post(clienteSalao) {
-                    return $http.post(resourceUrl, clienteSalao);
+                    return $http.post(url(), clienteSalao);
                 }
 
                 function put(cliente){

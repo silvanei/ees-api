@@ -9,22 +9,26 @@
         .factory('profissionalService', ['$http', 'config', 'authManagerService',
             function($http, config, authManagerService) {
 
-                var salaoId = authManagerService.identity().salaoId;
+                function url() {
+                    var salaoId = authManagerService.identity().salaoId;
+                    var resourceUrl = config.baseUrl + '/v1/salao/'+salaoId+'/funcionario';
+                    return resourceUrl;
+                }
 
                 function get(id) {
-                    return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/' + id);
+                    return $http.get(url() + '/' +id);
                 }
 
                 function getAll(limit, offset) {
                     if(limit > 0) {
-                        return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario?limit='+ limit + '&offset=' + offset);
+                        return $http.get(url() + '?limit='+ limit + '&offset=' + offset);
                     }
 
-                    return $http.get(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario');
+                    return $http.get(url());
                 }
 
                 function criar(profissional) {
-                    return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario', profissional);
+                    return $http.post(url(), profissional);
                 }
 
                 function atualizar(profissional) {
@@ -41,11 +45,11 @@
                 }
 
                 function removerServico(profissional, idServico) {
-                    return $http.delete(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+ profissional +'/servico/' + idServico);
+                    return $http.delete(url() + '/'+ profissional +'/servico/' + idServico);
                 }
 
                 function addHorarioTrabalho(funcionarioId, horarioTrabalho) {
-                    return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+ funcionarioId + '/horario-trabalho/' + horarioTrabalho.dia, horarioTrabalho);
+                    return $http.post(url() + '/'+ funcionarioId + '/horario-trabalho/' + horarioTrabalho.dia, horarioTrabalho);
                 }
 
                 function removerHorarioTrabalho(horario) {
@@ -54,12 +58,12 @@
 
                 function adicionarAcesso(funcionarioId, acesso) {
                     acesso = angular.copy(acesso);
-                    return $http.post(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+funcionarioId+'/acesso', acesso);
+                    return $http.post(url() + '/'+funcionarioId+'/acesso', acesso);
                 }
 
                 function removeAcesso(acesso) {
                     acesso = angular.copy(acesso);
-                    return $http.delete(config.baseUrl + '/v1/salao/'+salaoId+'/funcionario/'+acesso.funcionarioId+'/acesso');
+                    return $http.delete(url() + '/'+acesso.funcionarioId+'/acesso');
                 }
 
                 return {
