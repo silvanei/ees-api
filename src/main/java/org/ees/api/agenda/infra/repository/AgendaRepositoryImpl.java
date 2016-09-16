@@ -62,7 +62,7 @@ public class AgendaRepositoryImpl implements AgendaRepository {
     @Override
     public List<Event> findEvents(Integer salaoId, DateTime start, DateTime end) {
 
-        String sql = "SELECT a.id, f.id AS funcionarioId, CONCAT(c.nome, ' - ' ,sa.descricao) AS title, a.inicio AS start, a.fim AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status_agendamento_id as status " +
+        String sql = "SELECT a.id, f.id AS funcionarioId, CONCAT(c.nome, ' - ' , s.descricao , ' - ' ,sa.descricao) AS title, a.inicio AS start, a.fim AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status_agendamento_id as status " +
                 "FROM agenda a " +
                 "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
                 "INNER JOIN servico s ON (s.id = a.servico_id) " +
@@ -107,7 +107,7 @@ public class AgendaRepositoryImpl implements AgendaRepository {
 
     @Override
     public Event findEvent(Integer salaoId, DateTime dia, Integer eventId) {
-        String sql = "SELECT a.id, f.id AS funcionarioId, CONCAT(c.nome, ' - ' ,sa.descricao) AS title, a.inicio AS start, a.fim AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status_agendamento_id as status " +
+        String sql = "SELECT a.id, f.id AS funcionarioId, CONCAT(c.nome, ' - ' , s.descricao , ' - ' ,sa.descricao) AS title, a.inicio AS start, a.fim AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status_agendamento_id as status " +
                 "FROM agenda a " +
                 "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
                 "INNER JOIN servico s ON (s.id = a.servico_id) " +
@@ -182,7 +182,7 @@ public class AgendaRepositoryImpl implements AgendaRepository {
 
     @Override
     public List<Event> findEventsByFuncionarioId(Integer salaoId, Integer funcionarioId, DateTime start, DateTime end) {
-        String sql = "SELECT a.id, f.id AS resourceId, CONCAT(c.nome, ' - ' ,sa.descricao) AS title, a.inicio AS start, a.fim AS end " +
+        String sql = "SELECT a.id, f.id AS resourceId, CONCAT(c.nome, ' - ' , s.descricao , ' - ' ,sa.descricao) AS title, a.inicio AS start, a.fim AS end " +
                 "FROM agenda a " +
                 "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
                 "INNER JOIN servico s ON (s.id = a.servico_id) " +
@@ -220,7 +220,7 @@ public class AgendaRepositoryImpl implements AgendaRepository {
 
     @Override
     public Event findById(Integer salaoId, Integer agendaId) {
-        String sql = "SELECT a.id, f.id AS funcionarioId, CONCAT(c.nome, ' - ' ,sa.descricao) AS title, a.inicio AS start, a.fim AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status_agendamento_id as status " +
+        String sql = "SELECT a.id, f.id AS funcionarioId, CONCAT(c.nome, ' - ' , s.descricao , ' - ' ,sa.descricao) AS title, a.inicio AS start, a.fim AS end, c.id as clienteId, s.id as servicoId, a.observacao, a.status_agendamento_id as status " +
                 "FROM agenda a " +
                 "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
                 "INNER JOIN servico s ON (s.id = a.servico_id) " +

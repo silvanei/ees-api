@@ -6,8 +6,8 @@
 
     angular
         .module('agenda')
-        .controller('salaoController', ['$scope', 'salaoService', 'Notification', '$log', 'imageFileService',
-            function ($scope, salaoService, Notification, $log, imageFileService) {
+        .controller('salaoController', ['$scope', 'salaoService', 'Notification', '$log', 'imageFileService', '$rootScope',
+            function ($scope, salaoService, Notification, $log, imageFileService, $rootScope) {
 
                 function init() {
                     $('.nav-tabs a').click(function (e) {
@@ -65,6 +65,7 @@
 
                     salaoService.put(dados).success(function(data) {
                         $scope.dados = data;
+                        $rootScope.nomeSalao = data.nome;
                         Notification.success('Dados atualizado com sucesso');
 
                     }).error(function(data, status) {

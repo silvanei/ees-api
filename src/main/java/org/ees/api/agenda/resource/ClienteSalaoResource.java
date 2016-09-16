@@ -33,7 +33,7 @@ public class ClienteSalaoResource {
     }
 
     @GET
-    @RolesAllowed(Perfil.SALAO_ADMIN)
+    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response clientes(
             @QueryParam("limit") int limit,
             @QueryParam("offset") int offset
@@ -65,7 +65,7 @@ public class ClienteSalaoResource {
     }
 
     @POST
-    @RolesAllowed(Perfil.SALAO_ADMIN)
+    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response create(ClienteSalao data) {
 
         ClienteSalao clienteSalao = clienteSalaoService.create(salaoId, data);

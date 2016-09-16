@@ -12,9 +12,17 @@
             function($rootScope, $location, authenticationService, jwtHelperService) {
 
                 $rootScope.isAuthenticated = false;
+                $rootScope.isAdmin = false;
 
                 function authenticate() {
                     $rootScope.isAuthenticated = true;
+                    $rootScope.isAdmin = false;
+
+                    var token = authenticationService.getToken();
+                    var decodeToken = jwtHelperService.decodeToken(token);
+                    if(decodeToken.per == 'SALAO_ADMIN') {
+                        $rootScope.isAdmin = true;
+                    }
                 }
 
                 function unauthenticate() {

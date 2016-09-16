@@ -28,7 +28,7 @@ public class DadosResource {
 	}
 
 	@GET
-	@RolesAllowed(Perfil.SALAO_ADMIN)
+	@RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
 	public Response dadosSalao() {
 
 		Salao salao = dadosSalaoService.findById(salaoId);

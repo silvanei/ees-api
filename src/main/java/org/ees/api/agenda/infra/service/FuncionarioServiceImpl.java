@@ -192,9 +192,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             DB.beginTransaction();
             Integer id = acessoService.insert(acesso);
             funcionarioRepository.addAcesso(salaoId, funcionarioId, id);
+            DB.commit();
 
             return acessoService.findById(id);
         } catch (RuntimeException ex) {
+            DB.rollback();
             Logger.getLogger(FuncionarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new AcessoADadosException(ex.getMessage());
         }
@@ -221,8 +223,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             DB.beginTransaction();
             funcionarioRepository.removeAcesso(salaoId, funcionarioId);
             Integer id = acessoService.removeAcesso(acesso.getId());
+            DB.commit();
             return id;
         } catch (RuntimeException ex) {
+            DB.rollback();
             Logger.getLogger(FuncionarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new AcessoADadosException(ex.getMessage());
         }

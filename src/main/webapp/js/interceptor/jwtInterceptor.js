@@ -31,8 +31,13 @@
 
                     },
                     responseError: function(response) {
-                        if (response.status === 401 || response.status === 403) {
+                        if (response.status === 401) {
                             $location.path('/login');
+                        }
+
+                        if (response.status === 403) {
+                            $('.modal-backdrop').remove();
+                            $location.path('/');
                         }
 
                         return $q.reject(response);

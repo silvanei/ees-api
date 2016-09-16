@@ -30,7 +30,7 @@ public class ServicoResource {
     }
 
     @GET
-    @RolesAllowed(Perfil.SALAO_ADMIN)
+    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     @Produces({MediaType.APPLICATION_JSON})
     public Response servicos(
             @QueryParam("offset") int offset,
@@ -102,7 +102,7 @@ public class ServicoResource {
 
     @GET
     @Path("/{servicoId}/funcionario")
-    @RolesAllowed(Perfil.SALAO_ADMIN)
+    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response funcinarios(
             @PathParam("servicoId") Integer servicoId
     ) {

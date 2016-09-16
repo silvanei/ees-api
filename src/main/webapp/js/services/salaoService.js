@@ -6,11 +6,15 @@
         .module('agenda')
         .factory('salaoService', ['$http', 'config', 'authManagerService',
             function($http, config, authManagerService){
-                var salaoId = authManagerService.identity().salaoId;
-                var url =  config.baseUrl  + '/v1/salao/'+salaoId;
+
+                function url() {
+                    var salaoId = authManagerService.identity().salaoId;
+                    var url =  config.baseUrl  + '/v1/salao/'+salaoId;
+                    return url;
+                }
 
                 function get() {
-                    return $http.get(url+'/dados');
+                    return $http.get(url()+'/dados');
                 }
 
                 function atualizar(dados) {
@@ -19,15 +23,15 @@
                 }
 
                 function getAcesso() {
-                    return $http.get(url + '/acesso');
+                    return $http.get(url() + '/acesso');
                 }
 
                 function getFuncionario() {
-                    return $http.get(url + '/funcionario');
+                    return $http.get(url() + '/funcionario');
                 }
 
                 function getClientes() {
-                    return $http.get(url + '/cliente');
+                    return $http.get(url() + '/cliente');
                 }
 
                 return {

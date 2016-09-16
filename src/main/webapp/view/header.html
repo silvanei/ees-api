@@ -1,8 +1,8 @@
 <header class="main-header">
     <nav class="navbar navbar-static-top">
         <div class="container-fluid">
-            <div class="navbar-header">
-                <a href="/" class="navbar-brand"><b>Nome do Salão</b></a>
+            <div class="navbar-header" ng-controller="nomeSalaoController">
+                <a href="/" class="navbar-brand"><b>{{nomeSalao}}</b></a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
@@ -14,13 +14,13 @@
                     <li ng-class="{ active: isActive('/') }">
                         <a ui-sref="agenda"><i class="fa fa-calendar margin-r-5"></i> Agenda</a>
                     </li>
-                    <li ng-class="{ active: isActive('/salao') }">
+                    <li ng-class="{ active: isActive('/salao') }" ng-show="isAdmin">
                         <a ui-sref="salao"><i class="fa fa-cogs margin-r-5"></i> Salão</a>
                     </li>
-                    <li ng-class="{ active: isActive('/profissional') }">
+                    <li ng-class="{ active: isActive('/profissional') }" ng-show="isAdmin">
                         <a ui-sref="profissional"><i class="fa fa-user margin-r-5"></i> Profissional</a>
                     </li>
-                    <li ng-class="{ active: isActive('/cliente') }">
+                    <li ng-class="{ active: isActive('/cliente') }" ng-show="isAdmin">
                         <a ui-sref="cliente"><i class="fa fa-users margin-r-5"></i> Clientes</a>
                     </li>
                 </ul>
