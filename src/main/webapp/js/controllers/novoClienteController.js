@@ -6,8 +6,8 @@
 
     angular
         .module('agenda')
-        .controller('novoClienteController', ['$scope', 'Notification', 'clienteService',
-            function ($scope, Notification, clienteService) {
+        .controller('novoClienteController', ['$scope', 'Notification', 'clienteService', 'salaoService',
+            function ($scope, Notification, clienteService, salaoService) {
                 var modalNovoCliente = $('#modal-novo-cliente');
 
                 function init() {
@@ -22,6 +22,10 @@
                         modalNovoCliente.modal('hide');
 
                         Notification.success('Cliente salvo com sucesso');
+
+                        salaoService.cliente().success(function(data) {
+                            $scope.$parent.clientes = data.items;
+                        });
 
                     }).error(function(data, status) {
                         Notification.error(data.errorMessage);
