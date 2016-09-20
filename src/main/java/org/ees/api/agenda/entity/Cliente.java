@@ -1,8 +1,6 @@
 package org.ees.api.agenda.entity;
 
-import java.util.Date;
-
-abstract public class Cliente {
+abstract class Cliente {
 
 	private Integer id;
 	private String nome;

@@ -126,9 +126,10 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 	@Override
 	public Acesso findByEmail(String email) {
 
-		String sql = "SELECT a.id, a.email, a.senha, a.perfil, f.salao_id " +
+		String sql = "SELECT a.id, a.email, a.senha, a.perfil, f.salao_id, c.cliente_id " +
                 "FROM acesso a " +
                 "LEFT JOIN funcionario f ON (f.acesso_id = a.id) " +
+                "LEFT JOIN cliente_app c ON (c.acesso_id = a.id) " +
                 "WHERE a.email = ? ";
 
 		try {
@@ -143,6 +144,7 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 				acesso.setSenha(resultSet.getString("senha"));
 				acesso.setPerfil(resultSet.getString("perfil"));
 				acesso.setSalaoId(resultSet.getInt("salao_id"));
+				acesso.setClienteId(resultSet.getInt("cliente_id"));
 
 				return acesso;
 			}

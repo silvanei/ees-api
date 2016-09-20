@@ -43,6 +43,10 @@ public class Binder extends AbstractBinder {
 		bind(HorarioDisponivelServiceImpl.class).to(HorarioDisponivelService.class);
 
 		bind(ImageFileServiceImpl.class).to(ImageFileService.class);
+
+		bind(ClienteAppRepositoryImpl.class).to(ClienteAppRepository.class);
+		bind(ClienteAppServiceImpl.class).to(ClienteAppService.class);
+		bind(RegistrarClienteServiceImpl.class).to(RegistrarClienteService.class);
 	}
 
 }
