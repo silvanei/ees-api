@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
     @Override
     public ClienteSalao get(Integer salaoId, Integer clienteSalaoId) {
-        String sql = "SELECT c.id, c.nome, c.telefone, c.email FROM cliente c INNER JOIN salao s ON (s.id = c.salao_id) WHERE s.id = ? AND c.id = ? AND c.deletado = 0";
+        String sql = "SELECT c.id, c.nome, c.telefone, cs.email FROM cliente c INNER JOIN cliente_salao cs on (c.id = cs.cliente_id) WHERE cs.salao_id = ? AND c.id = ? AND c.deletado = 0";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -48,7 +48,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
 
     @Override
     public CollectionPaginated<ClienteSalao> get(Integer salaoId) {
-        String sql = "SELECT c.id, c.nome, c.telefone, c.email FROM cliente c INNER JOIN salao s ON (s.id = c.salao_id) WHERE s.id = ? AND c.deletado = 0";
+        String sql = "SELECT c.id, c.nome, c.telefone, cs.email FROM cliente c INNER JOIN cliente_salao cs on (c.id = cs.cliente_id) WHERE cs.salao_id = ? AND c.deletado = 0";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -78,7 +78,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
 
     @Override
     public CollectionPaginated<ClienteSalao> get(Integer salaoId, int limit, int offset) {
-        String sql = "SELECT SQL_CALC_FOUND_ROWS c.id, c.nome, c.telefone, c.email FROM cliente c INNER JOIN salao s ON (s.id = c.salao_id) WHERE s.id = ? AND c.deletado = 0 LIMIT ? OFFSET ?";
+        String sql = "SELECT SQL_CALC_FOUND_ROWS c.id, c.nome, c.telefone, cs.email FROM cliente c INNER JOIN cliente_salao cs on (c.id = cs.cliente_id) WHERE cs.salao_id = ? AND c.deletado = 0 LIMIT ? OFFSET ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -86,6 +86,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
             stmt.setInt(2, limit);
             stmt.setInt(3, offset);
             ResultSet resultSet = stmt.executeQuery();
+            Integer foundRows = DB.foundRows();
 
             List<ClienteSalao> funcionarios = new ArrayList<>();
 
@@ -98,9 +99,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
                 funcionarios.add(clienteSalao);
             }
 
-            int total = funcionarios.size();
-
-            return new CollectionPaginated<ClienteSalao>(funcionarios, limit, offset, DB.foundRows());
+            return new CollectionPaginated<ClienteSalao>(funcionarios, limit, offset, foundRows);
 
         } catch (SQLException ex) {
             Logger.getLogger(ClienteSalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,25 +109,36 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
 
     @Override
     public Integer create(Integer salaoId, ClienteSalao clienteSalao) {
-        String sql = "INSERT INTO cliente (nome, telefone, email, salao_id) VALUES (?, ?, ?, ?) ";
+        String insertCliente = "INSERT INTO cliente (nome, telefone) VALUES (?, ?) ";
+        String insertClienteSalao = "INSERT INTO cliente_salao (salao_id, cliente_id, email) VALUES (?, ?, ?)";
 
         try{
-            PreparedStatement stmt = DB.preparedStatement(sql);
-            stmt.setString(1, clienteSalao.getNome());
-            stmt.setString(2, clienteSalao.getTelefone());
-            stmt.setString(3, clienteSalao.getEmail());
-            stmt.setInt(4, salaoId);
-
-            if(stmt.executeUpdate()>0){
-                ResultSet rs = stmt.getGeneratedKeys();
+            DB.beginTransaction();
+            PreparedStatement stmtCliente = DB.preparedStatement(insertCliente);
+            stmtCliente.setString(1, clienteSalao.getNome());
+            stmtCliente.setString(2, clienteSalao.getTelefone());
+            Integer insertId = null;
+            if(stmtCliente.executeUpdate()>0){
+                ResultSet rs = stmtCliente.getGeneratedKeys();
                 if (rs.next()){
-                    return rs.getInt(1);
+                    insertId = rs.getInt(1);
+
+                    PreparedStatement stmtClienteSalao = DB.preparedStatement(insertClienteSalao);
+                    stmtClienteSalao.setInt(1, salaoId);
+                    stmtClienteSalao.setInt(2, insertId);
+                    stmtClienteSalao.setString(3, clienteSalao.getEmail());
+                    stmtClienteSalao.executeUpdate();
+                } else {
+                    DB.rollback();
+                    return null;
                 }
             }
 
-            return null;
+            DB.commit();
+            return insertId;
 
         }catch (SQLException ex){
+            DB.rollback();
             Logger.getLogger(ClienteSalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new AcessoADadosException("Error ao inserir um cliente de um Salão");
         }
@@ -136,7 +146,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
 
     @Override
     public Integer update(Integer salaoId, Integer clienteSalaoId, ClienteSalao clienteSalao) {
-        String sql = "UPDATE cliente SET nome = ?, telefone = ?, email = ? WHERE salao_id = ? AND id = ?";
+        String sql = "UPDATE cliente c INNER JOIN cliente_salao cs on (c.id = cs.cliente_id) SET c.nome = ?, c.telefone = ?, cs.email = ? WHERE cs.salao_id = ? AND c.id = ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -160,7 +170,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
 
     @Override
     public Integer delete(Integer salaoId, Integer clienteSalaoId) {
-        String sql = "UPDATE cliente SET  deletado = ? WHERE salao_id = ? AND id = ?";
+        String sql = "UPDATE cliente c INNER JOIN cliente_salao cs on (c.id = cs.cliente_id) SET c.deletado = ? WHERE cs.salao_id = ? AND c.id = ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);

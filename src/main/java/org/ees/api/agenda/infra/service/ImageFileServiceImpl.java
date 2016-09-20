@@ -1,13 +1,11 @@
 package org.ees.api.agenda.infra.service;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.service.ImageFileService;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import javax.imageio.ImageIO;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;

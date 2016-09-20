@@ -20,6 +20,8 @@ public class ClienteSalao extends Cliente {
 	)
 	private Link link;
 
+	private String email;
+
 	private Salao salao;
 
 	public Salao getSalao() {
@@ -30,4 +32,11 @@ public class ClienteSalao extends Cliente {
 		this.salao = salao;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

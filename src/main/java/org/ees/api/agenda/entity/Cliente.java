@@ -6,8 +6,6 @@ abstract public class Cliente {
 
 	private Integer id;
 	private String nome;
-	private String email;
-	private Date nascimento;
 	private String telefone;
 
 	public Integer getId() {
@@ -24,22 +22,6 @@ abstract public class Cliente {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getNascimento() {
-		return nascimento;
-	}
-
-	public void setNascimento(Date nascimento) {
-		this.nascimento = nascimento;
 	}
 
 	public String getTelefone() {
