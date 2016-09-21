@@ -1,16 +1,18 @@
 package org.ees.api.agenda.infra.repository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.ees.api.agenda.entity.Salao;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.SalaoRepository;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SalaoRepositoryImpl implements SalaoRepository {
 
@@ -92,9 +94,39 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 			return null;
 
 		}catch (SQLException ex){
-			Logger.getLogger(FuncionarioRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
 			throw new AcessoADadosException("Error ao inserir um Salão");
 		}
+	}
 
+	@Override
+	public List<Salao> findByClienteId(Integer clienteId) {
+		String sql = "SELECT s.id, s.nome, s.telefone, s.celular, s.visivel_no_app FROM favorito f INNER JOIN salao s ON (f.salao_id = s.id) WHERE f.cliente_id = ? AND s.visivel_no_app = ? ";
+
+		try{
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setInt(1, clienteId);
+			stmt.setBoolean(2, true);
+			ResultSet resultSet = stmt.executeQuery();
+
+			List<Salao> saloes = new ArrayList<>();
+
+			while(resultSet.next()){
+				Salao salao = new Salao();
+				salao.setId(resultSet.getInt("id"));
+				salao.setNome(resultSet.getString("nome"));
+				salao.setTelefone(resultSet.getString("telefone"));
+				salao.setCelular(resultSet.getString("celular"));
+                salao.setVisivelNoApp(resultSet.getBoolean("visivel_no_app"));
+
+				saloes.add(salao);
+			}
+
+			return saloes;
+
+		}catch (SQLException ex){
+			Logger.getLogger(SalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Error buscar os saloões favoritos de um cliente");
+		}
 	}
 }

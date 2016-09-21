@@ -41,7 +41,7 @@ public class RegistrarClienteResource {
 
         UriBuilder builder = uriInfo.getBaseUriBuilder();
         builder.path("/v1/cliente/" + Integer.toString(newCliente.getId()));
-        return Response.created(builder.build()).entity(newCliente).build();
+        return Response.created(builder.build()).entity(null).build();
 
 	}
 

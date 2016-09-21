@@ -7,9 +7,13 @@ import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.SalaoRepository;
 import org.ees.api.agenda.resource.bean.DadosSalao;
-import org.ees.api.agenda.service.*;
+import org.ees.api.agenda.service.DadosSalaoService;
+import org.ees.api.agenda.service.EnderecoService;
+import org.ees.api.agenda.service.FuncionarioService;
+import org.ees.api.agenda.service.HorarioDeFuncionamentoService;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by silvanei on 28/07/16.
@@ -19,19 +23,16 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
     private SalaoRepository salaoRepository;
     private EnderecoService enderecoService;
     private HorarioDeFuncionamentoService horarioDeFuncionamentoService;
-    private FuncionarioService funcionarioService;
 
     @Inject
     public DadosSalaoServiceImpl(
             SalaoRepository salaoRepository,
             EnderecoService enderecoService,
-            HorarioDeFuncionamentoService horarioDeFuncionamentoService,
-            FuncionarioService funcionarioService
+            HorarioDeFuncionamentoService horarioDeFuncionamentoService
     ) {
         this.salaoRepository = salaoRepository;
         this.enderecoService = enderecoService;
         this.horarioDeFuncionamentoService = horarioDeFuncionamentoService;
-        this.funcionarioService = funcionarioService;
     }
 
     @Override
@@ -97,5 +98,10 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
             DB.rollback();
             throw e;
         }
+    }
+
+    @Override
+    public List<Salao> findByClienteId(Integer clienteId) {
+        return salaoRepository.findByClienteId(clienteId);
     }
 }

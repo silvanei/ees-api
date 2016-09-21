@@ -1,6 +1,7 @@
 package org.ees.api.agenda.infra.repository;
 
 import org.ees.api.agenda.entity.ClienteApp;
+import org.ees.api.agenda.entity.Salao;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.ClienteAppRepository;
@@ -8,6 +9,7 @@ import org.ees.api.agenda.repository.ClienteAppRepository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

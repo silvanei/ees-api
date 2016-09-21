@@ -21,6 +21,7 @@ public class Salao {
 	private List<Servico> servicos;
 	private List<Cliente> clientes;
 	private List<Acesso> acessos;
+	private String imgBase64;
 
 	@InjectLink(
 			resource = DadosResource.class,
@@ -142,4 +143,12 @@ public class Salao {
     public void setAcessos(List<Acesso> acessos) {
         this.acessos = acessos;
     }
+
+	public String getImgBase64() {
+		return imgBase64;
+	}
+
+	public void setImgBase64(String imgBase64) {
+		this.imgBase64 = imgBase64;
+	}
 }

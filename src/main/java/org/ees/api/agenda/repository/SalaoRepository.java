@@ -2,6 +2,8 @@ package org.ees.api.agenda.repository;
 
 import org.ees.api.agenda.entity.Salao;
 
+import java.util.List;
+
 public interface SalaoRepository {
 
 	public Integer insert(Salao salao);
@@ -10,4 +12,5 @@ public interface SalaoRepository {
 
 	public Salao findById(Integer idSalao);
 
+    public List<Salao> findByClienteId(Integer clienteId);
 }
