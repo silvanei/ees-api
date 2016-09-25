@@ -56,4 +56,9 @@ public class AcessoServiceImpl implements AcessoService {
     public List<Acesso> findByIdSalao(Integer salaoId) {
         return acessoRepository.findByIdSalao(salaoId);
     }
+
+    @Override
+    public Acesso findByCliente(Integer clienteId) {
+        return acessoRepository.findByCliente(clienteId);
+    }
 }

@@ -42,7 +42,7 @@ public final class TokenUtil {
         JWTClaimsSet claim = new JWTClaimsSet();
         claim.setSubject(Integer.toString(acesso.getId()));
         claim.setIssueTime(DateTime.now().toDate());
-        claim.setExpirationTime(DateTime.now().plusMinutes(1).toDate());
+        claim.setExpirationTime(DateTime.now().plusMinutes(10).toDate());
         claim.setCustomClaim(Parameters.SLA.toString(), acesso.getSalaoId());
         claim.setCustomClaim(Parameters.CLI.toString(), acesso.getClienteId());
         claim.setCustomClaim(Parameters.PERFIL.toString(), acesso.getPerfil());

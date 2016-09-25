@@ -125,6 +125,36 @@ public class AcessoRepositoryImpl implements AcessoRepository {
 		}
 	}
 
+	public Acesso findByCliente(Integer clienteId) {
+		String sql = "SELECT a.id, a.email, a.senha, a.perfil, c.cliente_id " +
+				"FROM acesso a " +
+				"INNER JOIN cliente_app c ON (c.acesso_id = a.id) " +
+				"WHERE c.cliente_id = ?";
+
+		try {
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setInt(1, clienteId);
+			ResultSet resultSet = stmt.executeQuery();
+
+			if (resultSet.next()) {
+				Acesso acesso = new Acesso();
+				acesso.setId(resultSet.getInt("id"));
+				acesso.setEmail(resultSet.getString("email"));
+				acesso.setSenha(resultSet.getString("senha"));
+				acesso.setPerfil(resultSet.getString("perfil"));
+				acesso.setClienteId(resultSet.getInt("cliente_id"));
+
+				return acesso;
+			}
+
+			return null;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(AcessoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Erro ao buscar um acesso pelo id DO FUNCIONARIO");
+		}
+	}
+
 	@Override
 	public Acesso findByEmail(String email) {
 

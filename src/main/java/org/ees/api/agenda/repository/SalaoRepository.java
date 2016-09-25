@@ -13,4 +13,6 @@ public interface SalaoRepository {
 	public Salao findById(Integer idSalao);
 
     public List<Salao> findByClienteId(Integer clienteId);
+
+	public List<Salao> findAll();
 }

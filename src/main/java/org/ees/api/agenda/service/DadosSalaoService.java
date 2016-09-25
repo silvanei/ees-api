@@ -15,4 +15,6 @@ public interface DadosSalaoService {
     public Salao atualizaDadosSalao(Integer salaoId, DadosSalao dadosSalao);
 
     public List<Salao> findByClienteId(Integer clienteId);
+
+    public List<Salao> findAll();
 }

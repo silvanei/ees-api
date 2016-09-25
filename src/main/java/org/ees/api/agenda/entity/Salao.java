@@ -22,6 +22,7 @@ public class Salao {
 	private List<Cliente> clientes;
 	private List<Acesso> acessos;
 	private String imgBase64;
+	private boolean favorito;
 
 	@InjectLink(
 			resource = DadosResource.class,
@@ -150,5 +151,13 @@ public class Salao {
 
 	public void setImgBase64(String imgBase64) {
 		this.imgBase64 = imgBase64;
+	}
+
+	public boolean isFavorito() {
+		return favorito;
+	}
+
+	public void setFavorito(boolean favorito) {
+		this.favorito = favorito;
 	}
 }

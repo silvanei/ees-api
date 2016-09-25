@@ -101,7 +101,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 
 	@Override
 	public List<Salao> findByClienteId(Integer clienteId) {
-		String sql = "SELECT s.id, s.nome, s.telefone, s.celular, s.visivel_no_app FROM favorito f INNER JOIN salao s ON (f.salao_id = s.id) WHERE f.cliente_id = ? AND s.visivel_no_app = ? ";
+		String sql = "SELECT s.id, s.nome, s.telefone, s.celular, s.visivel_no_app, IF(f.salao_id > 0 , 1, 0) as favorito FROM favorito f INNER JOIN salao s ON (f.salao_id = s.id) WHERE f.cliente_id = ? AND s.visivel_no_app = ? ";
 
 		try{
 			PreparedStatement stmt = DB.preparedStatement(sql);
@@ -118,6 +118,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 				salao.setTelefone(resultSet.getString("telefone"));
 				salao.setCelular(resultSet.getString("celular"));
                 salao.setVisivelNoApp(resultSet.getBoolean("visivel_no_app"));
+                salao.setFavorito(resultSet.getBoolean("favorito"));
 
 				saloes.add(salao);
 			}
@@ -128,5 +129,35 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 			Logger.getLogger(SalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
 			throw new AcessoADadosException("Error buscar os saloões favoritos de um cliente");
 		}
+	}
+
+	@Override
+	public List<Salao> findAll() {
+        String sql = "SELECT s.id, s.nome, s.telefone, s.celular, s.visivel_no_app, IF(f.salao_id > 0 , 1, 0) as favorito FROM salao s LEFT JOIN favorito f ON (f.salao_id = s.id) WHERE s.visivel_no_app = ?  ";
+
+        try{
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setBoolean(1, true);
+            ResultSet resultSet = stmt.executeQuery();
+
+            List<Salao> saloes = new ArrayList<>();
+
+            while(resultSet.next()){
+                Salao salao = new Salao();
+                salao.setId(resultSet.getInt("id"));
+                salao.setNome(resultSet.getString("nome"));
+                salao.setTelefone(resultSet.getString("telefone"));
+                salao.setCelular(resultSet.getString("celular"));
+                salao.setVisivelNoApp(resultSet.getBoolean("visivel_no_app"));
+                salao.setFavorito(resultSet.getBoolean("favorito"));
+                saloes.add(salao);
+            }
+
+            return saloes;
+
+        }catch (SQLException ex){
+            Logger.getLogger(SalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error buscar os saloões favoritos de um cliente");
+        }
 	}
 }

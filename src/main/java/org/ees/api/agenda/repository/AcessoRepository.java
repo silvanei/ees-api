@@ -17,4 +17,6 @@ public interface AcessoRepository {
     public Integer removeAcesso(Integer acessoId);
 
     public Acesso findByFuncionario(Integer funcionarioId);
+
+	public Acesso findByCliente(Integer clienteId);
 }

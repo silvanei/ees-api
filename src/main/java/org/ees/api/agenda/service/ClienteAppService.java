@@ -1,6 +1,9 @@
 package org.ees.api.agenda.service;
 
 import org.ees.api.agenda.entity.ClienteApp;
+import org.ees.api.agenda.entity.Salao;
+
+import java.util.List;
 
 /**
  * Created by silvanei on 29/08/16.
@@ -9,13 +12,11 @@ public interface ClienteAppService {
 
     public ClienteApp findById(Integer clienteId);
 
-//    public CollectionPaginated<ClienteSalao> get(Integer salaoId);
-//
-//    public CollectionPaginated<ClienteSalao> get(Integer salaoId, int limit, int offset);
+    public List<Salao> getFavoritos(Integer clienteId);
 
     public ClienteApp create(ClienteApp cliente, Integer acessoId);
 
-//    public ClienteSalao update(Integer salaoId, Integer clienteSalaoId, ClienteSalao data);
-//
-//    public Integer delete(Integer salaoId, Integer clienteSalaoId);
+    public Integer addFavorito(Integer clienteId, Integer salaoId);
+
+    public void removeFavorito(Integer clienteId, Integer salaoId);
 }

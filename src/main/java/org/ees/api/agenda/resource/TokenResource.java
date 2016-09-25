@@ -1,7 +1,6 @@
 package org.ees.api.agenda.resource;
 
 import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.infra.auth.Token;
 import org.ees.api.agenda.infra.auth.TokenUtil;

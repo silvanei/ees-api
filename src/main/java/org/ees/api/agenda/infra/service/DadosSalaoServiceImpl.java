@@ -7,10 +7,7 @@ import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.repository.SalaoRepository;
 import org.ees.api.agenda.resource.bean.DadosSalao;
-import org.ees.api.agenda.service.DadosSalaoService;
-import org.ees.api.agenda.service.EnderecoService;
-import org.ees.api.agenda.service.FuncionarioService;
-import org.ees.api.agenda.service.HorarioDeFuncionamentoService;
+import org.ees.api.agenda.service.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -23,16 +20,19 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
     private SalaoRepository salaoRepository;
     private EnderecoService enderecoService;
     private HorarioDeFuncionamentoService horarioDeFuncionamentoService;
+    private ImageFileService imageFileService;
 
     @Inject
     public DadosSalaoServiceImpl(
             SalaoRepository salaoRepository,
             EnderecoService enderecoService,
-            HorarioDeFuncionamentoService horarioDeFuncionamentoService
+            HorarioDeFuncionamentoService horarioDeFuncionamentoService,
+            ImageFileService imageFileService
     ) {
         this.salaoRepository = salaoRepository;
         this.enderecoService = enderecoService;
         this.horarioDeFuncionamentoService = horarioDeFuncionamentoService;
+        this.imageFileService = imageFileService;
     }
 
     @Override
@@ -102,6 +102,31 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
 
     @Override
     public List<Salao> findByClienteId(Integer clienteId) {
-        return salaoRepository.findByClienteId(clienteId);
+        List<Salao> saloes = salaoRepository.findByClienteId(clienteId);
+
+        for (Salao salao: saloes) {
+            salao.setEndereco(enderecoService.byIdSalao(salao.getId()));
+        }
+
+        return saloes;
+    }
+
+    @Override
+    public List<Salao> findAll() {
+        List<Salao> saloes = salaoRepository.findAll();
+
+        for (Salao salao: saloes) {
+            salao.setEndereco(enderecoService.byIdSalao(salao.getId()));
+
+            String encodedString = imageFileService.base64Encode(salao.getId());
+            if (null == encodedString) {
+                encodedString = ImageFileService.IMG_DEFAULT;
+            }
+
+            encodedString = "data:image/jpeg;base64," + encodedString;
+            salao.setImgBase64(encodedString);
+        }
+
+        return saloes;
     }
 }
