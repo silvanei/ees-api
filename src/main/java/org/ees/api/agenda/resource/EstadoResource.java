@@ -8,6 +8,7 @@ import org.ees.api.agenda.service.EnderecoService;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -26,22 +27,27 @@ public class EstadoResource {
     private EnderecoService enderecoService;
 
     @GET
-    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
+    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL, Perfil.CLIENTE})
     public Response estado() {
+
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(86400); // 1 dia
 
         List<Estado> estados = enderecoService.getEstados();
 
-        return Response.ok(estados).build();
+        return Response.ok(estados).cacheControl(cacheControl).build();
     }
 
     @GET
     @Path("/{estadoId}")
-    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
+    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL, Perfil.CLIENTE})
     public Response cidade(@PathParam("estadoId") Integer estadoId) {
 
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(86400); // 1 dia
         Estado estado = enderecoService.getEstado(estadoId);
 
-        return Response.ok(estado).build();
+        return Response.ok(estado).cacheControl(cacheControl).build();
     }
 
 }

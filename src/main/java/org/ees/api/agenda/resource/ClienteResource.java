@@ -10,6 +10,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ResourceContext;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -51,9 +52,12 @@ public class ClienteResource {
             @QueryParam("salao") String nomeSalao
     ) {
 
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(60); // 1 dia
+
         List<Salao> saloes = dadosSalao.findAll(nomeSalao);
 
-        return Response.ok().entity(saloes).build();
+        return Response.ok().entity(saloes).cacheControl(cacheControl).build();
     }
 
     @Path("/{clienteId}/favorito")

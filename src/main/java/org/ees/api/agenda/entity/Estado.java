@@ -1,5 +1,10 @@
 package org.ees.api.agenda.entity;
 
+import org.ees.api.agenda.resource.EstadoResource;
+import org.glassfish.jersey.linking.Binding;
+import org.glassfish.jersey.linking.InjectLink;
+
+import javax.ws.rs.core.Link;
 import java.util.List;
 
 /**
@@ -12,6 +17,17 @@ public class Estado {
     private String uf;
 
     private List<Cidade> cidades;
+
+    @InjectLink(
+            resource = EstadoResource.class,
+            method = "cidade",
+            style = InjectLink.Style.ABSOLUTE,
+            bindings = {
+                    @Binding(name = "estadoId", value = "${instance.id}")
+            },
+            rel = "self"
+    )
+    private Link link;
 
     public Estado() {}
 
