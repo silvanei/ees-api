@@ -46,9 +46,12 @@ public class ClienteResource {
     @GET
     @Path("/{clienteId}/salao")
     @RolesAllowed(Perfil.CLIENTE)
-    public Response salao(@PathParam("clienteId") Integer clienteId) {
+    public Response salao(
+            @PathParam("clienteId") Integer clienteId,
+            @QueryParam("salao") String nomeSalao
+    ) {
 
-        List<Salao> saloes = dadosSalao.findAll();
+        List<Salao> saloes = dadosSalao.findAll(nomeSalao);
 
         return Response.ok().entity(saloes).build();
     }

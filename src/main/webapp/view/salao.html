@@ -94,70 +94,28 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="input-endereco" class="col-sm-2 control-label">Endereço</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="input-endereco" placeholder="Endereço" ng-model="dados.endereco.rua">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="input-numero" class="col-sm-2 control-label">Número</label>
-                                        <div class="col-sm-2">
-                                            <input type="number" class="form-control" id="input-numero" placeholder="Número" ng-model="dados.endereco.numero">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <label for="input-estado" class="col-sm-2 control-label">Estado</label>
                                         <div class="col-sm-3">
-                                            <select class="form-control" id="input-estado">
-                                                <option value="">Selecione</option>
-                                                <option value="AC">Acre</option>
-                                                <option value="AL">Alagoas</option>
-                                                <option value="AP">Amapá</option>
-                                                <option value="AM">Amazonas</option>
-                                                <option value="BA">Bahia</option>
-                                                <option value="CE">Ceará</option>
-                                                <option value="DF">Distrito Federal</option>
-                                                <option value="ES">Espirito Santo</option>
-                                                <option value="GO">Goiás</option>
-                                                <option value="MA">Maranhão</option>
-                                                <option value="MS">Mato Grosso do Sul</option>
-                                                <option value="MT">Mato Grosso</option>
-                                                <option value="MG">Minas Gerais</option>
-                                                <option value="PA">Pará</option>
-                                                <option value="PB">Paraíba</option>
-                                                <option value="PR">Paraná</option>
-                                                <option value="PE">Pernambuco</option>
-                                                <option value="PI">Piauí</option>
-                                                <option value="RJ">Rio de Janeiro</option>
-                                                <option value="RN">Rio Grande do Norte</option>
-                                                <option value="RS">Rio Grande do Sul</option>
-                                                <option value="RO">Rondônia</option>
-                                                <option value="RR">Roraima</option>
-                                                <option value="SC">Santa Catarina</option>
-                                                <option value="SP">São Paulo</option>
-                                                <option value="SE">Sergipe</option>
-                                                <option value="TO">Tocantins</option>
+                                            <select class="form-control" ng-change="changeEstado(dados.endereco.estado.id)" ng-model="dados.endereco.estado.id" ng-options="estado.id as estado.nome for estado in estados" id="input-estado">
+                                                <option value="">Selecione um Estado</option>
                                             </select>
                                         </div>
 
                                         <label for="input-cidade" class="col-sm-2 control-label">Cidade</label>
                                         <div class="col-sm-4">
-                                            <select class="form-control" id="input-cidade">
-                                                <option value="">Selecione</option>
+                                            <select class="form-control" ng-model="dados.endereco.cidade.id" ng-options="cidade.id as cidade.nome for cidade in cidades" id="input-cidade">
+                                                <option value="">Selecione uma Cidade</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="input-bairro" class="col-sm-2 control-label">Bairro</label>
-                                        <div class="col-sm-3">
-                                            <select class="form-control" id="input-bairro">
-                                                <option value="">Selecione</option>
-                                            </select>
-                                        </div>
-
-                                        <label for="input-cep" class="col-sm-2 control-label">CEP</label>
+                                        <label for="input-endereco" class="col-sm-2 control-label">Endereço</label>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control" id="input-cep" placeholder="CEP">
+                                            <input type="text" class="form-control" id="input-endereco" placeholder="Endereço" ng-model="dados.endereco.rua">
+                                        </div>
+                                        <label for="input-numero" class="col-sm-1 control-label">Número</label>
+                                        <div class="col-sm-1">
+                                            <input type="number" class="form-control" id="input-numero" placeholder="Número" ng-model="dados.endereco.numero">
                                         </div>
                                     </div>
                                     <div class="form-group">

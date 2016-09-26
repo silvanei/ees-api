@@ -6,8 +6,8 @@
 
     angular
         .module('agenda')
-        .controller('salaoController', ['$scope', 'salaoService', 'Notification', '$log', 'imageFileService', '$rootScope',
-            function ($scope, salaoService, Notification, $log, imageFileService, $rootScope) {
+        .controller('salaoController', ['$scope', 'salaoService', 'Notification', '$log', 'imageFileService', 'estadoService', '$rootScope',
+            function ($scope, salaoService, Notification, $log, imageFileService, estadoService, $rootScope) {
 
                 function init() {
                     $('.nav-tabs a').click(function (e) {
@@ -17,6 +17,12 @@
 
                     salaoService.get().success(function(data) {
                         $scope.dados = data;
+
+                        if(typeof data.endereco.estado !== 'undefined') {
+                            estadoService.get(data.endereco.estado.id).success(function(data) {
+                                $scope.cidades = data.cidades;
+                            })
+                        }
 
                     }).error(function(data, status) {
                         $log.error(data);
@@ -29,7 +35,22 @@
                     }).error(function(data, status, headers){
                         Notification.error(data.errorMessage);
                     });
+
+                    estadoService.get().success(function(data) {
+                        $scope.estados = data;
+                    }).error(function(data) {
+                        Notification.error(data.errorMessage);
+                    });
+
                 }
+
+                $scope.changeEstado = function(estadoId) {
+                    estadoService.get(estadoId).success(function(data) {
+                        $scope.cidades = data.cidades;
+                    }).error(function(data) {
+                        Notification.error(data.errorMessage);
+                    });
+                };
 
                 $scope.uploadFile = function(files) {
                     imageFileService.post(files[0]).success(function(data, status, headers){
@@ -55,11 +76,6 @@
                 };
 
                 $scope.atualizarDados = function(dados) {
-                    dados.endereco.estado = 1;
-                    dados.endereco.cidade = 1;
-                    dados.endereco.bairro = 1;
-                    dados.endereco.cep = 83406310;
-
                     salaoService.put(dados).success(function(data) {
                         $scope.dados = data;
                         $rootScope.nomeSalao = data.nome;

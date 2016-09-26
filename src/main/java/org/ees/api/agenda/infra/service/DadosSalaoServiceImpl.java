@@ -53,15 +53,13 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
             endereco.setRua(dadosSalao.getEndereco().getRua());
             endereco.setEstado(dadosSalao.getEndereco().getEstado());
             endereco.setCidade(dadosSalao.getEndereco().getCidade());
-            endereco.setBairro(dadosSalao.getEndereco().getBairro());
             endereco.setNumero(dadosSalao.getEndereco().getNumero());
-            endereco.setCep(dadosSalao.getEndereco().getCep());
-//            if(null == endereco.getId()) {
-//            	Integer idEndereco = enderecoService.inserirEndereco(endereco);
-//            	endereco.setId(idEndereco);
-//            } else {
-//            	enderecoService.atualizarEndereco(endereco);
-//            }
+            if(null == endereco.getId()) {
+            	Integer idEndereco = enderecoService.inserirEndereco(endereco);
+            	endereco.setId(idEndereco);
+            } else {
+            	enderecoService.atualizarEndereco(endereco);
+            }
             
             HorarioDeFuncionamento horarioDeFuncionamento = horarioDeFuncionamentoService.byIdSalao(salaoId);
             horarioDeFuncionamento.setHorarioInicio(dadosSalao.getHorarioDeFuncionamento().getHorarioInicio());
@@ -112,8 +110,10 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
     }
 
     @Override
-    public List<Salao> findAll() {
-        List<Salao> saloes = salaoRepository.findAll();
+    public List<Salao> findAll(String nomeSalao) {
+
+
+        List<Salao> saloes = salaoRepository.findAll(nomeSalao);
 
         for (Salao salao: saloes) {
             salao.setEndereco(enderecoService.byIdSalao(salao.getId()));
