@@ -53,7 +53,7 @@ public class ClienteResource {
     ) {
 
         CacheControl cacheControl = new CacheControl();
-        cacheControl.setMaxAge(60); // 1 dia
+        cacheControl.setMaxAge(5); // 1 dia
 
         List<Salao> saloes = dadosSalao.findAll(nomeSalao);
 

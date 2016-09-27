@@ -22,4 +22,6 @@ public interface EnderecoRepository {
 	public Estado getEstado(Integer estadoId);
 
 	public List<Cidade> getCidades(Integer estadoId);
+
+	public Endereco byIdCliente(Integer id);
 }

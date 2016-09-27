@@ -48,4 +48,9 @@ public class EnderecoServiceImpl implements EnderecoService{
 
 		return estado;
 	}
+
+	@Override
+	public Endereco byIdCliente(Integer id) {
+		return enderecoRepository.byIdCliente(id);
+	}
 }

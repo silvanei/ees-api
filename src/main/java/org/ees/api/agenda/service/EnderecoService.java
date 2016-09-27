@@ -19,4 +19,6 @@ public interface EnderecoService {
     public List<Estado> getEstados();
 
     public Estado getEstado(Integer estadoId);
+
+    public Endereco byIdCliente(Integer id);
 }

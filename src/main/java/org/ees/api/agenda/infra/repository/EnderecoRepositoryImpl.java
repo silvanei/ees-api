@@ -203,4 +203,47 @@ public class EnderecoRepositoryImpl implements EnderecoRepository{
             throw new AcessoADadosException("Error ao buscar as cidades de um estado");
         }
     }
+
+    @Override
+    public Endereco byIdCliente(Integer id) {
+        String sql = "SELECT e.id, e.rua, e.numero, es.id as estado_id, es.uf, es.nome as estado, ci.id as cidade_id, ci.nome as cidade " +
+                "FROM endereco e LEFT JOIN cidade ci ON (ci.id = e.cidade_id) " +
+                "LEFT JOIN estado es ON (es.id = ci.estado_id) " +
+                "INNER JOIN cliente c ON (c.endereco_id = e.id) " +
+                "WHERE c.id = ?";
+
+        try {
+
+            Endereco endereco = new Endereco();
+
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                endereco.setId(resultSet.getInt("id"));
+                endereco.setRua(resultSet.getString("rua"));
+                endereco.setNumero(resultSet.getInt("numero"));
+                endereco.setCidade(
+                        new Cidade(
+                                resultSet.getInt("cidade_id"),
+                                resultSet.getString("cidade")
+                        )
+                );
+                endereco.setEstado(
+                        new Estado(
+                                resultSet.getInt("estado_id"),
+                                resultSet.getString("estado"),
+                                resultSet.getString("uf")
+                        )
+                );
+            }
+
+            return endereco;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(EnderecoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Erro ao buscar o endereço de um salao");
+        }
+    }
 }

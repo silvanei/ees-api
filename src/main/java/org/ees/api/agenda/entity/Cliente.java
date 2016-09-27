@@ -5,6 +5,7 @@ abstract class Cliente {
 	private Integer id;
 	private String nome;
 	private String telefone;
+	private Endereco endereco;
 
 	public Integer getId() {
 		return id;
@@ -30,4 +31,11 @@ abstract class Cliente {
 		this.telefone = telefone;
 	}
 
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
 }

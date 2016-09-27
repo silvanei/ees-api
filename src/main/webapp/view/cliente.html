@@ -10,7 +10,7 @@
             <div class="box box-primary">
                 <div class="box-body">
                     <div>
-                        <a class="btn btn-primary" data-toggle="modal" data-target="#modal-cliente"><i class="fa fa-fw fa-plus-circle"></i>Novo Cliente</a>
+                        <a class="btn btn-primary" ng-click="adicionar()"><i class="fa fa-fw fa-plus-circle"></i>Novo Cliente</a>
                     </div>
                     <br />
                     <table id="cliente-table" class="table table-condensed table-hover">
@@ -80,8 +80,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group" ng-class="{'has-error': (dadosClienteForm.nome.$invalid && dadosClienteForm.nome.$dirty)}">
-                                            <label for="nome" class="col-sm-3 control-label">Nome</label>
-                                            <div class="col-sm-8">
+                                            <label for="nome" class="col-sm-2 control-label">Nome</label>
+                                            <div class="col-sm-9">
                                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do cliente" ng-model="cliente.nome" ng-required="true" ng-minlength="5" ng-maxlength="255">
                                                 <div ng-messages="dadosClienteForm.nome.$error" ng-show="dadosClienteForm.nome.$dirty">
                                                     <div ng-message="required" class="help-block">
@@ -97,8 +97,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group" ng-class="{'has-error': (dadosClienteForm.telefone.$invalid && dadosClienteForm.telefone.$dirty)}">
-                                            <label for="telefone" class="col-sm-3 control-label" >Telefone</label>
-                                            <div class="col-sm-8">
+                                            <label for="telefone" class="col-sm-2 control-label" >Telefone</label>
+                                            <div class="col-sm-3">
                                                 <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="Telefone do cliente" ng-model="cliente.telefone" mask='(99) 9?9999-9999' mask-restrict='reject' mask-clean='true'>
                                                 <div ng-messages="dadosClienteForm.telefone.$error" ng-show="dadosClienteForm.telefone.$dirty">
                                                     <div ng-message="mask" class="help-block">
@@ -108,8 +108,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group" ng-class="{'has-error': (dadosClienteForm.email.$invalid && dadosClienteForm.email.$dirty)}">
-                                            <label for="email" class="col-sm-3 control-label" >E-mail</label>
-                                            <div class="col-sm-8">
+                                            <label for="email" class="col-sm-2 control-label" >E-mail</label>
+                                            <div class="col-sm-5">
                                                 <input type="email" class="form-control" id="email" name="email" placeholder="E-mail do cliente" ng-model="cliente.email">
                                                 <div ng-messages="dadosClienteForm.email.$error" ng-show="dadosClienteForm.email.$dirty">
                                                     <div ng-message="email" class="help-block">
@@ -120,72 +120,34 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="input-endereco" class="col-sm-3 control-label">Endereço</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="input-endereco" placeholder="Endereço">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="input-numero" class="col-sm-3 control-label">Número</label>
+                                            <label for="input-estado" class="col-sm-2 control-label">Estado</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="input-numero" placeholder="Número">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="input-estado" class="col-sm-3 control-label">Estado</label>
-                                            <div class="col-sm-3">
-                                                <select class="form-control" id="input-estado">
-                                                    <option value="">Selecione</option>
-                                                    <option value="AC">Acre</option>
-                                                    <option value="AL">Alagoas</option>
-                                                    <option value="AP">Amapá</option>
-                                                    <option value="AM">Amazonas</option>
-                                                    <option value="BA">Bahia</option>
-                                                    <option value="CE">Ceará</option>
-                                                    <option value="DF">Distrito Federal</option>
-                                                    <option value="ES">Espirito Santo</option>
-                                                    <option value="GO">Goiás</option>
-                                                    <option value="MA">Maranhão</option>
-                                                    <option value="MS">Mato Grosso do Sul</option>
-                                                    <option value="MT">Mato Grosso</option>
-                                                    <option value="MG">Minas Gerais</option>
-                                                    <option value="PA">Pará</option>
-                                                    <option value="PB">Paraíba</option>
-                                                    <option value="PR">Paraná</option>
-                                                    <option value="PE">Pernambuco</option>
-                                                    <option value="PI">Piauí</option>
-                                                    <option value="RJ">Rio de Janeiro</option>
-                                                    <option value="RN">Rio Grande do Norte</option>
-                                                    <option value="RS">Rio Grande do Sul</option>
-                                                    <option value="RO">Rondônia</option>
-                                                    <option value="RR">Roraima</option>
-                                                    <option value="SC">Santa Catarina</option>
-                                                    <option value="SP">São Paulo</option>
-                                                    <option value="SE">Sergipe</option>
-                                                    <option value="TO">Tocantins</option>
+                                                <select class="form-control" id="input-estado" ng-change="changeEstado(cliente.endereco.estado.id)" ng-model="cliente.endereco.estado.id" ng-options="estado.id as estado.nome for estado in estados"  >
+                                                    <option value="">Selecione uma Cidade</option>
                                                 </select>
                                             </div>
 
                                             <label for="input-cidade" class="col-sm-1 control-label">Cidade</label>
                                             <div class="col-sm-4">
-                                                <select class="form-control" id="input-cidade">
+                                                <select class="form-control" id="input-cidade" ng-model="cliente.endereco.cidade.id" ng-options="cidade.id as cidade.nome for cidade in cidades">
                                                     <option value="">Selecione</option>
                                                 </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="input-endereco" class="col-sm-2 control-label">Endereço</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="input-endereco" placeholder="Endereço" ng-model="cliente.endereco.rua">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="input-bairro" class="col-sm-3 control-label">Bairro</label>
+                                            <label for="input-numero" class="col-sm-2 control-label" >Número</label>
                                             <div class="col-sm-3">
-                                                <select class="form-control" id="input-bairro">
-                                                    <option value="">Selecione</option>
-                                                </select>
-                                            </div>
-
-                                            <label for="input-cep" class="col-sm-1 control-label">CEP</label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="input-cep" placeholder="CEP">
+                                                <input type="text" class="form-control" id="input-numero" placeholder="Número" ng-model="cliente.endereco.numero">
                                             </div>
                                         </div>
+
                                     </div><!-- /.col -->
                                 </div>
 

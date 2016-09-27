@@ -6,8 +6,8 @@
 
     angular
         .module('agenda')
-        .controller('clienteController', ['$scope', 'config', 'Notification', 'clienteService',
-            function ($scope, config, Notification, clienteService) {
+        .controller('clienteController', ['$scope', 'config', 'Notification', 'clienteService', 'estadoService',
+            function ($scope, config, Notification, clienteService, estadoService) {
 
                 var modalCliente = $('#modal-cliente');
 
@@ -17,7 +17,21 @@
                     $scope.maxSize = config.paginacao.maxSize;
 
                     carregarLista();
+
+                    estadoService.get().success(function(data) {
+                        $scope.estados = data;
+                    }).error(function(data) {
+                        Notification.error(data.errorMessage);
+                    });
                 }
+
+                $scope.changeEstado = function(estadoId) {
+                    estadoService.get(estadoId).success(function(data) {
+                        $scope.cidades = data.cidades;
+                    }).error(function(data) {
+                        Notification.error(data.errorMessage);
+                    });
+                };
 
                 function carregarLista() {
                     var limit = config.paginacao.itensPorPagina;
@@ -75,6 +89,14 @@
                 $scope.editar = function (cliente) {
                     $scope.dadosClienteForm.$setPristine();
                     $scope.cliente = angular.copy(cliente);
+
+                    if(typeof cliente.endereco.estado !== 'undefined') {
+                        estadoService.get(cliente.endereco.estado.id).success(function(data) {
+                            $scope.cidades = data.cidades;
+                        })
+                    } else {
+                        $scope.cidades = [];
+                    }
 
                     modalCliente.modal('show');
                 };

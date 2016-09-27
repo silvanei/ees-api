@@ -9,6 +9,7 @@ import org.ees.api.agenda.repository.ClienteSalaoRepository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -109,14 +110,20 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
 
     @Override
     public Integer create(Integer salaoId, ClienteSalao clienteSalao) {
-        String insertCliente = "INSERT INTO cliente (nome, telefone) VALUES (?, ?) ";
+        String insertCliente = "INSERT INTO cliente (nome, telefone, endereco_id) VALUES (?, ?, ?) ";
         String insertClienteSalao = "INSERT INTO cliente_salao (salao_id, cliente_id, email) VALUES (?, ?, ?)";
 
         try{
-            DB.beginTransaction();
+
             PreparedStatement stmtCliente = DB.preparedStatement(insertCliente);
             stmtCliente.setString(1, clienteSalao.getNome());
             stmtCliente.setString(2, clienteSalao.getTelefone());
+            if(null == clienteSalao.getEndereco().getId()) {
+                stmtCliente.setNull(3, Types.INTEGER);
+            } else {
+                stmtCliente.setInt(3, clienteSalao.getEndereco().getId());
+            }
+
             Integer insertId = null;
             if(stmtCliente.executeUpdate()>0){
                 ResultSet rs = stmtCliente.getGeneratedKeys();
@@ -133,12 +140,9 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
                     return null;
                 }
             }
-
-            DB.commit();
             return insertId;
 
         }catch (SQLException ex){
-            DB.rollback();
             Logger.getLogger(ClienteSalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new AcessoADadosException("Error ao inserir um cliente de um Salão");
         }
@@ -146,15 +150,22 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
 
     @Override
     public Integer update(Integer salaoId, Integer clienteSalaoId, ClienteSalao clienteSalao) {
-        String sql = "UPDATE cliente c INNER JOIN cliente_salao cs on (c.id = cs.cliente_id) SET c.nome = ?, c.telefone = ?, cs.email = ? WHERE cs.salao_id = ? AND c.id = ?";
+        String sql = "UPDATE cliente c INNER JOIN cliente_salao cs on (c.id = cs.cliente_id) SET c.nome = ?, c.telefone = ?, c.endereco_id = ?, cs.email = ? WHERE cs.salao_id = ? AND c.id = ?";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
             stmt.setString(1, clienteSalao.getNome());
             stmt.setString(2, clienteSalao.getTelefone());
-            stmt.setString(3, clienteSalao.getEmail());
-            stmt.setInt(4,salaoId);
-            stmt.setInt(5,clienteSalaoId);
+
+            if(null == clienteSalao.getEndereco().getId()) {
+                stmt.setNull(3, Types.INTEGER);
+            } else {
+                stmt.setInt(3, clienteSalao.getEndereco().getId());
+            }
+
+            stmt.setString(4, clienteSalao.getEmail());
+            stmt.setInt(5, salaoId);
+            stmt.setInt(6, clienteSalaoId);
 
             if (stmt.executeUpdate() > 0) {
                 return clienteSalaoId;
