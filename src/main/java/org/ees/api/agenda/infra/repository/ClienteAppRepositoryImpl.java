@@ -9,6 +9,7 @@ import org.ees.api.agenda.repository.ClienteAppRepository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,13 +21,19 @@ public class ClienteAppRepositoryImpl implements ClienteAppRepository {
 
     @Override
     public Integer create(ClienteApp cliente, Integer acessoId) {
-        String insertCliente = "INSERT INTO cliente (nome, telefone) VALUES (?, ?) ";
+        String insertCliente = "INSERT INTO cliente (nome, telefone, endereco_id) VALUES (?, ?, ?) ";
         String insertClienteApp = "INSERT INTO cliente_app (acesso_id, cliente_id) VALUES (?, ?)";
 
         try{
             PreparedStatement stmtCliente = DB.preparedStatement(insertCliente);
             stmtCliente.setString(1, cliente.getNome());
             stmtCliente.setString(2, cliente.getTelefone());
+            if(null == cliente.getEndereco().getId()) {
+                stmtCliente.setNull(3, Types.INTEGER);
+            } else {
+                stmtCliente.setInt(3, cliente.getEndereco().getId());
+            }
+
             Integer insertId = null;
             if(stmtCliente.executeUpdate()>0){
                 ResultSet rs = stmtCliente.getGeneratedKeys();

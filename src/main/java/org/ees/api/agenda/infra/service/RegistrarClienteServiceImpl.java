@@ -7,6 +7,7 @@ import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 import org.ees.api.agenda.infra.exceptions.ConflictException;
 import org.ees.api.agenda.service.AcessoService;
 import org.ees.api.agenda.service.ClienteAppService;
+import org.ees.api.agenda.service.EnderecoService;
 import org.ees.api.agenda.service.RegistrarClienteService;
 
 import javax.inject.Inject;

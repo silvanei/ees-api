@@ -27,7 +27,6 @@ public class EstadoResource {
     private EnderecoService enderecoService;
 
     @GET
-    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL, Perfil.CLIENTE})
     public Response estado() {
 
         CacheControl cacheControl = new CacheControl();
@@ -40,7 +39,6 @@ public class EstadoResource {
 
     @GET
     @Path("/{estadoId}")
-    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL, Perfil.CLIENTE})
     public Response cidade(@PathParam("estadoId") Integer estadoId) {
 
         CacheControl cacheControl = new CacheControl();

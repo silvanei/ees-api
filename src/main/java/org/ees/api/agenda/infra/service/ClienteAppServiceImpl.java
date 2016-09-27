@@ -4,10 +4,7 @@ import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.ClienteApp;
 import org.ees.api.agenda.entity.Salao;
 import org.ees.api.agenda.repository.ClienteAppRepository;
-import org.ees.api.agenda.service.AcessoService;
-import org.ees.api.agenda.service.ClienteAppService;
-import org.ees.api.agenda.service.DadosSalaoService;
-import org.ees.api.agenda.service.ImageFileService;
+import org.ees.api.agenda.service.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -21,18 +18,21 @@ public class ClienteAppServiceImpl implements ClienteAppService {
     private DadosSalaoService dadosSalaoService;
     private ImageFileService imageFileService;
     private AcessoService acessoService;
+    private EnderecoService enderecoService;
 
     @Inject
     public ClienteAppServiceImpl(
             ClienteAppRepository clienteAppRepository,
             DadosSalaoService dadosSalaoService,
             ImageFileService imageFileService,
-            AcessoService acessoService
+            AcessoService acessoService,
+            EnderecoService enderecoService
     ) {
         this.clienteAppRepository = clienteAppRepository;
         this.dadosSalaoService = dadosSalaoService;
         this.imageFileService = imageFileService;
         this.acessoService = acessoService;
+        this.enderecoService = enderecoService;
     }
 
     @Override
@@ -78,6 +78,13 @@ public class ClienteAppServiceImpl implements ClienteAppService {
 
     @Override
     public ClienteApp create(ClienteApp cliente, Integer acessoId) {
+
+        if(null == cliente.getEndereco().getId()) {
+            Integer idEndereco = enderecoService.inserirEndereco(cliente.getEndereco());
+            cliente.getEndereco().setId(idEndereco);
+        } else {
+            enderecoService.atualizarEndereco(cliente.getEndereco());
+        }
 
         Integer clienteId = clienteAppRepository.create(cliente, acessoId);
 

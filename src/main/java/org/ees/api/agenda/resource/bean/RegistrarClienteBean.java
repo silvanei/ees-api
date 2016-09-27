@@ -1,5 +1,6 @@
 package org.ees.api.agenda.resource.bean;
 
+import org.ees.api.agenda.entity.Endereco;
 import org.ees.api.agenda.infra.auth.Digest;
 
 import javax.ws.rs.BadRequestException;
@@ -15,6 +16,7 @@ public class RegistrarClienteBean {
 
     private String nome;
     private String telefone;
+    private Endereco endereco;
     private String email;
     private String senha;
 
@@ -58,5 +60,13 @@ public class RegistrarClienteBean {
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
             Logger.getLogger(RegistrarSalaoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

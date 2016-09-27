@@ -32,6 +32,7 @@ public class RegistrarClienteResource {
 		ClienteApp clienteApp = new ClienteApp();
 		clienteApp.setNome(registrarClienteBean.getNome());
 		clienteApp.setTelefone(registrarClienteBean.getTelefone());
+		clienteApp.setEndereco(registrarClienteBean.getEndereco());
 
 		Acesso acesso = new Acesso(Perfil.CLIENTE, registrarClienteBean.getEmail(), registrarClienteBean.getSenha());
 
