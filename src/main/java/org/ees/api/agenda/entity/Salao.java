@@ -1,5 +1,6 @@
 package org.ees.api.agenda.entity;
 
+import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.resource.DadosResource;
 import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
@@ -31,7 +32,8 @@ public class Salao {
             bindings = {
                     @Binding(name = "salaoId", value = "${instance.id}")
             },
-			rel = "self"
+			rel = "self",
+            condition = "${resource.salaoId != null}"
 	)
 	private Link link;
 

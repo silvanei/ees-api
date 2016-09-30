@@ -21,18 +21,21 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
     private EnderecoService enderecoService;
     private HorarioDeFuncionamentoService horarioDeFuncionamentoService;
     private ImageFileService imageFileService;
+    private ServicoService servicoService;
 
     @Inject
     public DadosSalaoServiceImpl(
             SalaoRepository salaoRepository,
             EnderecoService enderecoService,
             HorarioDeFuncionamentoService horarioDeFuncionamentoService,
-            ImageFileService imageFileService
+            ImageFileService imageFileService,
+            ServicoService servicoService
     ) {
         this.salaoRepository = salaoRepository;
         this.enderecoService = enderecoService;
         this.horarioDeFuncionamentoService = horarioDeFuncionamentoService;
         this.imageFileService = imageFileService;
+        this.servicoService = servicoService;
     }
 
     @Override
@@ -128,5 +131,23 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
         }
 
         return saloes;
+    }
+
+    @Override
+    public Salao servicos(Integer salaoId) {
+        Salao salao = salaoRepository.findById(salaoId);
+
+        salao.setEndereco(enderecoService.byIdSalao(salaoId));
+
+        String encodedString = imageFileService.base64Encode(salao.getId());
+        if (null == encodedString) {
+            encodedString = ImageFileService.IMG_DEFAULT;
+        }
+
+        encodedString = "data:image/jpeg;base64," + encodedString;
+        salao.setImgBase64(encodedString);
+        salao.setServicos(servicoService.findByIdSalao(salaoId).getItems());
+
+        return salao;
     }
 }

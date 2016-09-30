@@ -17,4 +17,6 @@ public interface DadosSalaoService {
     public List<Salao> findByClienteId(Integer clienteId);
 
     public List<Salao> findAll(String nomeSalao);
+
+    public Salao servicos(Integer salaoId);
 }

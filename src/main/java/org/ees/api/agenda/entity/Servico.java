@@ -28,7 +28,8 @@ public class Servico {
 			bindings = {
 					@Binding(name = "servicoId", value = "${instance.id}")
 			},
-			rel = "self"
+			rel = "self",
+			condition = "${resource.salaoId != null}"
 	)
 	private Link link;
 
@@ -74,13 +75,5 @@ public class Servico {
 
 	public void setValorMaximo(BigDecimal valorMaximo) {
 		this.valorMaximo = valorMaximo;
-	}
-
-	public Link getLink() {
-		return link;
-	}
-
-	public void setLink(Link link) {
-		this.link = link;
 	}
 }

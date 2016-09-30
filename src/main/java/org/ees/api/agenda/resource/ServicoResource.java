@@ -31,7 +31,6 @@ public class ServicoResource {
 
     @GET
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
-    @Produces({MediaType.APPLICATION_JSON})
     public Response servicos(
             @QueryParam("offset") int offset,
             @QueryParam("limit") int limit
