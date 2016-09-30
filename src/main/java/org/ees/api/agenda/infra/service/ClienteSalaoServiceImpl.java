@@ -1,6 +1,7 @@
 package org.ees.api.agenda.infra.service;
 
 import org.ees.api.agenda.entity.ClienteSalao;
+import org.ees.api.agenda.entity.Endereco;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
@@ -63,6 +64,10 @@ public class ClienteSalaoServiceImpl implements ClienteSalaoService {
     public ClienteSalao create(Integer salaoId, ClienteSalao clienteSalao) {
         try {
             DB.beginTransaction();
+
+            if(null == clienteSalao.getEndereco()) {
+                clienteSalao.setEndereco(new Endereco());
+            }
 
             if(null == clienteSalao.getEndereco().getId()) {
                 Integer idEndereco = enderecoService.inserirEndereco(clienteSalao.getEndereco());

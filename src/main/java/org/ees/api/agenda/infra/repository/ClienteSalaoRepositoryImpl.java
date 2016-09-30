@@ -136,8 +136,7 @@ public class ClienteSalaoRepositoryImpl implements ClienteSalaoRepository {
                     stmtClienteSalao.setString(3, clienteSalao.getEmail());
                     stmtClienteSalao.executeUpdate();
                 } else {
-                    DB.rollback();
-                    return null;
+                    throw new AcessoADadosException("Error ao inserir um cliente de um Salão");
                 }
             }
             return insertId;

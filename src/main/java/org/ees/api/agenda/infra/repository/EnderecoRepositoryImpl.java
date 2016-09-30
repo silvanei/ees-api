@@ -26,12 +26,19 @@ public class EnderecoRepositoryImpl implements EnderecoRepository{
 
         try{
             PreparedStatement stmt = DB.preparedStatement(sql);
-            stmt.setString(1, endereco.getRua());
+
+            if(null == endereco.getRua()) {
+                stmt.setString(1, "");
+            } else {
+                stmt.setString(1, endereco.getRua());
+            }
+
             if (null == endereco.getNumero()) {
                 stmt.setNull(2, java.sql.Types.INTEGER);
             } else {
                 stmt.setInt(2, endereco.getNumero());
             }
+
             if(null == endereco.getCidade()) {
                 stmt.setNull(3, java.sql.Types.INTEGER);
             } else {
