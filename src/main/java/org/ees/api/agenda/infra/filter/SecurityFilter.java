@@ -78,21 +78,21 @@ public class SecurityFilter implements ContainerRequestFilter, ContainerResponse
 
 		MultivaluedMap<String, String> pathParameters = requestContext.getUriInfo().getPathParameters();
 
-		if (pathParameters.get(Parameters.SALAO_ID.toString()) != null) {
-			int salaoId = Integer.parseInt(pathParameters.get(Parameters.SALAO_ID.toString()).get(0));
-			int sla = Integer.parseInt(claimSet.getCustomClaim(Parameters.SLA.toString()).toString());
-			if(salaoId != sla) {
-				throw new ForbiddenException(FORBIDDEN_ERROR_MSG);
-			}
-		}
-
-		if (pathParameters.get(Parameters.CLIENTE_ID.toString()) != null) {
-			int clienteId = Integer.parseInt(pathParameters.get(Parameters.CLIENTE_ID.toString()).get(0));
-			int cli = Integer.parseInt(claimSet.getCustomClaim(Parameters.CLI.toString()).toString());
-			if(clienteId != cli) {
-				throw new ForbiddenException(FORBIDDEN_ERROR_MSG);
-			}
-		}
+//		if (pathParameters.get(Parameters.SALAO_ID.toString()) != null) {
+//			int salaoId = Integer.parseInt(pathParameters.get(Parameters.SALAO_ID.toString()).get(0));
+//			int sla = Integer.parseInt(claimSet.getCustomClaim(Parameters.SLA.toString()).toString());
+//			if(salaoId != sla) {
+//				throw new ForbiddenException(FORBIDDEN_ERROR_MSG);
+//			}
+//		}
+//
+//		if (pathParameters.get(Parameters.CLIENTE_ID.toString()) != null) {
+//			int clienteId = Integer.parseInt(pathParameters.get(Parameters.CLIENTE_ID.toString()).get(0));
+//			int cli = Integer.parseInt(claimSet.getCustomClaim(Parameters.CLI.toString()).toString());
+//			if(clienteId != cli) {
+//				throw new ForbiddenException(FORBIDDEN_ERROR_MSG);
+//			}
+//		}
 
 
 		Acesso acesso = acessoService.findById(Integer.parseInt(claimSet.getSubject()));

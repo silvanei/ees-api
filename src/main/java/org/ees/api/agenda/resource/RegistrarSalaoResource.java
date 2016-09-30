@@ -39,17 +39,9 @@ public class RegistrarSalaoResource {
 
 		this.salaoId = newSalao.getId();
 
-        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-        builder.path(Integer.toString(newSalao.getId()));
-        return Response.created(builder.build()).entity(newSalao).build();
+        UriBuilder builder = uriInfo.getBaseUriBuilder();
+        builder.path("/v1/salao/" + Integer.toString(newSalao.getId()));
+        return Response.created(builder.build()).entity(null).build();
 
-	}
-
-	public Integer getSalaoId() {
-		return salaoId;
-	}
-
-	public void setSalaoId(Integer salaoId) {
-		this.salaoId = salaoId;
 	}
 }
