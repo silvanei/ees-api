@@ -3,6 +3,7 @@ package org.ees.api.agenda.resource;
 import org.ees.api.agenda.entity.Calendar;
 import org.ees.api.agenda.entity.Event;
 import org.ees.api.agenda.entity.Perfil;
+import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.resource.bean.Agendamento;
 import org.ees.api.agenda.resource.bean.DateParam;
 import org.ees.api.agenda.service.AgendaService;
@@ -33,6 +34,9 @@ public class AgendaResource {
     @Context
     private UriInfo uriInfo;
 
+    @HeaderParam("Authorization")
+    private String authString;
+
     public AgendaResource(Integer salaoId) {
         this.salaoId = salaoId;
     }
@@ -43,6 +47,8 @@ public class AgendaResource {
             @QueryParam("inicio") DateParam inicio,
             @QueryParam("fim") DateParam fim
     ) {
+
+        TokenUtil.permission(authString, salaoId);
 
         if(null == inicio) {
             inicio = new DateParam(new DateTime().toString(dtfPadrao));
@@ -61,6 +67,7 @@ public class AgendaResource {
     @Path("/{agendaId}")
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response evento(@PathParam("agendaId") Integer agendaId) {
+        TokenUtil.permission(authString, salaoId);
 
         Event event = agendaService.findById(salaoId, agendaId);
 
@@ -70,6 +77,7 @@ public class AgendaResource {
     @POST
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response agendar(Agendamento agendamento) {
+        TokenUtil.permission(authString, salaoId);
 
         Event event = agendaService.add(salaoId, agendamento);
 
@@ -85,6 +93,7 @@ public class AgendaResource {
             @PathParam("agendaId") Integer agendaId,
             Agendamento agendamento
     ) {
+        TokenUtil.permission(authString, salaoId);
 
         Event event = agendaService.update(salaoId, agendaId, agendamento);
 

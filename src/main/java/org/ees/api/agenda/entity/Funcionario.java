@@ -29,8 +29,9 @@ public class Funcionario {
             method = "funcionario",
             style = InjectLink.Style.ABSOLUTE,
             bindings = {
-                    @Binding(name = "funcionarioId", value = "${instance.id}"),
-                    @Binding(name = "salaoId", value = "${resource.salaoId}")
+					@Binding(name = "id", value = "${resource.salaoId}"),
+					@Binding(name = "funcionarioId", value = "${instance.id}")
+
             },
             rel = "self"
     )

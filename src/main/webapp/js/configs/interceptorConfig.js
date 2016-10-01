@@ -13,6 +13,7 @@
 
                 jwtInterceptorProvider.tokenGetter = function(jwtHelper, $http, authenticationService, $localStorage, config) {
                     var jwt = authenticationService.getToken();
+                    console.log(jwt);
                     if(jwt){
                         if(jwtHelper.isTokenExpired(jwt)){
                             return $http({
@@ -33,7 +34,7 @@
                 };
 
                 jwtOptionsProvider.config({
-                        whiteListedDomains: ['localhost']
+                        whiteListedDomains: ['localhost', '192.168.0.13']
                 });
 
                 $httpProvider.interceptors.push('jwtInterceptor');

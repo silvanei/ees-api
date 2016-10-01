@@ -29,7 +29,7 @@ public class Event {
             method = "evento",
             style = InjectLink.Style.ABSOLUTE,
             bindings = {
-                    @Binding(name = "salaoId", value = "${resource.salaoId}"),
+                    @Binding(name = "id", value = "${resource.salaoId}"),
                     @Binding(name = "agendaId", value = "${instance.id}")
             },
             rel = "self"

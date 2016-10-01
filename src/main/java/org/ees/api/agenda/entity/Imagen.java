@@ -18,7 +18,7 @@ public class Imagen {
             method = "file",
             style = InjectLink.Style.ABSOLUTE,
             bindings = {
-                    @Binding(name = "salaoId", value = "${resource.salaoId}")
+                    @Binding(name = "id", value = "${resource.salaoId}")
             },
             rel = "self"
     )

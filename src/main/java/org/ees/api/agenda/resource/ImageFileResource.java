@@ -3,6 +3,7 @@ package org.ees.api.agenda.resource;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.ees.api.agenda.entity.Imagen;
 import org.ees.api.agenda.entity.Perfil;
+import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.service.ImageFileService;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -26,6 +27,9 @@ public class ImageFileResource {
     @Context
     private UriInfo uriInfo;
 
+    @HeaderParam("Authorization")
+    private String authString;
+
     @Inject
     private ImageFileService imageFileService;
 
@@ -41,6 +45,8 @@ public class ImageFileResource {
             @FormDataParam("file") FormDataContentDisposition fileDetail
     ) {
 
+        TokenUtil.permission(authString, salaoId);
+
         imageFileService.upload(Integer.toString(salaoId), uploadedInputStream, fileDetail);
 
         String encodedString = imageFileService.base64Encode(salaoId);
@@ -52,6 +58,8 @@ public class ImageFileResource {
     @GET
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response file() {
+        TokenUtil.permission(authString, salaoId);
+
         String encodedString = "";
 
         encodedString = imageFileService.base64Encode(salaoId);
@@ -66,6 +74,8 @@ public class ImageFileResource {
     @DELETE
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response delete() {
+        TokenUtil.permission(authString, salaoId);
+
         imageFileService.delete(salaoId);
         return Response.noContent().build();
 

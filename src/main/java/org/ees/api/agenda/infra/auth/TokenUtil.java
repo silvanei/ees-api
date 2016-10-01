@@ -69,9 +69,19 @@ public final class TokenUtil {
         return authHeader.split(" ")[1];
     }
 
-    public static void permission(String authString, Integer salaoId) throws ParseException, JOSEException {
-        if (! TokenUtil.getSla(authString).equals(salaoId)) {
+    public static void permission(String authString, Integer salaoId) {
+        if (null == authString) {
             throw new ForbiddenException(SecurityFilter.FORBIDDEN_ERROR_MSG);
+        }
+
+        try {
+            if (! TokenUtil.getSla(authString).equals(salaoId)) {
+                throw new ForbiddenException(SecurityFilter.FORBIDDEN_ERROR_MSG);
+            }
+        } catch (ParseException e) {
+            throw new ForbiddenException(e.getMessage());
+        } catch (JOSEException e) {
+            throw new ForbiddenException(e.getMessage());
         }
     }
 }

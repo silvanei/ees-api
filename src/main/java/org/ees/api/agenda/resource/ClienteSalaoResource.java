@@ -3,6 +3,7 @@ package org.ees.api.agenda.resource;
 import org.ees.api.agenda.entity.ClienteSalao;
 import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.Perfil;
+import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.resource.collection.ClienteSalaoCollection;
 import org.ees.api.agenda.service.ClienteSalaoService;
@@ -28,6 +29,9 @@ public class ClienteSalaoResource {
     @Context
     private UriInfo uriInfo;
 
+    @HeaderParam("Authorization")
+    private String authString;
+
     public ClienteSalaoResource(Integer salaoId) {
         this.salaoId = salaoId;
     }
@@ -38,6 +42,8 @@ public class ClienteSalaoResource {
             @QueryParam("limit") int limit,
             @QueryParam("offset") int offset
     ) {
+
+        TokenUtil.permission(authString, salaoId);
 
         CollectionPaginated<ClienteSalao> clientes;
 
@@ -58,6 +64,8 @@ public class ClienteSalaoResource {
     public Response cliente(
             @PathParam("clienteSalaoId") Integer clienteSalaoId
     ) {
+
+        TokenUtil.permission(authString, salaoId);
 
         ClienteSalao clienteSalao = clienteSalaoService.findById(salaoId, clienteSalaoId);
 
@@ -83,6 +91,8 @@ public class ClienteSalaoResource {
             @PathParam("clienteSalaoId") Integer clienteSalaoId
     ) {
 
+        TokenUtil.permission(authString, salaoId);
+
         ClienteSalao clienteSalao = clienteSalaoService.update(salaoId, clienteSalaoId, data);
 
         return Response.ok().entity(clienteSalao).build();
@@ -94,6 +104,8 @@ public class ClienteSalaoResource {
     public Response delete(
             @PathParam("clienteSalaoId") Integer clienteSalaoId
     ) {
+
+        TokenUtil.permission(authString, salaoId);
 
         clienteSalaoService.delete(salaoId, clienteSalaoId);
 

@@ -55,7 +55,7 @@ public class SalaoResource {
 	@GET
 	@Path("/{id}")
 	@RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL, Perfil.CLIENTE})
-	public Response salao(@PathParam("id") Integer salaoId) throws ParseException, JOSEException {
+	public Response salao(@PathParam("id") Integer salaoId)  {
 
         Salao salao = null;
 
@@ -76,7 +76,7 @@ public class SalaoResource {
 	public Response atualizarSalao(
 			@PathParam("id") Integer salaoId,
 			DadosSalao dadosSalao
-	) throws ParseException, JOSEException {
+	)  {
 
         TokenUtil.permission(authString, salaoId);
 
@@ -91,48 +91,54 @@ public class SalaoResource {
 		return rc.initResource(new ServicoResource(salaoId));
 	}
 
-	@Path("/{salaoId}/funcionario")
+	@Path("/{id}/funcionario")
 	public FuncionarioResource funcionarioSalao(
-			@PathParam("salaoId") Integer salaoId
+			@PathParam("id") Integer salaoId
 	) {
+
 		return rc.initResource(new FuncionarioResource(salaoId));
 	}
 
-	@Path("/{salaoId}/cliente")
+	@Path("/{id}/cliente")
 	public ClienteSalaoResource clienteSalao(
-			@PathParam("salaoId") Integer salaoId
+			@PathParam("id") Integer salaoId
 	) {
+
 		return rc.initResource(new ClienteSalaoResource(salaoId));
 	}
 
     @GET
-    @Path("/{salaoId}/acesso")
+    @Path("/{id}/acesso")
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response acesso(
-            @PathParam("salaoId") Integer salaoId
+            @PathParam("id") Integer salaoId
     ) {
+        TokenUtil.permission(authString, salaoId);
 
         List<Acesso> acessos = acessoService.findByIdSalao(salaoId);
 
         return Response.ok(acessos).build();
     }
 
-	@Path("/{salaoId}/agenda")
+	@Path("/{id}/agenda")
 	public AgendaResource agenda(
-			@PathParam("salaoId") Integer salaoId
+			@PathParam("id") Integer salaoId
 	) {
+
 		return rc.initResource(new AgendaResource(salaoId));
 	}
 
-	@Path("/{salaoId}/horario-disponivel")
+	@Path("/{id}/horario-disponivel")
 	public HorarioDisponivelResource horarioDisponivel(
-            @PathParam("salaoId") Integer salaoId
+            @PathParam("id") Integer salaoId
 	) {
+
 		return rc.initResource(new HorarioDisponivelResource(salaoId));
 	}
 
-	@Path("/{salaoId}/image")
-	public ImageFileResource image(@PathParam("salaoId") Integer salaoId) {
+	@Path("/{id}/image")
+	public ImageFileResource image(@PathParam("id") Integer salaoId) {
+
 		return rc.initResource(new ImageFileResource(salaoId));
 	}
 }
