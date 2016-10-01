@@ -9,6 +9,7 @@ import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.resource.collection.ServicoCollection;
 import org.ees.api.agenda.service.FuncionarioService;
 import org.ees.api.agenda.service.ServicoService;
+import sun.misc.Perf;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -28,6 +29,9 @@ public class ServicoResource {
     @HeaderParam("Authorization")
     private String authString;
 
+    @Context
+    SecurityContext securityContext;
+
     private Integer salaoId;
 
     public ServicoResource(Integer salaoId) {
@@ -35,13 +39,16 @@ public class ServicoResource {
     }
 
     @GET
-    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
+    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL, Perfil.CLIENTE})
     public Response servicos(
             @QueryParam("offset") int offset,
             @QueryParam("limit") int limit
     ) throws ParseException, JOSEException {
 
-        TokenUtil.permissionSla(authString, salaoId);
+        if (! securityContext.isUserInRole(Perfil.CLIENTE)) {
+            TokenUtil.permissionSla(authString, salaoId);
+        }
+
 
         CollectionPaginated<Servico> servicos;
 
@@ -117,12 +124,14 @@ public class ServicoResource {
 
     @GET
     @Path("/{servicoId}/funcionario")
-    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
+    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL, Perfil.CLIENTE})
     public Response funcinarios(
             @PathParam("servicoId") Integer servicoId
     ) throws ParseException, JOSEException {
 
-        TokenUtil.permissionSla(authString, salaoId);
+        if (! securityContext.isUserInRole(Perfil.CLIENTE)) {
+            TokenUtil.permissionSla(authString, salaoId);
+        }
 
         List<Funcionario> funcionarios = funcionarioService.findByServicoId(salaoId, servicoId);
 
