@@ -5,6 +5,7 @@ import org.ees.api.agenda.entity.HorarioDeFuncionamento;
 import org.ees.api.agenda.entity.Salao;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
+import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.repository.SalaoRepository;
 import org.ees.api.agenda.resource.bean.DadosSalao;
 import org.ees.api.agenda.service.*;
@@ -41,8 +42,42 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
     @Override
     public Salao findById(Integer salaoId) {
         Salao salao = salaoRepository.findById(salaoId);
+
+        if(null == salao) {
+            throw new DataNotFoundException("Salão não encontrado");
+        }
+
         salao.setHorarioDeFuncionamento(horarioDeFuncionamentoService.byIdSalao(salaoId));
         salao.setEndereco(enderecoService.byIdSalao(salaoId));
+
+        String encodedString = imageFileService.base64Encode(salao.getId());
+        if (null == encodedString) {
+            encodedString = ImageFileService.IMG_DEFAULT;
+        }
+        encodedString = "data:image/jpeg;base64," + encodedString;
+        salao.setImgBase64(encodedString);
+
+        return salao;
+    }
+
+    @Override
+    public Salao findById(Integer salaoId, boolean visivelNoApp) {
+        Salao salao = salaoRepository.findById(salaoId, visivelNoApp);
+
+        if(null == salao) {
+            throw new DataNotFoundException("Salão não encontrado");
+        }
+
+        salao.setHorarioDeFuncionamento(horarioDeFuncionamentoService.byIdSalao(salaoId));
+        salao.setEndereco(enderecoService.byIdSalao(salaoId));
+
+        String encodedString = imageFileService.base64Encode(salao.getId());
+        if (null == encodedString) {
+            encodedString = ImageFileService.IMG_DEFAULT;
+        }
+        encodedString = "data:image/jpeg;base64," + encodedString;
+        salao.setImgBase64(encodedString);
+
         return salao;
     }
 
@@ -113,12 +148,13 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
     }
 
     @Override
-    public List<Salao> findAll(String nomeSalao) {
+    public List<Salao> findAllVisiveNoApp(String nomeSalao) {
 
 
         List<Salao> saloes = salaoRepository.findAll(nomeSalao);
 
         for (Salao salao: saloes) {
+            salao.setHorarioDeFuncionamento(horarioDeFuncionamentoService.byIdSalao(salao.getId()));
             salao.setEndereco(enderecoService.byIdSalao(salao.getId()));
 
             String encodedString = imageFileService.base64Encode(salao.getId());

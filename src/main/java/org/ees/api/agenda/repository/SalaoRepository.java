@@ -12,6 +12,8 @@ public interface SalaoRepository {
 
 	public Salao findById(Integer idSalao);
 
+	public Salao findById(Integer idSalao, boolean visivelNoApp);
+
     public List<Salao> findByClienteId(Integer clienteId);
 
 	public List<Salao> findAll(String nomeSalao);

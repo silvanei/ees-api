@@ -50,22 +50,6 @@ public class ClienteResource {
 	}
 
     @GET
-    @Path("/{clienteId}/salao")
-    @RolesAllowed(Perfil.CLIENTE)
-    public Response salao(
-            @PathParam("clienteId") Integer clienteId,
-            @QueryParam("salao") String nomeSalao
-    ) {
-
-        CacheControl cacheControl = new CacheControl();
-        cacheControl.setMaxAge(5); // 1 dia
-
-        List<Salao> saloes = dadosSalao.findAll(nomeSalao);
-
-        return Response.ok().entity(saloes).cacheControl(cacheControl).build();
-    }
-
-    @GET
     @Path("/{clienteId}/salao/{id}/servico")
     @RolesAllowed(Perfil.CLIENTE)
     public Response salao(

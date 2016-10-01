@@ -100,6 +100,35 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 	}
 
 	@Override
+	public Salao findById(Integer idSalao, boolean visivelNoApp) {
+		String sql = "SELECT id, nome, visivel_no_app, telefone, celular FROM salao WHERE id = ? AND visivel_no_app = ?";
+
+		try{
+			PreparedStatement stmt = DB.preparedStatement(sql);
+			stmt.setInt(1, idSalao);
+			stmt.setBoolean(2, visivelNoApp);
+			ResultSet resultSet = stmt.executeQuery();
+
+			if(resultSet.next()){
+				Salao salao = new Salao();
+				salao.setId(resultSet.getInt("id"));
+				salao.setNome(resultSet.getString("nome"));
+				salao.setVisivelNoApp(resultSet.getBoolean("visivel_no_app"));
+				salao.setTelefone(resultSet.getString("telefone"));
+				salao.setCelular(resultSet.getString("celular"));
+
+				return salao;
+			}
+
+			return null;
+
+		}catch (SQLException ex){
+			Logger.getLogger(SalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+			throw new AcessoADadosException("Error ao inserir um Salão");
+		}
+	}
+
+	@Override
 	public List<Salao> findByClienteId(Integer clienteId) {
 		String sql = "SELECT s.id, s.nome, s.telefone, s.celular, s.visivel_no_app, IF(f.salao_id > 0 , 1, 0) as favorito FROM favorito f INNER JOIN salao s ON (f.salao_id = s.id) WHERE f.cliente_id = ? AND s.visivel_no_app = ? ";
 

@@ -29,6 +29,14 @@ public final class TokenUtil {
         return decodeToken(authHeader).getSubject();
     }
 
+    public static Integer getSla(String authHeader) throws ParseException, JOSEException {
+        return Integer.parseInt(decodeToken(authHeader).getCustomClaim(Parameters.SLA.toString()).toString());
+    }
+
+    public static Integer getCli(String authHeader) throws ParseException, JOSEException {
+        return Integer.parseInt(decodeToken(authHeader).getCustomClaim(Parameters.CLI.toString()).toString());
+    }
+
     public static ReadOnlyJWTClaimsSet decodeToken(String authHeader) throws ParseException, JOSEException {
         SignedJWT signedJWT = SignedJWT.parse(getSerializedToken(authHeader));
         if (signedJWT.verify(new MACVerifier(TOKEN_SECRET))) {

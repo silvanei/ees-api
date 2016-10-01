@@ -12,11 +12,13 @@ public interface DadosSalaoService {
 
     public Salao findById(Integer salaoId);
 
+    public Salao findById(Integer salaoId, boolean visivelNoApp);
+
     public Salao atualizaDadosSalao(Integer salaoId, DadosSalao dadosSalao);
 
     public List<Salao> findByClienteId(Integer clienteId);
 
-    public List<Salao> findAll(String nomeSalao);
+    public List<Salao> findAllVisiveNoApp(String nomeSalao);
 
     public Salao servicos(Integer salaoId);
 }

@@ -14,7 +14,7 @@
                 }
 
                 function get() {
-                    return $http.get(url()+'/dados');
+                    return $http.get(url());
                 }
 
                 function atualizar(dados) {

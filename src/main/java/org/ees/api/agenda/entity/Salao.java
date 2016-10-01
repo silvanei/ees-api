@@ -2,6 +2,7 @@ package org.ees.api.agenda.entity;
 
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.resource.DadosResource;
+import org.ees.api.agenda.resource.SalaoResource;
 import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
 
@@ -26,14 +27,10 @@ public class Salao {
 	private boolean favorito;
 
 	@InjectLink(
-			resource = DadosResource.class,
-			method = "dadosSalao",
+			resource = SalaoResource.class,
+			method = "salao",
 			style = InjectLink.Style.ABSOLUTE,
-            bindings = {
-                    @Binding(name = "salaoId", value = "${instance.id}")
-            },
-			rel = "self",
-            condition = "${resource.salaoId != null}"
+			rel = "self"
 	)
 	private Link link;
 
