@@ -15,7 +15,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ServicoResource {
@@ -42,7 +41,7 @@ public class ServicoResource {
             @QueryParam("limit") int limit
     ) throws ParseException, JOSEException {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         CollectionPaginated<Servico> servicos;
 
@@ -64,7 +63,7 @@ public class ServicoResource {
             @PathParam("servicoId") Integer servicoId
     ) throws ParseException, JOSEException {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Servico servico = servicoService.findById(salaoId, servicoId);
 
@@ -78,7 +77,7 @@ public class ServicoResource {
             @Context UriInfo uriInfo
     ) throws ParseException, JOSEException {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Servico newServico = servicoService.insert(salaoId, servico);
 
@@ -95,7 +94,7 @@ public class ServicoResource {
             Servico servico
     ) throws ParseException, JOSEException {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Servico newServico = servicoService.update(salaoId, servicoId, servico);
 
@@ -109,7 +108,7 @@ public class ServicoResource {
             @PathParam("servicoId") Integer servicoId
     ) throws ParseException, JOSEException {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         servicoService.delete(salaoId, servicoId);
 
@@ -123,7 +122,7 @@ public class ServicoResource {
             @PathParam("servicoId") Integer servicoId
     ) throws ParseException, JOSEException {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         List<Funcionario> funcionarios = funcionarioService.findByServicoId(salaoId, servicoId);
 

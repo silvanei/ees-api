@@ -48,7 +48,7 @@ public class AgendaResource {
             @QueryParam("fim") DateParam fim
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         if(null == inicio) {
             inicio = new DateParam(new DateTime().toString(dtfPadrao));
@@ -67,7 +67,7 @@ public class AgendaResource {
     @Path("/{agendaId}")
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response evento(@PathParam("agendaId") Integer agendaId) {
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Event event = agendaService.findById(salaoId, agendaId);
 
@@ -77,7 +77,7 @@ public class AgendaResource {
     @POST
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response agendar(Agendamento agendamento) {
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Event event = agendaService.add(salaoId, agendamento);
 
@@ -93,7 +93,7 @@ public class AgendaResource {
             @PathParam("agendaId") Integer agendaId,
             Agendamento agendamento
     ) {
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Event event = agendaService.update(salaoId, agendaId, agendamento);
 

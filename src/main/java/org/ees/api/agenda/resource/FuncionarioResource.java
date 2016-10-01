@@ -1,6 +1,5 @@
 package org.ees.api.agenda.resource;
 
-import com.nimbusds.jose.JOSEException;
 import org.ees.api.agenda.entity.*;
 import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
@@ -14,7 +13,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import java.text.ParseException;
 
 /**
  * Created by silvanei on 14/08/16.
@@ -43,7 +41,7 @@ public class FuncionarioResource {
             @QueryParam("offset") int offset
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         CollectionPaginated<Funcionario> funcionarios;
 
@@ -64,7 +62,7 @@ public class FuncionarioResource {
     public Response funcionario(
             @PathParam("funcionarioId") Integer funcionarioId
     ) {
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Funcionario funcionario = funcionarioService.findById(salaoId, funcionarioId);
 
@@ -75,7 +73,7 @@ public class FuncionarioResource {
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response createFuncionario(Funcionario funcionario) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Funcionario newFuncionario = funcionarioService.insert(salaoId, funcionario);
 
@@ -92,7 +90,7 @@ public class FuncionarioResource {
             Funcionario funcionario
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Funcionario newFuncionario = funcionarioService.update(salaoId, funcionarioId, funcionario);
 
@@ -106,7 +104,7 @@ public class FuncionarioResource {
             @PathParam("funcionarioId") Integer funcionarioId
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         funcionarioService.delete(salaoId, funcionarioId);
 
@@ -121,7 +119,7 @@ public class FuncionarioResource {
             @PathParam("servicoId") Integer servicoId
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Funcionario funcionario = funcionarioService.addServico(salaoId, funcionarioId, servicoId);
 
@@ -136,7 +134,7 @@ public class FuncionarioResource {
             @PathParam("servicoId") Integer servicoId
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         funcionarioService.removeServico(salaoId, funcionarioId, servicoId);
 
@@ -152,7 +150,7 @@ public class FuncionarioResource {
             HorarioTrabalho horario
     ) throws Exception {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         HorarioTrabalho newHorario = funcionarioService.addHorario(salaoId, funcionarioId, new DiaDaSemana(diaDaSemana), horario);
 
@@ -168,7 +166,7 @@ public class FuncionarioResource {
             HorarioTrabalho horario
     ) throws Exception {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         HorarioTrabalho newHorario = funcionarioService.updateHorario(salaoId, funcionarioId, new DiaDaSemana(diaDaSemana), horario);
 
@@ -183,7 +181,7 @@ public class FuncionarioResource {
             @PathParam("diaDaSemana") int diaDaSemana
     ) throws Exception {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         funcionarioService.deleteHorario(salaoId, funcionarioId, new DiaDaSemana(diaDaSemana));
 
@@ -198,7 +196,7 @@ public class FuncionarioResource {
             Acesso acesso
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Acesso newAcesso = funcionarioService.addAcesso(salaoId, funcionarioId, acesso);
 
@@ -213,7 +211,7 @@ public class FuncionarioResource {
             @PathParam("funcionarioId") Integer funcionarioId
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         funcionarioService.removeAcesso(salaoId, funcionarioId);
 

@@ -1,6 +1,5 @@
 package org.ees.api.agenda.resource;
 
-import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.HorarioDisponivel;
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.infra.auth.TokenUtil;
@@ -42,7 +41,7 @@ public class HorarioDisponivelResource {
             @PathParam("dia") DateParam dia
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         List<HorarioDisponivel> horariosDisponiveis = horarioDisponivelService.findBy(salaoId, servicoId, funcionarioId, dia.getDate());
 

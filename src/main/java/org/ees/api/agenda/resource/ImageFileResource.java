@@ -1,20 +1,16 @@
 package org.ees.api.agenda.resource;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import org.ees.api.agenda.entity.Imagen;
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.infra.auth.TokenUtil;
-import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.service.ImageFileService;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.annotation.security.RolesAllowed;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
 /**
@@ -45,7 +41,7 @@ public class ImageFileResource {
             @FormDataParam("file") FormDataContentDisposition fileDetail
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         imageFileService.upload(Integer.toString(salaoId), uploadedInputStream, fileDetail);
 
@@ -58,7 +54,7 @@ public class ImageFileResource {
     @GET
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response file() {
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         String encodedString = "";
 
@@ -74,7 +70,7 @@ public class ImageFileResource {
     @DELETE
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response delete() {
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         imageFileService.delete(salaoId);
         return Response.noContent().build();

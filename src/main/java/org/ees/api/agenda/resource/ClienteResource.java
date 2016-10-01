@@ -3,10 +3,8 @@ package org.ees.api.agenda.resource;
 import org.ees.api.agenda.entity.ClienteApp;
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.entity.Salao;
-import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.service.ClienteAppService;
 import org.ees.api.agenda.service.DadosSalaoService;
-import org.ees.api.agenda.service.ServicoService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -16,7 +14,6 @@ import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Path("/v1/cliente")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -27,16 +24,16 @@ public class ClienteResource {
 
     private DadosSalaoService dadosSalao;
 
-    private ServicoService servicoService;
-
     @Context
     private ResourceContext rc;
 
+    @HeaderParam("Authorization")
+    private String authString;
+
     @Inject
-    public ClienteResource(ClienteAppService clienteAppService, DadosSalaoService dadosSalao, ServicoService servicoService) {
+    public ClienteResource(ClienteAppService clienteAppService, DadosSalaoService dadosSalao) {
         this.clienteAppService = clienteAppService;
         this.dadosSalao = dadosSalao;
-        this.servicoService = servicoService;
     }
 
     @GET

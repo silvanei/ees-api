@@ -69,7 +69,7 @@ public final class TokenUtil {
         return authHeader.split(" ")[1];
     }
 
-    public static void permission(String authString, Integer salaoId) {
+    public static void permissionSla(String authString, Integer salaoId) {
         if (null == authString) {
             throw new ForbiddenException(SecurityFilter.FORBIDDEN_ERROR_MSG);
         }

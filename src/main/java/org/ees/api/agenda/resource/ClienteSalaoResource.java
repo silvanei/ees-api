@@ -1,7 +1,6 @@
 package org.ees.api.agenda.resource;
 
 import org.ees.api.agenda.entity.ClienteSalao;
-import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
@@ -43,7 +42,7 @@ public class ClienteSalaoResource {
             @QueryParam("offset") int offset
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         CollectionPaginated<ClienteSalao> clientes;
 
@@ -65,7 +64,7 @@ public class ClienteSalaoResource {
             @PathParam("clienteSalaoId") Integer clienteSalaoId
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         ClienteSalao clienteSalao = clienteSalaoService.findById(salaoId, clienteSalaoId);
 
@@ -91,7 +90,7 @@ public class ClienteSalaoResource {
             @PathParam("clienteSalaoId") Integer clienteSalaoId
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         ClienteSalao clienteSalao = clienteSalaoService.update(salaoId, clienteSalaoId, data);
 
@@ -105,7 +104,7 @@ public class ClienteSalaoResource {
             @PathParam("clienteSalaoId") Integer clienteSalaoId
     ) {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         clienteSalaoService.delete(salaoId, clienteSalaoId);
 

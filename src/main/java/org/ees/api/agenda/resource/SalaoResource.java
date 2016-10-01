@@ -1,11 +1,9 @@
 package org.ees.api.agenda.resource;
 
-import com.nimbusds.jose.JOSEException;
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.entity.Salao;
 import org.ees.api.agenda.infra.auth.TokenUtil;
-import org.ees.api.agenda.infra.filter.SecurityFilter;
 import org.ees.api.agenda.resource.bean.DadosSalao;
 import org.ees.api.agenda.service.AcessoService;
 import org.ees.api.agenda.service.DadosSalaoService;
@@ -15,7 +13,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.*;
-import java.text.ParseException;
 import java.util.List;
 
 @Path("/v1/salao")
@@ -62,7 +59,7 @@ public class SalaoResource {
         if (securityContext.isUserInRole(Perfil.CLIENTE)) {
             salao = dadosSalaoService.findById(salaoId, true);
         } else {
-            TokenUtil.permission(authString, salaoId);
+            TokenUtil.permissionSla(authString, salaoId);
             salao = dadosSalaoService.findById(salaoId);
         }
 
@@ -78,7 +75,7 @@ public class SalaoResource {
 			DadosSalao dadosSalao
 	)  {
 
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         Salao salao = dadosSalaoService.atualizaDadosSalao(salaoId, dadosSalao);
 		return Response.ok(salao).build();
@@ -113,7 +110,7 @@ public class SalaoResource {
     public Response acesso(
             @PathParam("id") Integer salaoId
     ) {
-        TokenUtil.permission(authString, salaoId);
+        TokenUtil.permissionSla(authString, salaoId);
 
         List<Acesso> acessos = acessoService.findByIdSalao(salaoId);
 
