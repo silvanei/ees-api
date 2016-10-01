@@ -45,9 +45,9 @@ public class FavoritoResource {
     }
 
     @POST
-    @Path("/salao/{favoritoId}")
+    @Path("/salao/{salaoId}")
     @RolesAllowed(Perfil.CLIENTE)
-    public Response addFavorito(@PathParam("favoritoId") Integer salaoId) {
+    public Response addFavorito(@PathParam("salaoId") Integer salaoId) {
 
         TokenUtil.permissionCli(authString, clienteId);
 
@@ -58,9 +58,9 @@ public class FavoritoResource {
     }
 
     @DELETE
-    @Path("/salao/{favoritoId}")
+    @Path("/salao/{salaoId}")
     @RolesAllowed(Perfil.CLIENTE)
-    public Response removeFavorito(@PathParam("favoritoId") Integer salaoId) {
+    public Response removeFavorito(@PathParam("salaoId") Integer salaoId) {
 
         TokenUtil.permissionCli(authString, clienteId);
 

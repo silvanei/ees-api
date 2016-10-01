@@ -101,7 +101,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 
 	@Override
 	public Salao findById(Integer idSalao, boolean visivelNoApp) {
-		String sql = "SELECT id, nome, visivel_no_app, telefone, celular FROM salao WHERE id = ? AND visivel_no_app = ?";
+		String sql = "SELECT s.id, s.nome, s.telefone, s.celular, s.visivel_no_app, IF(f.salao_id > 0 , 1, 0) as favorito FROM salao s LEFT JOIN favorito f ON (f.salao_id = s.id) WHERE s.id = ? AND s.visivel_no_app = ?";
 
 		try{
 			PreparedStatement stmt = DB.preparedStatement(sql);
@@ -113,9 +113,10 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 				Salao salao = new Salao();
 				salao.setId(resultSet.getInt("id"));
 				salao.setNome(resultSet.getString("nome"));
-				salao.setVisivelNoApp(resultSet.getBoolean("visivel_no_app"));
 				salao.setTelefone(resultSet.getString("telefone"));
 				salao.setCelular(resultSet.getString("celular"));
+				salao.setVisivelNoApp(resultSet.getBoolean("visivel_no_app"));
+				salao.setFavorito(resultSet.getBoolean("favorito"));
 
 				return salao;
 			}
@@ -124,7 +125,7 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 
 		}catch (SQLException ex){
 			Logger.getLogger(SalaoRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
-			throw new AcessoADadosException("Error ao inserir um Salão");
+			throw new AcessoADadosException("Error ao buscar um Salão");
 		}
 	}
 
