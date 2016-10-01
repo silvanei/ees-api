@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.infra.filter.SecurityFilter;
 import org.joda.time.DateTime;
 
 import com.nimbusds.jose.JOSEException;
@@ -15,6 +16,8 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.ReadOnlyJWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+
+import javax.ws.rs.ForbiddenException;
 
 /**
  * Created by silvanei on 24/07/16.
@@ -64,5 +67,11 @@ public final class TokenUtil {
 
     public static String getSerializedToken(String authHeader) {
         return authHeader.split(" ")[1];
+    }
+
+    public static void permission(String authString, Integer salaoId) throws ParseException, JOSEException {
+        if (! TokenUtil.getSla(authString).equals(salaoId)) {
+            throw new ForbiddenException(SecurityFilter.FORBIDDEN_ERROR_MSG);
+        }
     }
 }

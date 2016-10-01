@@ -1,7 +1,6 @@
 package org.ees.api.agenda.entity;
 
 import org.ees.api.agenda.resource.AgendaResource;
-import org.ees.api.agenda.resource.DadosResource;
 import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
 import org.joda.time.DateTime;

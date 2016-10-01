@@ -26,10 +26,10 @@ public class Servico {
 			method = "servico",
 			style = InjectLink.Style.ABSOLUTE,
 			bindings = {
+					@Binding(name = "id", value = "${resource.salaoId}"),
 					@Binding(name = "servicoId", value = "${instance.id}")
 			},
-			rel = "self",
-			condition = "${resource.salaoId != null}"
+			rel = "self"
 	)
 	private Link link;
 

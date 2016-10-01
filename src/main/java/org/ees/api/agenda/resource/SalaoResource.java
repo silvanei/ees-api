@@ -62,7 +62,7 @@ public class SalaoResource {
         if (securityContext.isUserInRole(Perfil.CLIENTE)) {
             salao = dadosSalaoService.findById(salaoId, true);
         } else {
-            permission(salaoId);
+            TokenUtil.permission(authString, salaoId);
             salao = dadosSalaoService.findById(salaoId);
         }
 
@@ -78,23 +78,15 @@ public class SalaoResource {
 			DadosSalao dadosSalao
 	) throws ParseException, JOSEException {
 
-        permission(salaoId);
+        TokenUtil.permission(authString, salaoId);
 
         Salao salao = dadosSalaoService.atualizaDadosSalao(salaoId, dadosSalao);
 		return Response.ok(salao).build();
 	}
 
-	@Path("/{salaoId}/dados")
-	public DadosResource dadosSalao(
-			@PathParam("salaoId") Integer salaoId
-	) {
-		return rc.initResource(new DadosResource(salaoId));
-	}
-
-
-	@Path("/{salaoId}/servico")
+	@Path("/{id}/servico")
 	public ServicoResource servicoSalao(
-			@PathParam("salaoId") Integer salaoId
+			@PathParam("id") Integer salaoId
 	) {
 		return rc.initResource(new ServicoResource(salaoId));
 	}
@@ -143,10 +135,4 @@ public class SalaoResource {
 	public ImageFileResource image(@PathParam("salaoId") Integer salaoId) {
 		return rc.initResource(new ImageFileResource(salaoId));
 	}
-
-    private void permission(Integer salaoId) throws ParseException, JOSEException {
-        if (! TokenUtil.getSla(authString).equals(salaoId)) {
-            throw new ForbiddenException(SecurityFilter.FORBIDDEN_ERROR_MSG);
-        }
-    }
 }

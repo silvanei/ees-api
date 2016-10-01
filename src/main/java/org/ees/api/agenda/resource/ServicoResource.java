@@ -1,8 +1,10 @@
 package org.ees.api.agenda.resource;
 
+import com.nimbusds.jose.JOSEException;
 import org.ees.api.agenda.entity.Funcionario;
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.entity.Servico;
+import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.resource.collection.ServicoCollection;
 import org.ees.api.agenda.service.FuncionarioService;
@@ -12,6 +14,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,9 @@ public class ServicoResource {
 
     @Inject
     private FuncionarioService funcionarioService;
+
+    @HeaderParam("Authorization")
+    private String authString;
 
     private Integer salaoId;
 
@@ -34,7 +40,10 @@ public class ServicoResource {
     public Response servicos(
             @QueryParam("offset") int offset,
             @QueryParam("limit") int limit
-    ) {
+    ) throws ParseException, JOSEException {
+
+        TokenUtil.permission(authString, salaoId);
+
         CollectionPaginated<Servico> servicos;
 
         if (0 == limit) {
@@ -53,7 +62,9 @@ public class ServicoResource {
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response servico(
             @PathParam("servicoId") Integer servicoId
-    ) {
+    ) throws ParseException, JOSEException {
+
+        TokenUtil.permission(authString, salaoId);
 
         Servico servico = servicoService.findById(salaoId, servicoId);
 
@@ -65,7 +76,9 @@ public class ServicoResource {
     public Response createServico(
             Servico servico,
             @Context UriInfo uriInfo
-    ) {
+    ) throws ParseException, JOSEException {
+
+        TokenUtil.permission(authString, salaoId);
 
         Servico newServico = servicoService.insert(salaoId, servico);
 
@@ -80,7 +93,9 @@ public class ServicoResource {
     public Response updateServico(
             @PathParam("servicoId") Integer servicoId,
             Servico servico
-    ) {
+    ) throws ParseException, JOSEException {
+
+        TokenUtil.permission(authString, salaoId);
 
         Servico newServico = servicoService.update(salaoId, servicoId, servico);
 
@@ -92,7 +107,9 @@ public class ServicoResource {
     @RolesAllowed(Perfil.SALAO_ADMIN)
     public Response deleteServico(
             @PathParam("servicoId") Integer servicoId
-    ) {
+    ) throws ParseException, JOSEException {
+
+        TokenUtil.permission(authString, salaoId);
 
         servicoService.delete(salaoId, servicoId);
 
@@ -104,7 +121,9 @@ public class ServicoResource {
     @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
     public Response funcinarios(
             @PathParam("servicoId") Integer servicoId
-    ) {
+    ) throws ParseException, JOSEException {
+
+        TokenUtil.permission(authString, salaoId);
 
         List<Funcionario> funcionarios = funcionarioService.findByServicoId(salaoId, servicoId);
 
