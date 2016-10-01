@@ -2,6 +2,7 @@ package org.ees.api.agenda.resource;
 
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.entity.Salao;
+import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.service.ClienteAppService;
 
 import javax.annotation.security.RolesAllowed;
@@ -22,6 +23,9 @@ public class FavoritoResource {
     @Context
     private UriInfo uriInfo;
 
+    @HeaderParam("Authorization")
+    private String authString;
+
     private ClienteAppService clienteAppService;
 
     public FavoritoResource(Integer clienteId, ClienteAppService clienteAppService) {
@@ -33,6 +37,8 @@ public class FavoritoResource {
     @RolesAllowed(Perfil.CLIENTE)
     public Response favorito() {
 
+        TokenUtil.permissionCli(authString, clienteId);
+
         List<Salao> saloes = clienteAppService.getFavoritos(clienteId);
 
         return Response.ok().entity(saloes).build();
@@ -42,6 +48,8 @@ public class FavoritoResource {
     @Path("/salao/{favoritoId}")
     @RolesAllowed(Perfil.CLIENTE)
     public Response addFavorito(@PathParam("favoritoId") Integer salaoId) {
+
+        TokenUtil.permissionCli(authString, clienteId);
 
         Integer id = clienteAppService.addFavorito(clienteId, salaoId);
 
@@ -53,6 +61,8 @@ public class FavoritoResource {
     @Path("/salao/{favoritoId}")
     @RolesAllowed(Perfil.CLIENTE)
     public Response removeFavorito(@PathParam("favoritoId") Integer salaoId) {
+
+        TokenUtil.permissionCli(authString, clienteId);
 
         clienteAppService.removeFavorito(clienteId, salaoId);
 

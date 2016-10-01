@@ -84,4 +84,20 @@ public final class TokenUtil {
             throw new ForbiddenException(e.getMessage());
         }
     }
+
+    public static void permissionCli(String authString, Integer clienteId) {
+        if (null == authString) {
+            throw new ForbiddenException(SecurityFilter.FORBIDDEN_ERROR_MSG);
+        }
+
+        try {
+            if (! TokenUtil.getCli(authString).equals(clienteId)) {
+                throw new ForbiddenException(SecurityFilter.FORBIDDEN_ERROR_MSG);
+            }
+        } catch (ParseException e) {
+            throw new ForbiddenException(e.getMessage());
+        } catch (JOSEException e) {
+            throw new ForbiddenException(e.getMessage());
+        }
+    }
 }
