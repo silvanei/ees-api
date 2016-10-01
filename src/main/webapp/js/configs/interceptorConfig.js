@@ -18,7 +18,7 @@
                             return $http({
                                 url : config.baseUrl + '/v1/token',
                                 skipAuthorization : true,
-                                method: 'GET',
+                                method: 'PUT',
                                 headers : { Authorization : 'Bearer '+ jwt}
                             }).then(function(response){
                                 $localStorage.currentUser.token = response.data.token;

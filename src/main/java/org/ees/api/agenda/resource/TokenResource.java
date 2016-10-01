@@ -52,7 +52,7 @@ public class TokenResource {
 
     }
 
-    @GET
+    @PUT
     public Response refreshToken(@HeaderParam("Authorization") String authString) throws JOSEException, ParseException {
 
         if (null == authString) {
@@ -65,7 +65,7 @@ public class TokenResource {
         Token token = TokenUtil.createToken(foundAcesso);
 
         return Response
-                .status(Response.Status.CREATED)
+                .status(Response.Status.ACCEPTED)
                 .entity(token)
                 .build();
     }
