@@ -1,6 +1,7 @@
 package org.ees.api.agenda.infra.repository;
 
 import org.ees.api.agenda.entity.Event;
+import org.ees.api.agenda.entity.ReservaCliente;
 import org.ees.api.agenda.entity.Resource;
 import org.ees.api.agenda.infra.db.DB;
 import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
@@ -188,7 +189,7 @@ public class AgendaRepositoryImpl implements AgendaRepository {
                 "INNER JOIN servico s ON (s.id = a.servico_id) " +
                 "INNER JOIN cliente c ON (c.id = a.cliente_id) " +
                 "INNER JOIN status_agendamento sa ON (sa.id = a.status_agendamento_id) " +
-                "WHERE a.salao_id = ? AND DATE(a.inicio) between ? AND ? AND f.id = ? ";
+                "WHERE a.salao_id = ? AND DATE(a.inicio) between ? AND ? AND f.id = ? AND a.status_agendamento_id  in (1, 2) ";
 
         try {
             PreparedStatement stmt = DB.preparedStatement(sql);
@@ -312,6 +313,65 @@ public class AgendaRepositoryImpl implements AgendaRepository {
         } catch (SQLException ex) {
             Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new AcessoADadosException("Error ao atualizar um evento");
+        }
+    }
+
+    @Override
+    public List<ReservaCliente> findByClientId(Integer clienteId) {
+        String sql = "SELECT a.id, c.id as clienteId, f.apelido AS profissional, sla.nome as salao, s.descricao as servico, a.inicio AS data " +
+                "FROM agenda a " +
+                "INNER JOIN salao sla ON (sla.id = a.salao_id) " +
+                "INNER JOIN funcionario f ON (f.id = a.funcionario_id) " +
+                "INNER JOIN servico s ON (s.id = a.servico_id) " +
+                "INNER JOIN cliente c ON (c.id = a.cliente_id) " +
+                "INNER JOIN status_agendamento sa ON (sa.id = a.status_agendamento_id) " +
+                "WHERE a.cliente_id = ? AND a.status_agendamento_id = 1 AND a.inicio > now()";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, clienteId);
+            ResultSet resultSet = stmt.executeQuery();
+
+            List<ReservaCliente> reservas = new ArrayList<>();
+
+            while (resultSet.next()) {
+                ReservaCliente reserva = new ReservaCliente();
+                reserva.setId(resultSet.getInt("id"));
+                reserva.setClienteId(resultSet.getInt("clienteId"));
+                reserva.setProfissional(resultSet.getString("profissional"));
+                reserva.setSalao(resultSet.getString("salao"));
+                reserva.setServico(resultSet.getString("servico"));
+                reserva.setData(new DateTime(resultSet.getTimestamp("data")));
+
+                reservas.add(reserva);
+            }
+
+            return reservas;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao buscar reservas pelo clienteId");
+        }
+    }
+
+    @Override
+    public Integer cancelarReservaCliente(Integer clienteId, Integer reservaId) {
+        String sql = "UPDATE agenda SET status_agendamento_id = 4 WHERE cliente_id = ? AND id = ? ";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setInt(1, clienteId);
+            stmt.setInt(2, reservaId);
+
+            if (stmt.executeUpdate() > 0) {
+                return reservaId;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AgendaRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao cancelar uma reserva de um cliente");
         }
     }
 }

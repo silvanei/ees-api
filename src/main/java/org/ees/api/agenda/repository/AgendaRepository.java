@@ -1,6 +1,7 @@
 package org.ees.api.agenda.repository;
 
 import org.ees.api.agenda.entity.Event;
+import org.ees.api.agenda.entity.ReservaCliente;
 import org.ees.api.agenda.entity.Resource;
 import org.ees.api.agenda.resource.bean.Agendamento;
 import org.joda.time.DateTime;
@@ -21,10 +22,13 @@ public interface AgendaRepository {
 
     public Event findEvent(Integer salaoId, DateTime dia, Integer eventId);
 
-    //Refactory
     public Event findById(Integer salaoId, Integer agendaId);
 
     public Integer add(Integer salaoId, Event event);
 
     public Integer update(Integer salaoId, Integer agendaId, Event event);
+
+    public List<ReservaCliente> findByClientId(Integer clienteId);
+
+    public Integer cancelarReservaCliente(Integer clienteId, Integer reservaId);
 }

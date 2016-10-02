@@ -2,11 +2,13 @@ package org.ees.api.agenda.service;
 
 import org.ees.api.agenda.entity.Calendar;
 import org.ees.api.agenda.entity.Event;
+import org.ees.api.agenda.entity.ReservaCliente;
 import org.ees.api.agenda.resource.bean.Agendamento;
 import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 import java.sql.Time;
+import java.util.List;
 
 /**
  * Created by silvanei on 10/09/16.
@@ -25,4 +27,8 @@ public interface AgendaService {
     public Event add(Integer salaoId, Agendamento agendamento);
 
     public Event update(Integer salaoId, Integer agendaId, Agendamento agendamento);
+
+    public List<ReservaCliente> findByClientId(Integer clienteId);
+
+    public Integer cancelarReservaCliente(Integer clienteId, Integer reservaId);
 }

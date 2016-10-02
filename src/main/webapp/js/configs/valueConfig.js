@@ -49,9 +49,6 @@
                 events: [],
                 groupByResource: true,
                 allDaySlot: false,
-                eventOverlap: function(stillEvent, movingEvent) {
-                    return stillEvent.allDay && movingEvent.allDay;
-                },
                 editable: true,
                 eventResize: function(event, delta, revertFunc) {
                     revertFunc();

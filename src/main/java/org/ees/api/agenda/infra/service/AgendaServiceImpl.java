@@ -256,4 +256,14 @@ public class AgendaServiceImpl implements AgendaService {
 
         return findById(salaoId, agendamentoId);
     }
+
+    @Override
+    public List<ReservaCliente> findByClientId(Integer clienteId) {
+        return agendaRepository.findByClientId(clienteId);
+    }
+
+    @Override
+    public Integer cancelarReservaCliente(Integer clienteId, Integer reservaId) {
+        return agendaRepository.cancelarReservaCliente(clienteId, reservaId);
+    }
 }

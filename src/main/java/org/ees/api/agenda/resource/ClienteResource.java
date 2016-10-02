@@ -1,8 +1,12 @@
 package org.ees.api.agenda.resource;
 
 import org.ees.api.agenda.entity.ClienteApp;
+import org.ees.api.agenda.entity.Event;
 import org.ees.api.agenda.entity.Perfil;
+import org.ees.api.agenda.entity.ReservaCliente;
 import org.ees.api.agenda.infra.auth.TokenUtil;
+import org.ees.api.agenda.infra.resource.collection.ReservaClienteCollection;
+import org.ees.api.agenda.service.AgendaService;
 import org.ees.api.agenda.service.ClienteAppService;
 import org.ees.api.agenda.service.DadosSalaoService;
 
@@ -13,6 +17,7 @@ import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("/v1/cliente")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -21,6 +26,8 @@ public class ClienteResource {
 
     private ClienteAppService clienteAppService;
 
+    private AgendaService agendaService;
+
     @Context
     private ResourceContext rc;
 
@@ -28,8 +35,9 @@ public class ClienteResource {
     private String authString;
 
     @Inject
-    public ClienteResource(ClienteAppService clienteAppService) {
+    public ClienteResource(ClienteAppService clienteAppService, AgendaService agendaService) {
         this.clienteAppService = clienteAppService;
+        this.agendaService = agendaService;
     }
 
     @GET
@@ -49,7 +57,30 @@ public class ClienteResource {
         return rc.initResource(new FavoritoResource(clienteId, clienteAppService));
     }
 
-    public Integer getSalaoId() {
-        return null;
+    @GET
+    @Path("/{id}/reserva")
+    @RolesAllowed(Perfil.CLIENTE)
+    public Response reservas(@PathParam("id") Integer clienteId) {
+
+        TokenUtil.permissionCli(authString, clienteId);
+
+        ReservaClienteCollection reservas = new ReservaClienteCollection(agendaService.findByClientId(clienteId));
+
+        return Response.ok().entity(reservas).build();
+    }
+
+    @PUT
+    @Path("/{id}/reserva/{reservaId}")
+    @RolesAllowed(Perfil.CLIENTE)
+    public Response reserva(
+            @PathParam("id") Integer clienteId,
+            @PathParam("reservaId") Integer reservaId
+    ) {
+
+        TokenUtil.permissionCli(authString, clienteId);
+
+        agendaService.cancelarReservaCliente(clienteId, reservaId);
+
+        return Response.ok().entity(null).build();
     }
 }
