@@ -4,6 +4,7 @@ import org.ees.api.agenda.entity.*;
 import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.service.*;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 
 import javax.inject.Inject;
@@ -18,22 +19,25 @@ public class HorarioDisponivelServiceImpl implements HorarioDisponivelService {
     private ServicoService servicoService;
     private AgendaService agendaService;
     private HorarioTrabalhoService horarioTrabalhoService;
+    private HorarioDeFuncionamentoService horarioDeFuncionamentoService;
 
 
     @Inject
     public HorarioDisponivelServiceImpl(
             ServicoService servicoService,
             AgendaService agendaService,
-            HorarioTrabalhoService horarioTrabalhoService
+            HorarioTrabalhoService horarioTrabalhoService,
+            HorarioDeFuncionamentoService horarioDeFuncionamentoService
     ) {
         this.servicoService = servicoService;
         this.agendaService = agendaService;
         this.horarioTrabalhoService = horarioTrabalhoService;
+        this.horarioDeFuncionamentoService = horarioDeFuncionamentoService;
     }
 
     @Override
-    public List<HorarioDisponivel> findBy(Integer salaoId, Integer servicoId, Integer funcionarioId, DateTime dia) {
-        List<HorarioDisponivel> horariosDisponiveis = new ArrayList<>();
+    public HorarioDisponivel findBy(Integer salaoId, Integer servicoId, Integer funcionarioId, DateTime dia) {
+        HorarioDisponivel horarioDisponivel = new HorarioDisponivel(dia);
 
         Servico servico = servicoService.findById(salaoId, servicoId);
         int duracaoServico = servico.getDuracao();
@@ -43,10 +47,15 @@ public class HorarioDisponivelServiceImpl implements HorarioDisponivelService {
         }
 
         try {
+
+            if (! validaDiasDeTrabalhoSalao(salaoId, diaDaSemana)) {
+                return horarioDisponivel;
+            }
+
             HorarioTrabalho horarioTrabalho = horarioTrabalhoService.findByDiaSemana(salaoId, funcionarioId, new DiaDaSemana(diaDaSemana));
 
             if (null == horarioTrabalho) {
-                throw new DataNotFoundException("Profissional não trabalha neste dia.");
+                return horarioDisponivel;
             }
 
             LocalTime entrada = new DateTime(horarioTrabalho.getEntrada1().getTime()).toLocalTime();
@@ -74,14 +83,58 @@ public class HorarioDisponivelServiceImpl implements HorarioDisponivelService {
                     }
                 }
 
-                horariosDisponiveis.add(new HorarioDisponivel(data.toDateTimeToday()));
+
+                if (dia.isAfterNow()) {
+                    horarioDisponivel.getHorarios().add(data.toDateTimeToday());
+                } else {
+                    if (data.isAfter(new LocalTime())) {
+                        horarioDisponivel.getHorarios().add(data.toDateTimeToday());
+                    }
+                }
+
+
             }
 
         } catch (Exception e) {
             throw new DataNotFoundException(e.getMessage());
         }
 
-        return horariosDisponiveis;
+        return horarioDisponivel;
+    }
+
+    @Override
+    public List<HorarioDisponivel> findBy(Integer salaoId, Integer servicoId, Integer funcionarioId) {
+        List<HorarioDisponivel> horarioDisponivels = new ArrayList<>();
+
+        for (int i = 0; i <= 6; i++) {
+            horarioDisponivels.add(findBy(salaoId, servicoId, funcionarioId, new DateTime().plusDays(i)));
+        }
+
+        return horarioDisponivels;
+    }
+
+    private boolean validaDiasDeTrabalhoSalao(Integer salaoId, Integer diaDaSemana) {
+
+        HorarioDeFuncionamento horarioDeFuncionamentoSalao = horarioDeFuncionamentoService.byIdSalao(salaoId);
+
+        switch (diaDaSemana) {
+            case DiaDaSemana.DOMINGO:
+                return horarioDeFuncionamentoSalao.isDomingo();
+            case DiaDaSemana.SEGUNDA:
+                return horarioDeFuncionamentoSalao.isSegunda();
+            case DiaDaSemana.TERCA:
+                return horarioDeFuncionamentoSalao.isTerca();
+            case DiaDaSemana.QUARTA:
+                return horarioDeFuncionamentoSalao.isQuarta();
+            case DiaDaSemana.QUINTA:
+                return horarioDeFuncionamentoSalao.isQuinta();
+            case DiaDaSemana.SEXTA:
+                return horarioDeFuncionamentoSalao.isSexta();
+            case DiaDaSemana.SABADO:
+                return horarioDeFuncionamentoSalao.isSabado();
+            default:
+                return false;
+        }
     }
 
     private boolean validaConflito(LocalTime data, LocalTime proximo, LocalTime inicio, LocalTime fim) {

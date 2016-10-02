@@ -125,14 +125,6 @@ public class SalaoResource {
 		return rc.initResource(new AgendaResource(salaoId));
 	}
 
-	@Path("/{id}/horario-disponivel")
-	public HorarioDisponivelResource horarioDisponivel(
-            @PathParam("id") Integer salaoId
-	) {
-
-		return rc.initResource(new HorarioDisponivelResource(salaoId));
-	}
-
 	@Path("/{id}/image")
 	public ImageFileResource image(@PathParam("id") Integer salaoId) {
 

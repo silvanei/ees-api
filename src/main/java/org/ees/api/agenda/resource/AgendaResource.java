@@ -14,10 +14,7 @@ import org.joda.time.format.DateTimeFormatter;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 
 /**
  * Created by silvanei on 10/09/16.
@@ -36,6 +33,9 @@ public class AgendaResource {
 
     @HeaderParam("Authorization")
     private String authString;
+
+    @Context
+    SecurityContext securityContext;
 
     public AgendaResource(Integer salaoId) {
         this.salaoId = salaoId;
@@ -75,9 +75,11 @@ public class AgendaResource {
     }
 
     @POST
-    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL})
+    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL, Perfil.CLIENTE})
     public Response agendar(Agendamento agendamento) {
-        TokenUtil.permissionSla(authString, salaoId);
+        if (! securityContext.isUserInRole(Perfil.CLIENTE)) {
+            TokenUtil.permissionSla(authString, salaoId);
+        }
 
         Event event = agendaService.add(salaoId, agendamento);
 

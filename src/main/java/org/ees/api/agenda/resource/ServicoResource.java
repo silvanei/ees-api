@@ -2,12 +2,15 @@ package org.ees.api.agenda.resource;
 
 import com.nimbusds.jose.JOSEException;
 import org.ees.api.agenda.entity.Funcionario;
+import org.ees.api.agenda.entity.HorarioDisponivel;
 import org.ees.api.agenda.entity.Perfil;
 import org.ees.api.agenda.entity.Servico;
 import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.db.CollectionPaginated;
 import org.ees.api.agenda.infra.resource.collection.ServicoCollection;
+import org.ees.api.agenda.resource.bean.DateParam;
 import org.ees.api.agenda.service.FuncionarioService;
+import org.ees.api.agenda.service.HorarioDisponivelService;
 import org.ees.api.agenda.service.ServicoService;
 import sun.misc.Perf;
 
@@ -25,6 +28,9 @@ public class ServicoResource {
 
     @Inject
     private FuncionarioService funcionarioService;
+
+    @Inject
+    private HorarioDisponivelService horarioDisponivelService;
 
     @HeaderParam("Authorization")
     private String authString;
@@ -65,12 +71,14 @@ public class ServicoResource {
 
     @GET
     @Path("/{servicoId}")
-    @RolesAllowed(Perfil.SALAO_ADMIN)
+    @RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL, Perfil.CLIENTE})
     public Response servico(
             @PathParam("servicoId") Integer servicoId
     ) throws ParseException, JOSEException {
 
-        TokenUtil.permissionSla(authString, salaoId);
+        if (! securityContext.isUserInRole(Perfil.CLIENTE)) {
+            TokenUtil.permissionSla(authString, salaoId);
+        }
 
         Servico servico = servicoService.findById(salaoId, servicoId);
 
@@ -136,6 +144,19 @@ public class ServicoResource {
         List<Funcionario> funcionarios = funcionarioService.findByServicoId(salaoId, servicoId);
 
         return Response.ok(funcionarios).build();
+    }
+
+    @GET
+    @Path("/{servicoId}/funcionario/{funcionarioId}")
+    @RolesAllowed(Perfil.CLIENTE)
+    public Response funcinarios(
+            @PathParam("servicoId") Integer servicoId,
+            @PathParam("funcionarioId") Integer funcionarioId
+    ) {
+
+        List<HorarioDisponivel> horariosDisponiveis = horarioDisponivelService.findBy(salaoId, servicoId, funcionarioId);
+
+        return Response.ok(horariosDisponiveis).build();
     }
 
     public Integer getSalaoId() {
