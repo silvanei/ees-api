@@ -19,4 +19,6 @@ public interface ClienteAppService {
     public Integer addFavorito(Integer clienteId, Integer salaoId);
 
     public void removeFavorito(Integer clienteId, Integer salaoId);
+
+    public ClienteApp update(Integer clienteId, ClienteApp data);
 }

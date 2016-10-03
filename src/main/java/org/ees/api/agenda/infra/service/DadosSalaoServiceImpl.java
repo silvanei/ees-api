@@ -148,10 +148,10 @@ public class DadosSalaoServiceImpl implements DadosSalaoService {
     }
 
     @Override
-    public List<Salao> findAllVisiveNoApp(String nomeSalao) {
+    public List<Salao> findAllVisiveNoApp(Integer clienteId, String nomeSalao) {
 
 
-        List<Salao> saloes = salaoRepository.findAll(nomeSalao);
+        List<Salao> saloes = salaoRepository.findAll(clienteId, nomeSalao);
 
         for (Salao salao: saloes) {
             salao.setHorarioDeFuncionamento(horarioDeFuncionamentoService.byIdSalao(salao.getId()));

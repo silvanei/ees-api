@@ -35,20 +35,6 @@ public class SalaoResource {
     @HeaderParam("Authorization")
     private String authString;
 
-    @GET
-    @RolesAllowed({Perfil.CLIENTE})
-    public Response saloes(
-            @QueryParam("nome") String nomeSalao
-    ) {
-
-        CacheControl cacheControl = new CacheControl();
-        cacheControl.setMaxAge(5); // 1 dia
-
-        List<Salao> saloes = dadosSalaoService.findAllVisiveNoApp(nomeSalao);
-
-        return Response.ok().entity(saloes).cacheControl(cacheControl).build();
-    }
-
 	@GET
 	@Path("/{id}")
 	@RolesAllowed({Perfil.SALAO_ADMIN, Perfil.SALAO_PROFISSIONAL, Perfil.CLIENTE})

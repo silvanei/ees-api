@@ -122,4 +122,33 @@ public class ClienteAppRepositoryImpl implements ClienteAppRepository {
             throw new AcessoADadosException("Não foi possível remover o salão dos favoritos");
         }
     }
+
+    @Override
+    public Integer update(Integer clienteId, ClienteApp data) {
+        String sql = "UPDATE cliente c INNER JOIN cliente_app ca on (c.id = ca.cliente_id) SET c.nome = ?, c.telefone = ?, c.endereco_id = ? WHERE c.id = ?";
+
+        try {
+            PreparedStatement stmt = DB.preparedStatement(sql);
+            stmt.setString(1, data.getNome());
+            stmt.setString(2, data.getTelefone());
+
+            if(null == data.getEndereco().getId()) {
+                stmt.setNull(3, Types.INTEGER);
+            } else {
+                stmt.setInt(3, data.getEndereco().getId());
+            }
+
+            stmt.setInt(4, clienteId);
+
+            if (stmt.executeUpdate() > 0) {
+                return clienteId;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteAppRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new AcessoADadosException("Error ao atualizar um cliente do APP");
+        }
+    }
 }

@@ -17,4 +17,6 @@ public interface ClienteAppRepository {
     public Integer addFavorito(Integer clienteId, Integer salaoId, Integer acessoId);
 
     public Integer removeFavorito(Integer clienteId, Integer salaoId);
+
+    public Integer update(Integer clienteId, ClienteApp data);
 }

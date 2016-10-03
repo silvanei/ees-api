@@ -162,8 +162,8 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 	}
 
 	@Override
-	public List<Salao> findAll(String nomeSalao) {
-        String sql = "SELECT s.id, s.nome, s.telefone, s.celular, s.visivel_no_app, IF(f.salao_id > 0 , 1, 0) as favorito FROM salao s LEFT JOIN favorito f ON (f.salao_id = s.id) WHERE s.visivel_no_app = ? AND s.nome like ? ";
+	public List<Salao> findAll(Integer clienteId, String nomeSalao) {
+        String sql = "SELECT s.id, s.nome, s.telefone, s.celular, s.visivel_no_app, IF(f.salao_id > 0 , 1, 0) as favorito FROM salao s LEFT JOIN favorito f ON (f.salao_id = s.id AND f.cliente_id = ?) WHERE s.visivel_no_app = ? AND s.nome like ? ";
 
 		if(null == nomeSalao) {
 			nomeSalao = "";
@@ -171,8 +171,9 @@ public class SalaoRepositoryImpl implements SalaoRepository {
 
         try{
             PreparedStatement stmt = DB.preparedStatement(sql);
-            stmt.setBoolean(1, true);
-            stmt.setString(2, "%"+ nomeSalao +"%");
+            stmt.setInt(1, clienteId);
+            stmt.setBoolean(2, true);
+            stmt.setString(3, "%"+ nomeSalao +"%");
             ResultSet resultSet = stmt.executeQuery();
 
             List<Salao> saloes = new ArrayList<>();

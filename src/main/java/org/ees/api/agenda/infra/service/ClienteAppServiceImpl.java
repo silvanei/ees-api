@@ -3,6 +3,9 @@ package org.ees.api.agenda.infra.service;
 import org.ees.api.agenda.entity.Acesso;
 import org.ees.api.agenda.entity.ClienteApp;
 import org.ees.api.agenda.entity.Salao;
+import org.ees.api.agenda.infra.db.DB;
+import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
+import org.ees.api.agenda.infra.exceptions.DataNotFoundException;
 import org.ees.api.agenda.repository.ClienteAppRepository;
 import org.ees.api.agenda.service.*;
 
@@ -39,20 +42,11 @@ public class ClienteAppServiceImpl implements ClienteAppService {
     public ClienteApp findById(Integer clienteId) {
         ClienteApp clienteApp = clienteAppRepository.findById(clienteId);
 
-        List<Salao> saloes = dadosSalaoService.findByClienteId(clienteId);
-
-        for (Salao salao : saloes) {
-            String encodedString = imageFileService.base64Encode(salao.getId());
-            if (null == encodedString) {
-                encodedString = ImageFileService.IMG_DEFAULT;
-            }
-
-            encodedString = "data:image/jpeg;base64," + encodedString;
-
-            salao.setImgBase64(encodedString);
+        if (null == clienteApp) {
+            throw new DataNotFoundException("Cliente não encontrado");
         }
 
-        clienteApp.setFavoritos(saloes);
+        clienteApp.setEndereco(enderecoService.byIdCliente(clienteApp.getId()));
 
         return clienteApp;
     }
@@ -96,13 +90,30 @@ public class ClienteAppServiceImpl implements ClienteAppService {
 
         Acesso acesso = acessoService.findByCliente(clienteId);
 
-        Integer id = clienteAppRepository.addFavorito(clienteId, salaoId, acesso.getId());
-
-        return id;
+        return clienteAppRepository.addFavorito(clienteId, salaoId, acesso.getId());
     }
 
     @Override
     public void removeFavorito(Integer clienteId, Integer salaoId) {
         clienteAppRepository.removeFavorito(clienteId, salaoId);
+    }
+
+    @Override
+    public ClienteApp update(Integer clienteId, ClienteApp data) {
+        findById(clienteId);
+
+        try {
+            DB.beginTransaction();
+
+            enderecoService.atualizarEndereco(data.getEndereco());
+            clienteAppRepository.update(clienteId, data);
+
+            DB.commit();
+
+            return findById(clienteId);
+        } catch (AcessoADadosException e ) {
+            DB.rollback();
+            throw e;
+        }
     }
 }

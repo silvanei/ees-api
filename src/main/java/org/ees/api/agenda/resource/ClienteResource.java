@@ -1,9 +1,6 @@
 package org.ees.api.agenda.resource;
 
-import org.ees.api.agenda.entity.ClienteApp;
-import org.ees.api.agenda.entity.Event;
-import org.ees.api.agenda.entity.Perfil;
-import org.ees.api.agenda.entity.ReservaCliente;
+import org.ees.api.agenda.entity.*;
 import org.ees.api.agenda.infra.auth.TokenUtil;
 import org.ees.api.agenda.infra.resource.collection.ReservaClienteCollection;
 import org.ees.api.agenda.service.AgendaService;
@@ -14,6 +11,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ResourceContext;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -28,6 +26,8 @@ public class ClienteResource {
 
     private AgendaService agendaService;
 
+    private DadosSalaoService dadosSalaoService;
+
     @Context
     private ResourceContext rc;
 
@@ -35,9 +35,10 @@ public class ClienteResource {
     private String authString;
 
     @Inject
-    public ClienteResource(ClienteAppService clienteAppService, AgendaService agendaService) {
+    public ClienteResource(ClienteAppService clienteAppService, AgendaService agendaService, DadosSalaoService dadosSalaoService) {
         this.clienteAppService = clienteAppService;
         this.agendaService = agendaService;
+        this.dadosSalaoService = dadosSalaoService;
     }
 
     @GET
@@ -51,6 +52,37 @@ public class ClienteResource {
 
         return Response.ok().entity(clienteApp).build();
 	}
+
+    @PUT
+    @Path("/{id}")
+    @RolesAllowed(Perfil.CLIENTE)
+    public Response cliente(
+            @PathParam("id") Integer clienteId,
+            ClienteApp data
+    ) {
+
+        TokenUtil.permissionCli(authString, clienteId);
+
+        ClienteApp clienteApp = clienteAppService.update(clienteId, data);
+
+        return Response.ok().entity(clienteApp).build();
+    }
+
+    @GET
+    @Path("/{id}/salao")
+    @RolesAllowed({Perfil.CLIENTE})
+    public Response saloes(
+            @PathParam("id") Integer clienteId,
+            @QueryParam("nome") String nomeSalao
+    ) {
+
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setMaxAge(5); // 1 dia
+
+        List<Salao> saloes = dadosSalaoService.findAllVisiveNoApp(clienteId, nomeSalao);
+
+        return Response.ok().entity(saloes).cacheControl(cacheControl).build();
+    }
 
     @Path("/{id}/favorito")
     public FavoritoResource favorito(@PathParam("id") Integer clienteId) {

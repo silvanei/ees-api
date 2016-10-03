@@ -16,5 +16,5 @@ public interface SalaoRepository {
 
     public List<Salao> findByClienteId(Integer clienteId);
 
-	public List<Salao> findAll(String nomeSalao);
+	public List<Salao> findAll(Integer clienteId, String nomeSalao);
 }
