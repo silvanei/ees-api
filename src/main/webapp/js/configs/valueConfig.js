@@ -35,7 +35,7 @@
             calendar: {
                 schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
                 lang: 'pt-BR',
-                timezone: 'local',
+                //timezone: 'America/Sao_Paulo',
                 defaultView: 'agendaDay',
                 slotDuration: '00:30:00', // Intervalo entr as linhas
                 slotLabelFormat: 'H:mm',
