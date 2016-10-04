@@ -43,6 +43,10 @@ public class DB {
 		}
 		
 		try {
+            if (con.isClosed()) {
+                con = null;
+                conexao();
+            }
 			return con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 		} catch (SQLException e) {
@@ -57,6 +61,11 @@ public class DB {
 		}
 
 		try {
+            if (con.isClosed()) {
+                con = null;
+                conexao();
+            }
+
 			con.setAutoCommit(false);
 			System.out.println("Begin Transaction");
 		} catch (SQLException e) {
@@ -70,6 +79,12 @@ public class DB {
 		}
 
 		try {
+
+            if (con.isClosed()) {
+                con = null;
+                conexao();
+            }
+
 			con.commit();
 			con.setAutoCommit(true);
 			System.out.println("Commit Transaction");
@@ -84,6 +99,11 @@ public class DB {
 		}
 
 		try {
+            if (con.isClosed()) {
+                con = null;
+                conexao();
+            }
+            
 			con.rollback();
 			con.setAutoCommit(true);
 			System.out.println("Rollback Transaction");
