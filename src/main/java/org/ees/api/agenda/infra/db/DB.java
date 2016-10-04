@@ -16,14 +16,14 @@ public class DB {
 	private static Connection con = null;
 
 	public static Connection conexao() {
-		//if (con == null) {
+		if (con == null) {
 			try {
 
 				URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
 
 				String username = dbUri.getUserInfo().split(":")[0];
 				String password = dbUri.getUserInfo().split(":")[1];
-				String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+				String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath() + "?reconnect=true";
 
 				con = DriverManager.getConnection(dbUrl, username, password);
 				
@@ -32,7 +32,7 @@ public class DB {
 			} catch (URISyntaxException e) {
 				throw new AcessoADadosException(e.getMessage());
 			}
-		//}
+		}
 		
 		return con;
 	}
