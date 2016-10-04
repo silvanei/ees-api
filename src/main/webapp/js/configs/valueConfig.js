@@ -9,7 +9,7 @@
     angular
         .module('agenda')
         .value('config', {
-            baseUrl: 'https://ees-api.herokuapp.com/agenda/rest',
+            baseUrl: 'https://ees-api.herokuapp.com/rest',
             paginacao: {
                 itensPorPagina: 10,
                 maxSize: 5
@@ -35,7 +35,6 @@
             calendar: {
                 schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
                 lang: 'pt-BR',
-                timezone: 'local',
                 defaultView: 'agendaDay',
                 slotDuration: '00:30:00', // Intervalo entr as linhas
                 slotLabelFormat: 'H:mm',

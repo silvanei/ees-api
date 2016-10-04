@@ -34,7 +34,7 @@
                 };
 
                 jwtOptionsProvider.config({
-                        whiteListedDomains: ['localhost', '192.168.0.13']
+                        whiteListedDomains: ['localhost', '192.168.0.13', 'ees-api.herokuapp.com']
                 });
 
                 $httpProvider.interceptors.push('jwtInterceptor');

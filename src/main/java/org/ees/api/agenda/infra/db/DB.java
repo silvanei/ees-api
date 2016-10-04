@@ -1,5 +1,7 @@
 package org.ees.api.agenda.infra.db;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,22 +13,24 @@ import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 
 public class DB {
 
-	private static final String banco = "jdbc:mysql://us-cdbr-iron-east-04.cleardb.net/heroku_19f9c9ce52bcab7?user=b988d075d0a2f8&password=6381cea6";
-	private static final String driver = "com.mysql.jdbc.Driver";
 	private static Connection con = null;
 
 	public static Connection conexao() {
 		if (con == null) {
 			try {
-				Class.forName(driver);
-				con = DriverManager.getConnection(banco);
-				
-			} catch (ClassNotFoundException ex) {
-				throw new AcessoADadosException("Não encontrou o driver :"+ driver);
+
+				URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+
+				String username = dbUri.getUserInfo().split(":")[0];
+				String password = dbUri.getUserInfo().split(":")[1];
+				String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+
+				con = DriverManager.getConnection(dbUrl, username, password);
 				
 			} catch (SQLException ex) {
 				throw new AcessoADadosException("Erro ao conectar: " + ex.getMessage());
-				
+			} catch (URISyntaxException e) {
+				throw new AcessoADadosException(e.getMessage());
 			}
 		}
 		
