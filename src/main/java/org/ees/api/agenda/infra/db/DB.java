@@ -11,7 +11,7 @@ import org.ees.api.agenda.infra.db.exceptions.AcessoADadosException;
 
 public class DB {
 
-	private static final String banco = "jdbc:mysql://localhost/ees-agenda?user=root&password=83406310";
+	private static final String banco = "jdbc:mysql://us-cdbr-iron-east-04.cleardb.net/heroku_19f9c9ce52bcab7?user=b988d075d0a2f8&password=6381cea6";
 	private static final String driver = "com.mysql.jdbc.Driver";
 	private static Connection con = null;
 

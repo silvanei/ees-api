@@ -9,7 +9,7 @@
     angular
         .module('agenda')
         .value('config', {
-            baseUrl: 'http://localhost:9090/agenda/rest',
+            baseUrl: 'https://ees-api.herokuapp.com/agenda/rest',
             paginacao: {
                 itensPorPagina: 10,
                 maxSize: 5
