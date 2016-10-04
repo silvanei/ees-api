@@ -16,7 +16,7 @@ public class DB {
 	private static Connection con = null;
 
 	public static Connection conexao() {
-		if (con == null) {
+		//if (con == null) {
 			try {
 
 				URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
@@ -32,7 +32,7 @@ public class DB {
 			} catch (URISyntaxException e) {
 				throw new AcessoADadosException(e.getMessage());
 			}
-		}
+		//}
 		
 		return con;
 	}
